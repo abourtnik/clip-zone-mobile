@@ -45,7 +45,7 @@ export function About ({user, bottomSheetRef}: Props) {
                             user.website &&
                             <View style={styles.section}>
                                 <Text variant={'titleMedium'} style={styles.title}>Links</Text>
-                                <Text style={styles.link} onPress={() => Linking.openURL(user.website)} variant={"bodyMedium"}>{user.website}</Text>
+                                <Text style={styles.link} onPress={() => Linking.openURL(user.website as string)} variant={"bodyMedium"}>{user.website}</Text>
                             </View>
 
                         }

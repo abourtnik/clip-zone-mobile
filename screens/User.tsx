@@ -34,8 +34,6 @@ export default function User({ route } : Props) {
         queryFn: () => getUser(id)
     });
 
-    console.log(error)
-
     const layout = useWindowDimensions();
 
     const [index, setIndex] = useState(0);

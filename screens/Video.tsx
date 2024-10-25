@@ -112,6 +112,7 @@ export default function Video({ route } : Props) {
                                             </Pressable>
                                             <View>
                                                 <ScrollView
+                                                    showsHorizontalScrollIndicator={false}
                                                     horizontal={true}
                                                     contentContainerStyle={styles.buttons_container}
                                                 >

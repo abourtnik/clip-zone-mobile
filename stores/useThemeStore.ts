@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import {Light, Dark} from '../themes'
+import {Light, Dark} from '@/themes'
 import {combine, createJSONStorage, persist} from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 

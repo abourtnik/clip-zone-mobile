@@ -52,6 +52,7 @@ export type SearchVideoType = {
     title: string,
     user: string
     views: string,
+    formated_duration: string,
     publication_date: number,
     thumbnail: string,
     url: string,
@@ -142,6 +143,7 @@ export type CommentType = {
         username: string,
         avatar: string
     }
+    replies?: CommentType[]
 }
 
 export type UserVideosSort = 'latest' | 'popular' | 'oldest'

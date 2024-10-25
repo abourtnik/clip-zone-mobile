@@ -9,6 +9,8 @@ import SearchStack from "./SearchStack";
 import AccountStack from "./AccountStack";
 import {useAccount} from "@/hooks/useAccount";
 import { Avatar } from 'react-native-paper';
+import {Platform,} from "react-native";
+import {useSafeAreaInsets} from "react-native-safe-area-context";
 
 const Tab = createBottomTabNavigator();
 
@@ -20,9 +22,14 @@ export default function Navigation() {
 
     const { account } = useAccount();
 
+    const insets = useSafeAreaInsets();
+
     return (
         <NavigationContainer theme={theme}>
             <Tab.Navigator
+                safeAreaInsets={{
+                    bottom: Platform.OS === "android" ? 10 : insets.bottom
+                }}
                 initialRouteName="HomeTab"
                 screenOptions={{
                     headerShown : false,

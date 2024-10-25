@@ -4,7 +4,7 @@ import {Text} from "react-native-paper";
 import {VideoType} from "@/types";
 
 type Props = {
-    video?: VideoType,
+    video: VideoType,
 }
 
 export default function Interactions ({video}: Props) {
@@ -18,7 +18,7 @@ export default function Interactions ({video}: Props) {
                 ]}
             >
                 <FontAwesome5 name="thumbs-up" size={17} color="black" />
-                {video.show_likes && video.likes > 0 && <Text>{video.likes}</Text>}
+                {video.show_likes && video.likes as number > 0 && <Text>{video.likes as number}</Text>}
             </Pressable>
             <View style={styles.separator}></View>
             <Pressable
@@ -28,7 +28,7 @@ export default function Interactions ({video}: Props) {
                 ]}
             >
                 <FontAwesome5 name="thumbs-down" size={17} color="black" />
-                {video.show_likes && video.dislikes > 0 && <Text>{video.dislikes}</Text>}
+                {video.show_likes && video.dislikes as number > 0 && <Text>{video.dislikes as number}</Text>}
             </Pressable>
         </View>
     )
