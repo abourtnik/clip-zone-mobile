@@ -8,6 +8,7 @@ import {useRef, useState} from "react";
 import {HomeTab, PlaylistsTab, VideosTab, About} from "@/components/User";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import BottomSheet from "@gorhom/bottom-sheet";
+import {Subscribe} from "@/components/commons/Subscribe";
 
 type Props = {
     route: {
@@ -28,7 +29,6 @@ export default function User({ route } : Props) {
         isLoading,
         isError,
         refetch,
-        error
     } = useQuery({
         queryKey: ['user', id],
         queryFn: () => getUser(id)
@@ -80,7 +80,7 @@ export default function User({ route } : Props) {
                             <Text style={styles.website}>{user.website}</Text>
                         </Pressable>
                     }
-                    <Button style={styles.button} mode={'contained'} onPress={() => null}>Subscribe</Button>
+                    <Subscribe style={styles.button} user={user}/>
                     <TabView
                         navigationState={{
                             index: index,

@@ -5,14 +5,16 @@ import {useAuth} from "@/hooks/useAuth";
 import {useMutation} from "@tanstack/react-query";
 import Svg, {Path} from 'react-native-svg';
 import {Alert} from "@/components/commons";
-
+import {useNavigation} from "@react-navigation/native";
+import {RouteProps} from "@/navigation/AccountStack";
 
 type FormData = {
     username: string,
     password: string
 }
-
 export default function Login() {
+
+    const navigation = useNavigation<RouteProps>();
 
     const {
         control,
@@ -28,7 +30,8 @@ export default function Login() {
         error,
         isPending,
     } = useMutation({
-        mutationFn: ({username, password}: FormData) => login(username, password)
+        mutationFn: ({username, password}: FormData) => login(username, password),
+        onSuccess: () => navigation.goBack()
     });
 
     const onSubmit = (formData: FormData) => {
@@ -93,7 +96,7 @@ export default function Login() {
                     >
                         Sign In
                     </Button>
-                    {isError && <Alert message={error?.message}/>}
+                    {isError && <Alert type={'danger'} message={error?.message}/>}
                 </View>
                 <View style={styles.socials}>
                     <Text variant={'bodyMedium'} style={styles.socials_text}>Or continue with</Text>

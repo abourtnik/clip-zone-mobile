@@ -5,6 +5,7 @@ import {CommentType} from "@/types";
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import {useNavigation} from "@react-navigation/native";
 import {RouteProps} from "@/navigation/CommentsStack";
+import moment from "moment/moment";
 
 
 type Props = {
@@ -23,24 +24,30 @@ export const Comment = memo(({comment} : Props) => {
             ]}
             onPress={() => navigation.navigate('Replies', {comment: comment})}
         >
-            <Avatar.Image
-                size={25}
-                source={{uri:comment.user.avatar,}}
-            />
+            <Pressable
+                onPress={() => {
+                    navigation.getParent()?.navigate('User', {id: comment.user.id, username: comment.user.username})
+                }}
+            >
+                <Avatar.Image
+                    size={25}
+                    source={{uri:comment.user.avatar,}}
+                />
+            </Pressable>
             <View style={styles.container}>
                 {
                     comment.is_pinned &&
                     <View style={styles.pinned}>
                         <FontAwesome5 name="thumbtack" size={12} color="white" />
-                        <Text style={{color: 'white'}} variant={'bodySmall'}>Pinned by {comment.author.username}</Text>
+                        <Text style={{color: 'white'}} variant={'bodySmall'}>Pinned by {comment?.video_author?.username}</Text>
                     </View>
                 }
                 <View style={styles.infos}>
                     <Pressable>
-                        <Text style={[styles.info, comment.user.is_author && styles.author]} variant={"bodySmall"}>{comment.user.username}</Text>
+                        <Text style={[styles.info, comment.user.is_video_author && styles.author]} variant={"bodySmall"}>{comment.user.username}</Text>
                     </Pressable>
                     <Text variant={"bodySmall"} style={styles.info}>•</Text>
-                    <Text variant={"bodySmall"} style={styles.info}>{comment.created_at}</Text>
+                    <Text variant={"bodySmall"} style={styles.info}>{moment(comment.created_at).fromNow()}</Text>
                     {
                         comment.is_updated &&
                         <Fragment>
@@ -51,16 +58,14 @@ export const Comment = memo(({comment} : Props) => {
                 </View>
                 <Text variant={"bodyMedium"} style={styles.content}>{comment.content}</Text>
                 {
-                    comment?.replies &&
+                    comment.has_replies &&
                     <Pressable
                         style={{marginTop: 15}}
                         onPress={() => console.log('press')}
                     >
-                        <Text style={styles.replies}>{comment?.replies.meta.total} replies</Text>
+                        <Text style={styles.replies}>{comment?.replies?.meta.total} replies</Text>
                     </Pressable>
-
                 }
-
             </View>
         </Pressable>
     );

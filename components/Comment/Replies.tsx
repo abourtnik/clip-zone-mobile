@@ -30,7 +30,7 @@ export function Replies ({route}: Props) {
         enabled : true,
         gcTime: 0,
         queryKey: ['comments', comment.id, 'responses'],
-        queryFn: ({pageParam}) => getReplies(comment.id, pageParam),
+        queryFn: ({pageParam}) => getReplies(comment.video_uuid, comment.id, pageParam),
         initialPageParam: 1,
         getNextPageParam: (lastPage, allPages, lastPageParam) => {
             if (lastPage.meta.current_page * lastPage.meta.per_page  > lastPage.meta.to) {

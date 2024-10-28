@@ -1,6 +1,8 @@
 import {useCallback} from "react";
-import {useAccountStore} from "../stores/useAccountStore";
-import {login as apiLogin} from '../api/clipzone'
+import {useAccountStore} from "@/stores/useAccountStore";
+import {login as apiLogin, logout as apiLogout} from '../api/clipzone'
+import {setToken, deleteToken} from "@/functions/tokenService";
+import {useQueryClient} from "@tanstack/react-query";
 
 export enum AuthStatus {
     Unknown,
@@ -11,6 +13,8 @@ export enum AuthStatus {
 export function useAuth () {
 
     const {account, setAccount} = useAccountStore();
+
+    const queryClient = useQueryClient();
 
     let status;
 
@@ -28,12 +32,21 @@ export function useAuth () {
 
     const login = useCallback(async (username: string, password: string) => {
         return apiLogin(username, password).then(async user => {
-            setAccount(user)
+
+            const { token, ...account} = user;
+
+            setAccount(account)
+            await setToken(token)
+            await queryClient.invalidateQueries({ queryKey: ['video'] });
         })
     }, []);
 
-    const logout = useCallback(async () => {
-        setAccount(null);
+    const logout = useCallback( async () => {
+        return apiLogout().then( async () =>{
+            setAccount(null)
+            await deleteToken()
+            await queryClient.invalidateQueries({ queryKey: ['video'] });
+        })
     }, []);
 
     return {

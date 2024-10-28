@@ -3,6 +3,7 @@ import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import Home from "../screens/Home";
 import Video from "../screens/Video";
 import User from "../screens/User";
+import Login from "../screens/Login";
 import Playlist from "../screens/Playlist";
 
 type StackParamList = {
@@ -10,6 +11,7 @@ type StackParamList = {
     Video: {
         uuid: string
     };
+    Login: undefined;
     User: {
         id: number
         username: string
@@ -25,7 +27,7 @@ const Stack= createNativeStackNavigator<StackParamList>();
 
 export default function HomeStack () {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator id="home">
             <Stack.Screen name="Home" component={Home}/>
             <Stack.Screen
                 name="Video"
@@ -50,6 +52,10 @@ export default function HomeStack () {
                     headerBackTitleVisible: false,
                     title: ''
                 })}
+            />
+            <Stack.Screen
+                name="Login"
+                component={Login}
             />
         </Stack.Navigator>
     );

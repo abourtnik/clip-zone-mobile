@@ -1,10 +1,9 @@
 import {RefObject} from 'react'
 import {Dimensions, Pressable, StyleSheet, View} from 'react-native';
 import {IconButton, Text, Avatar, Button} from 'react-native-paper';
-import BottomSheet, {BottomSheetScrollView} from "@gorhom/bottom-sheet";
+import BottomSheet, {BottomSheetBackdrop, BottomSheetScrollView} from "@gorhom/bottom-sheet";
 import {VideoType} from "@/types";
 import moment from "moment";
-import {backdrop} from "./commons";
 import {useNavigation} from "@react-navigation/native";
 import {RouteProps} from "@/navigation/HomeStack";
 
@@ -25,7 +24,14 @@ export function Description ({video, bottomSheetRef}: Props) {
             snapPoints={[Dimensions.get('window').height - video_height]}
             index={-1}
             enablePanDownToClose={true}
-            backdropComponent={backdrop}
+            backdropComponent={(props) => (
+                <BottomSheetBackdrop
+                    {...props}
+                    disappearsOnIndex={-1}
+                    appearsOnIndex={0}
+                    opacity={0.5}
+                />
+            )}
         >
             <View style={styles.container}>
                 <View style={styles.header}>

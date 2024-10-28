@@ -25,6 +25,10 @@ export async function login(username: string, password: string): Promise<Account
     })
 }
 
+export async function logout(): Promise<void> {
+    return jsonFetch(API_URL + '/logout', 'POST');
+}
+
 export async function getVideos(page: number = 1): Promise<Paginator<TinyVideoType>> {
     return jsonFetch(API_URL + `/videos?page=`+ page);
 }
@@ -53,14 +57,18 @@ export async function search(query: string): Promise<Search> {
     return jsonFetch(API_URL + '/search?q=' + query);
 }
 
-export async function getComments(video_id: number, page: number = 1, sort?: CommentsSort): Promise<Paginator<CommentType>> {
-    return jsonFetch(API_URL + `/comments?video_id=${video_id}&sort=${sort}&page=`+ page);
+export async function getComments(video_uuid: string, page: number = 1, sort?: CommentsSort): Promise<Paginator<CommentType>> {
+    return jsonFetch(API_URL + `/videos/${video_uuid}/comments?sort=${sort}&page=`+ page);
 }
 
-export async function getReplies(comment_id: number, page: number = 1): Promise<Paginator<CommentType>> {
-    return jsonFetch(API_URL + `/comments/${comment_id}/replies?page=`+ page);
+export async function getReplies(video_uuid: string, comment_id: number, page: number = 1): Promise<Paginator<CommentType>> {
+    return jsonFetch(API_URL + `/videos/${video_uuid}/comments/${comment_id}/replies?page=`+ page);
 }
 
 export async function getPlaylist(uuid: string): Promise<PlaylistType> {
     return jsonFetch(API_URL + `/playlists/${uuid}`);
+}
+
+export async function subscribe(user_id: number): Promise<void> {
+    return jsonFetch(API_URL + `/subscribe/${user_id}`, 'POST');
 }

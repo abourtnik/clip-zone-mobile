@@ -120,7 +120,6 @@ export default function Account({navigation} : Props) {
             }
             <View style={styles.footer}>
                 <Text>App Version : {Constants.expoConfig?.version}</Text>
-                <Text>Device ID : 123</Text>
             </View>
         </ScrollView>
     );

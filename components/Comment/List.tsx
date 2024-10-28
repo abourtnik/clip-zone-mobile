@@ -42,7 +42,7 @@ export function List({route} : Props) {
         enabled : true,
         gcTime: 0,
         queryKey: ['comments', video.id, sort],
-        queryFn: ({pageParam}) => getComments(video.id, pageParam, sort),
+        queryFn: ({pageParam}) => getComments(video.uuid, pageParam, sort),
         initialPageParam: 1,
         getNextPageParam: (lastPage, allPages, lastPageParam) => {
             if (lastPage.meta.current_page * lastPage.meta.per_page  > lastPage.meta.to) {

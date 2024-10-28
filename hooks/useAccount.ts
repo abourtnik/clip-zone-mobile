@@ -5,6 +5,8 @@ export function useAccount () {
     const {account} = useAuth();
 
     return {
-        account
+        account,
+        isAuthenticated: !!account,
+        isGuest: !account,
     }
 }

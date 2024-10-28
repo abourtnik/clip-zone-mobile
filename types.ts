@@ -76,6 +76,7 @@ export type UserType = {
     banner: string,
     show_subscribers: boolean
     subscribers?: number
+    subscribed_by_auth_user?: boolean
     videos_count: number
     short_description: string
     description: string | null
@@ -100,6 +101,7 @@ export type TinyUserType = {
     avatar: string,
     show_subscribers: boolean
     subscribers?: number
+    subscribed_by_auth_user?: boolean
     videos_count: number
     created_at: Date,
 }
@@ -131,19 +133,46 @@ export type TinyPlaylistType = {
 export type CommentType = {
     id: number,
     content: string,
+    parsed_content: string,
+    short_content: string,
     is_long: boolean,
-    created_at: string
-    user: UserType,
+    user: {
+      id: number,
+      username: string,
+      avatar: string
+      route: string,
+      is_video_author: boolean
+    },
+    video_uuid: string,
+    created_at: Date
     is_updated: boolean,
     likes_count: number,
     dislikes_count: number,
-    is_pinned: boolean
-    is_author_reply: boolean,
-    author: {
+    liked_by_auth_user?: boolean,
+    disliked_by_auth_user?: boolean,
+    can_delete?: boolean,
+    can_update?: boolean,
+    can_report?: boolean,
+    can_pin?: boolean,
+    is_reply: boolean,
+    is_pinned?: boolean,
+    has_replies?: boolean,
+    is_video_author_reply?: boolean,
+    is_video_author_like?: boolean,
+    video_author?: {
         username: string,
         avatar: string
-    }
-    replies?: CommentType[]
+    },
+    reported_at?: string,
+    replies?: {
+        data: CommentType[],
+        links: {
+            next: string | null
+        },
+        meta: {
+            total: number
+        }
+    },
 }
 
 export type UserVideosSort = 'latest' | 'popular' | 'oldest'

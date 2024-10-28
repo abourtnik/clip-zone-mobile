@@ -7,8 +7,6 @@ import {VideoType, CommentType} from "@/types";
 import {IconButton} from "react-native-paper";
 import {useBottomSheet} from "@gorhom/bottom-sheet";
 
-const Stack= createNativeStackNavigator();
-
 type Props = {
     video: VideoType,
 }
@@ -21,6 +19,8 @@ type StackParamList = {
         comment: CommentType
     };
 };
+
+const Stack= createNativeStackNavigator<StackParamList>();
 
 export type RouteProps = NativeStackNavigationProp<StackParamList>;
 
@@ -43,7 +43,7 @@ export default function CommentsStack ({video}: Props)  {
 
     return (
         <NavigationContainer independent={true}>
-            <Stack.Navigator screenOptions={screenOptions}>
+            <Stack.Navigator id="comments" screenOptions={screenOptions}>
                 <Stack.Screen
                     name="Comments"
                     options={{

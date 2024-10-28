@@ -1,10 +1,9 @@
 import {RefObject} from 'react'
 import {StyleSheet, View, Linking} from 'react-native';
 import {IconButton, Text, } from 'react-native-paper';
-import BottomSheet, {BottomSheetScrollView} from "@gorhom/bottom-sheet";
+import BottomSheet, {BottomSheetBackdrop, BottomSheetScrollView} from "@gorhom/bottom-sheet";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import moment from "moment";
-import {backdrop} from "../commons";
 import {UserType} from "@/types";
 
 type Props = {
@@ -19,7 +18,14 @@ export function About ({user, bottomSheetRef}: Props) {
             snapPoints={['100%']}
             index={-1}
             enablePanDownToClose={true}
-            backdropComponent={backdrop}
+            backdropComponent={(props) => (
+                <BottomSheetBackdrop
+                    {...props}
+                    disappearsOnIndex={-1}
+                    appearsOnIndex={0}
+                    opacity={0.5}
+                />
+            )}
         >
             <View style={styles.container}>
                 <View style={styles.header}>

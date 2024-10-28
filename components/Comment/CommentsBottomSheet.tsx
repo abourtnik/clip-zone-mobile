@@ -1,6 +1,6 @@
 import {RefObject, useState} from 'react'
 import {Dimensions} from 'react-native';
-import BottomSheet from "@gorhom/bottom-sheet";
+import BottomSheet, {BottomSheetBackdrop} from "@gorhom/bottom-sheet";
 import {VideoType} from "@/types";
 import CommentsStack from "@/navigation/CommentsStack";
 
@@ -21,7 +21,14 @@ export function CommentsBottomSheet ({video, bottomSheetRef}: Props) {
             snapPoints={[Dimensions.get('window').height - video_height]}
             index={-1}
             enablePanDownToClose={true}
-            //backdropComponent={backdrop}
+            backdropComponent={(props) => (
+                <BottomSheetBackdrop
+                    {...props}
+                    disappearsOnIndex={-1}
+                    appearsOnIndex={0}
+                    opacity={0.5}
+                />
+            )}
             onChange={(index: number) => {
                 if (index === 0) {
                     setOpen(true)

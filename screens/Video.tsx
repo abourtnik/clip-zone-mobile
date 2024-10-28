@@ -14,6 +14,7 @@ import {FullVideo as SuggestedVideo} from "../components/Videos";
 import {useNavigation} from "@react-navigation/native";
 import {RouteProps} from "@/navigation/HomeStack";
 import Interactions from "../components/Interactions";
+import {Subscribe} from "@/components/commons/Subscribe";
 
 type Props = {
     route: {
@@ -108,7 +109,7 @@ export default function Video({ route } : Props) {
                                                     <Text style={styles.username}>{video.user.username}</Text>
                                                     {video.user.show_subscribers &&  <Text style={styles.subscriber_count}>{video.user.subscribers}</Text>}
                                                 </View>
-                                                <Button onPress={() => console.log('subscribe')} labelStyle={styles.button} mode={'contained'}>Subscribe</Button>
+                                                <Subscribe user={video.user}/>
                                             </Pressable>
                                             <View>
                                                 <ScrollView
