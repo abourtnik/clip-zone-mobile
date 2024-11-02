@@ -1,24 +1,24 @@
 import * as React from 'react';
-import {View, StyleSheet, Image, FlatList, ActivityIndicator, RefreshControl} from "react-native";
-import {Text, Button,} from "react-native-paper";
+import {View, StyleSheet, Image, FlatList, ActivityIndicator, RefreshControl, Pressable} from "react-native";
+import {Text, Button, Avatar} from "react-native-paper";
 import {RouteProps} from "@/navigation/SubscriptionStack";
 import {AuthStatus, useAuth} from "@/hooks/useAuth";
 import {useInfiniteQuery} from "@tanstack/react-query";
-import {getSubscriptionsVideos} from "@/api/clipzone";
+import {getSubscriptionsChannels} from "@/api/clipzone";
 import {useAccount} from "@/hooks/useAccount";
-import {ApiError, VideoSkeleton} from "@/components/commons";
-import {FullVideo as Video} from "@/components/Videos";
+import {ApiError, Loader} from "@/components/commons";
+import {Subscribe} from "@/components/Actions";
 
 type Props = {
     navigation: RouteProps
 }
-export default function Subscriptions({navigation} : Props ) {
+export default function Channels({navigation} : Props ) {
 
     const {status} = useAuth();
     const {isAuthenticated} = useAccount();
 
     const {
-        data,
+        data: users,
         isLoading,
         isFetching,
         isError,
@@ -26,8 +26,8 @@ export default function Subscriptions({navigation} : Props ) {
         fetchNextPage,
         hasNextPage
     } = useInfiniteQuery({
-        queryKey: ['subscriptions-videos'],
-        queryFn: ({pageParam}) => getSubscriptionsVideos(pageParam),
+        queryKey: ['subscriptions-channels'],
+        queryFn: ({pageParam}) => getSubscriptionsChannels(pageParam),
         enabled: isAuthenticated,
         initialPageParam: 1,
         getNextPageParam: (lastPage, allPages, lastPageParam) => {
@@ -43,14 +43,27 @@ export default function Subscriptions({navigation} : Props ) {
             {
                 status === AuthStatus.Authenticated &&
                 <View style={styles.container_auth}>
-                    {isLoading && [ ...Array(3).keys()].map(i => <VideoSkeleton key={i}/>)}
+                    {isLoading && <Loader/>}
                     {isError && <ApiError refetch={refetch}/>}
                     {
-                        data &&
+                        users &&
                         <FlatList
-                            data={data.pages.flatMap(page => page.data)}
-                            renderItem={({item}) => <Video video={item} />}
-                            keyExtractor={item => item.uuid}
+                            data={users.pages.flatMap(page => page.data)}
+                            renderItem={({item}) => (
+                                <Pressable
+                                    style={({ pressed }) => [
+                                        pressed && styles.pressed,
+                                        styles.row
+                                    ]}
+                                    onPress={() => navigation.navigate('User', {id: item.id, username: item.username})}
+                                >
+                                    <View style={styles.user}>
+                                        <Avatar.Image size={30} source={{ uri: item.avatar}} />
+                                        <Text variant={'bodyMedium'}>{item.username}</Text>
+                                    </View>
+                                    <Subscribe user={item}/>
+                                </Pressable>
+                            )}
                             ListFooterComponent={
                                 isFetching ? <ActivityIndicator color={'red'} style={{marginBottom: 10}}/> : null
                             }
@@ -83,6 +96,7 @@ export default function Subscriptions({navigation} : Props ) {
 const styles = StyleSheet.create({
     container_auth: {
         flex: 1,
+        marginTop: 10,
     },
     container_guest: {
         flex: 1,
@@ -90,6 +104,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flexDirection: 'column',
         gap: 10,
+    },
+    row: {
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 10,
+        paddingVertical: 8
+    },
+    user: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 12
     },
     title: {
         fontWeight: 'bold',
@@ -99,21 +125,6 @@ const styles = StyleSheet.create({
     },
     button: {
         marginTop: 10,
-    },
-    header: {
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    channels: {
-        alignItems: 'center',
-        justifyContent: 'space-between'
-    },
-    user: {
-        alignItems: 'center',
-        gap: 10,
-        paddingVertical: 15,
-        paddingHorizontal: 10,
     },
     empty: {
         flex: 1,
@@ -126,4 +137,5 @@ const styles = StyleSheet.create({
     pressed : {
         backgroundColor : '#E8E8E8'
     },
+
 });

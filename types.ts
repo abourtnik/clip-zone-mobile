@@ -4,6 +4,7 @@ export type Account = {
     email: string,
     token: string,
     avatar_url: string,
+    is_premium: boolean,
     created_at: string,
 }
 
@@ -14,6 +15,10 @@ export type VideoType = {
     allow_comments: boolean,
     show_likes: boolean,
     likes?: number
+    liked_by_auth_user?: boolean
+    disliked_by_auth_user?: boolean
+    reported_by_auth_user?: boolean
+    report_at?: Date
     dislikes?: number
     default_comments_sort: CommentsSort,
     title: string,
@@ -43,7 +48,7 @@ export type TinyVideoType = {
     formated_duration: string,
     views: number,
     route: string,
-    publication_date: string,
+    publication_date: string | number,
     user: TinyUserType
     is_private?: boolean
 }
@@ -179,6 +184,8 @@ export type UserVideosSort = 'latest' | 'popular' | 'oldest'
 
 export type CommentsSort = 'top' | 'newest'
 
+export type InteractionType = 'Video' | 'Comment'
+
 export type Paginator<T> = {
     data: T[],
     links: {
@@ -193,7 +200,23 @@ export type Paginator<T> = {
         total: number
     }
 }
+
 export type Search = {
     total: number,
     items: SearchVideoType[]
 }
+
+export const REPORT_REASONS : string[] = [
+    "Sexual Content",
+    "Violent or repulsive content",
+    "Hateful or abusive content",
+    "Harassment or bullying",
+    "Harmful or dangerous acts",
+    "Misinformation",
+    "Child abuse",
+    "Promotes terrorism",
+    "Infringes my rights",
+    "Captions issue"
+];
+
+export type ReportReason = typeof REPORT_REASONS[number];

@@ -8,7 +8,7 @@ import {useRef, useState} from "react";
 import {HomeTab, PlaylistsTab, VideosTab, About} from "@/components/User";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import BottomSheet from "@gorhom/bottom-sheet";
-import {Subscribe} from "@/components/commons/Subscribe";
+import {Subscribe} from "@/components/Actions";
 
 type Props = {
     route: {

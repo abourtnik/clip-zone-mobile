@@ -57,7 +57,7 @@ export function Description ({video, bottomSheetRef}: Props) {
                             }
                             <View style={styles.info}>
                                 <Text style={styles.counter}>{video.views}</Text>
-                                <Text variant={'bodySmall'} style={styles.label}>views</Text>
+                                <Text variant={'bodySmall'} style={styles.label}>Views</Text>
                             </View>
                             <View style={styles.info}>
                                 <Text style={styles.counter}>{moment(video.publication_date).format('YYYY')}</Text>

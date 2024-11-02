@@ -1,20 +1,18 @@
-import {View, StyleSheet, ScrollView, Pressable, ActivityIndicator, FlatList} from 'react-native';
-import {Button, Text, Avatar} from 'react-native-paper';
-import { Video as ExpoVideo, ResizeMode } from 'expo-av';
+import {View, StyleSheet, Pressable, FlatList, ScrollView} from 'react-native';
+import {Text, Avatar} from 'react-native-paper';
 import {useQuery} from "@tanstack/react-query";
-import {getVideo, getVideoFile} from "@/api/clipzone";
+import {getVideo} from "@/api/clipzone";
 import BottomSheet from '@gorhom/bottom-sheet';
 import moment from "moment";
-import {useRef, useEffect, useState} from "react";
+import {useRef} from "react";
 import {CommentsBottomSheet} from "@/components/Comment";
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import {Description} from "@/components/Description";
 import {ApiError, Loader} from "@/components/commons";
-import {FullVideo as SuggestedVideo} from "../components/Videos";
+import {FullVideo as SuggestedVideo, Player, Description} from "../components/Videos";
 import {useNavigation} from "@react-navigation/native";
 import {RouteProps} from "@/navigation/HomeStack";
-import Interactions from "../components/Interactions";
-import {Subscribe} from "@/components/commons/Subscribe";
+import {Download, Report, Save, Share, Subscribe} from "@/components/Actions";
+import Interactions from "@/components/Interactions";
+
 
 type Props = {
     route: {
@@ -30,15 +28,8 @@ export default function Video({ route } : Props) {
 
     const navigation = useNavigation<RouteProps>();
 
-    const videoRef = useRef(null);
     const comments = useRef<BottomSheet>(null);
     const description = useRef<BottomSheet>(null);
-
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        //videoRef.current.playAsync()
-    }, []);
 
     const {
         data: video,
@@ -46,6 +37,8 @@ export default function Video({ route } : Props) {
         isError,
         refetch,
     } = useQuery({
+        refetchOnMount: true,
+        gcTime: 0,
         queryKey: ['video', uuid],
         queryFn: () => getVideo(uuid)
     });
@@ -57,23 +50,7 @@ export default function Video({ route } : Props) {
             {
                 video &&
                     <View style={styles.container}>
-                        <ExpoVideo
-                            posterSource={{uri:video.thumbnail}}
-                            onLoad={() => setLoading(false)}
-                            ref={videoRef}
-                            style={styles.video}
-                            useNativeControls={true}
-                            resizeMode={ResizeMode.COVER}
-                            source={{uri: getVideoFile(video.file)}}
-                            volume={0.5}
-                        >
-                            {
-                                loading &&
-                                <View style={styles.loading_video}>
-                                    <ActivityIndicator/>
-                                </View>
-                            }
-                        </ExpoVideo>
+                        <Player video={video}/>
                         <View style={{flex: 1}}>
                             {
                                 video &&
@@ -111,52 +88,19 @@ export default function Video({ route } : Props) {
                                                 </View>
                                                 <Subscribe user={video.user}/>
                                             </Pressable>
-                                            <View>
-                                                <ScrollView
-                                                    showsHorizontalScrollIndicator={false}
-                                                    horizontal={true}
-                                                    contentContainerStyle={styles.buttons_container}
-                                                >
-                                                    <View>
-                                                        <Interactions video={video}/>
-                                                    </View>
-                                                    <Button
-                                                        labelStyle={styles.button}
-                                                        icon={({ size, color }) => (
-                                                            <MaterialCommunityIcons name="share" size={17} color={color} style={styles.button_icon}/>
-                                                        )}
-                                                        mode={'contained'}
-                                                    >
-                                                        Share
-                                                    </Button>
-                                                    <Button
-                                                        labelStyle={styles.button}
-                                                        icon={({ size, color }) => (
-                                                            <MaterialCommunityIcons name="download" size={18} color={color} style={styles.button_icon}/>
-                                                        )}
-                                                        mode={'contained'}>
-                                                        Download
-                                                    </Button>
-                                                    <Button
-                                                        labelStyle={styles.button}
-                                                        icon={({ size, color }) => (
-                                                            <MaterialCommunityIcons name="bookmark-outline" size={20} color={color} style={styles.button_icon}/>
-                                                        )}
-                                                        mode={'contained'}
-                                                    >
-                                                        Save
-                                                    </Button>
-                                                    <Button
-                                                        labelStyle={styles.button}
-                                                        icon={({ size, color }) => (
-                                                            <MaterialCommunityIcons name="flag-outline" size={20} color={color} style={styles.button_icon}/>
-                                                        )}
-                                                        mode={'contained'}
-                                                    >
-                                                        Report
-                                                    </Button>
-                                                </ScrollView>
-                                            </View>
+                                            <ScrollView
+                                                showsHorizontalScrollIndicator={false}
+                                                horizontal={true}
+                                                contentContainerStyle={styles.buttons_container}
+                                            >
+                                                <View>
+                                                    <Interactions video={video}/>
+                                                </View>
+                                                <Share video={video}/>
+                                                <Download video={video}/>
+                                                {/*<Save video={video}/>*/}
+                                                <Report video={video}/>
+                                            </ScrollView>
                                             {
                                                 video.allow_comments &&
                                                 <Pressable
@@ -224,17 +168,6 @@ const styles = StyleSheet.create({
     pressed : {
         backgroundColor : '#E8E8E8'
     },
-    video: {
-        width: '100%',
-        height: 242,
-    },
-    loading_video: {
-        width: '100%',
-        height: 242,
-        backgroundColor: '#E6E6E6',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
     info_container : {
         paddingHorizontal: 15,
         paddingVertical: 7,
@@ -268,16 +201,8 @@ const styles = StyleSheet.create({
     subscriber_count: {
         color : 'grey'
     },
-    button: {
-        marginVertical: 6,
-        marginHorizontal: 10,
-        fontSize: 13
-    },
-    button_icon: {
-        paddingRight: 15
-    },
     buttons_container: {
-        marginHorizontal: 10,
+        paddingHorizontal: 10,
         marginTop: 10,
         marginBottom: 15,
         gap: 8,

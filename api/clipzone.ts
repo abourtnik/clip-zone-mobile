@@ -11,7 +11,9 @@ import {
     Paginator,
     CommentType,
     Search,
-    TinyPlaylistType
+    TinyPlaylistType,
+    TinyUserType, InteractionType,
+    ReportReason
 } from "@/types";
 
 const API_URL =  process.env.EXPO_PUBLIC_API_ENDPOINT + '/api';
@@ -69,6 +71,37 @@ export async function getPlaylist(uuid: string): Promise<PlaylistType> {
     return jsonFetch(API_URL + `/playlists/${uuid}`);
 }
 
+export async function getSubscriptionsVideos(page: number = 1): Promise<Paginator<TinyVideoType>> {
+    return jsonFetch(API_URL + `/users/subscriptions-videos?page=`+ page);
+}
+
+export async function getSubscriptionsChannels(page: number = 1): Promise<Paginator<TinyUserType>> {
+    return jsonFetch(API_URL + `/users/subscriptions-channels?page=`+ page);
+}
+
 export async function subscribe(user_id: number): Promise<void> {
     return jsonFetch(API_URL + `/subscribe/${user_id}`, 'POST');
+}
+
+export async function like(type: InteractionType, id: number): Promise<void> {
+    return jsonFetch(API_URL + `/like`, 'POST', {
+        'model': type,
+        'id': id
+    });
+}
+
+export async function dislike(type: InteractionType, id: number): Promise<void> {
+    return jsonFetch(API_URL + `/dislike`, 'POST', {
+        'model': type,
+        'id': id
+    });
+}
+
+export async function report(id: number, reason: ReportReason): Promise<void> {
+    return jsonFetch(API_URL + `/report`, 'POST', {
+        'reason': reason,
+        'comment': null,
+        'type': 'App\\Models\\Video',
+        'id': id
+    });
 }

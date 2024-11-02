@@ -1,14 +1,10 @@
-import {FlatList, StyleSheet, View} from 'react-native';
+import {FlatList, ScrollView, StyleSheet, View} from 'react-native';
 import {Searchbar, Text} from 'react-native-paper';
 import {useQuery} from "@tanstack/react-query";
 import {search} from "@/api/clipzone";
 import {useState} from "react";
 import {SafeAreaView} from 'react-native-safe-area-context'
 import {ListVideo} from "@/components/Videos";
-
-type Props = {
-
-}
 
 export default function Search() {
 
@@ -22,8 +18,9 @@ export default function Search() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={{marginHorizontal: 15}}>
+            <View style={styles.searchbar}>
                 <Searchbar
+                    autoCapitalize={'none'}
                     mode={'view'}
                     placeholder="Search"
                     onChangeText={(query) => setQuery(query)}
@@ -31,12 +28,12 @@ export default function Search() {
                     loading={isFetching}
                     showDivider={false}
                     inputStyle={{minHeight: 0 }}
-                    style={{height: 40}}
+                    style={{height: 40, backgroundColor: 'white'}}
                 />
             </View>
+            <ScrollView style={styles.results}>
             {
                 results &&
-                <View style={styles.results}>
                     <FlatList
                         scrollEnabled={false}
                         contentContainerStyle={{flex: 1}}
@@ -49,8 +46,8 @@ export default function Search() {
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({item}) => <ListVideo video={item} />}
                     />
-                </View>
             }
+            </ScrollView>
         </SafeAreaView>
     );
 }
@@ -58,10 +55,19 @@ export default function Search() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: '#3D556B'
+    },
+    searchbar: {
+        paddingHorizontal: 10,
+        paddingVertical: 10,
+        backgroundColor: '#3D556B',
+        width: '100%'
     },
     results: {
         flex: 1,
-        marginTop: 10
+        paddingVertical: 20,
+        marginBottom: -40,
+        backgroundColor: 'white',
     },
     empty: {
         flex: 1,
