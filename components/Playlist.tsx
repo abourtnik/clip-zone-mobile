@@ -1,6 +1,6 @@
 import {StyleSheet, View, Pressable} from 'react-native';
 import {Text} from 'react-native-paper';
-import {PlaylistType} from "@/types";
+import {TinyPlaylistType} from "@/types";
 import {useNavigation} from "@react-navigation/native";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import {RouteProps} from "@/navigation/HomeStack";
@@ -8,7 +8,7 @@ import {Thumbnail} from "@/components/Videos";
 
 
 type Props = {
-    playlist: PlaylistType,
+    playlist: TinyPlaylistType,
 }
 
 export function Playlist({playlist} : Props) {

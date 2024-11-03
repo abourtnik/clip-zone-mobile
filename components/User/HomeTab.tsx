@@ -2,7 +2,7 @@ import {StyleSheet, View, FlatList, SectionList} from 'react-native';
 import {Text} from 'react-native-paper';
 import {UserType} from "@/types";
 import {FullVideo, ListVideo} from "../Videos";
-
+import {Alert} from "@/components/commons";
 
 type Props = {
     user: UserType,
@@ -16,9 +16,12 @@ export function HomeTab({user} : Props) {
                 ListHeaderComponent={
                     <>
                         {user.pinned_video && <FullVideo video={user.pinned_video}></FullVideo>}
-                        <View style={styles.tab}>
-                            <Text style={styles.title} variant={'titleMedium'}>Videos</Text>
-                        </View>
+                        {
+                            user.videos_count > 0 &&
+                            <View style={styles.tab}>
+                                <Text style={styles.title} variant={'titleMedium'}>Videos</Text>
+                            </View>
+                        }
                     </>
                 }
                 data={user.videos}
@@ -26,7 +29,7 @@ export function HomeTab({user} : Props) {
                 keyExtractor={item => item.uuid}
                 ListFooterComponent={
                     <SectionList
-                        sections={user.playlists.map(playlist => ({
+                        sections={user.playlists.map((playlist) => ({
                             title: playlist.title,
                             data: playlist.videos,
                         }))}
@@ -36,6 +39,11 @@ export function HomeTab({user} : Props) {
                             <Text style={styles.title} variant={'titleMedium'}>{title}</Text>
                         )}
                     />
+                }
+                ListEmptyComponent={
+                    <View style={styles.empty}>
+                        <Alert message={'Channel without content'} />
+                    </View>
                 }
             />
         </View>
@@ -50,6 +58,9 @@ const styles = StyleSheet.create({
     title : {
         paddingHorizontal: 15,
         marginBottom : 10
-    }
+    },
+    empty: {
+        marginHorizontal: 15
+    },
 
 });

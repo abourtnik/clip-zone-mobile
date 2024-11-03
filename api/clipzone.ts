@@ -1,20 +1,6 @@
 import {jsonFetch} from '@/functions/api'
 import * as Device from "expo-device";
-import {
-    Account,
-    CommentsSort,
-    PlaylistType,
-    UserType,
-    UserVideosSort,
-    VideoType,
-    TinyVideoType,
-    Paginator,
-    CommentType,
-    Search,
-    TinyPlaylistType,
-    TinyUserType, InteractionType,
-    ReportReason
-} from "@/types";
+import {Account, CommentsSort, PlaylistType, UserType, UserVideosSort, VideoType, TinyVideoType, Paginator, CommentType, Search, TinyPlaylistType, TinyUserType, ReportReason} from "@/types";
 
 const API_URL =  process.env.EXPO_PUBLIC_API_ENDPOINT + '/api';
 const API_URL_FILE = process.env.EXPO_PUBLIC_API_ENDPOINT
@@ -83,20 +69,12 @@ export async function subscribe(user_id: number): Promise<void> {
     return jsonFetch(API_URL + `/subscribe/${user_id}`, 'POST');
 }
 
-export async function like(type: InteractionType, id: number): Promise<void> {
-    return jsonFetch(API_URL + `/like`, 'POST', {
-        'model': type,
+export async function interact(type: 'like' | 'dislike', id: number): Promise<void> {
+    return jsonFetch(API_URL + `/${type}`, 'POST', {
+        'model': 'App\\Models\\Video',
         'id': id
     });
 }
-
-export async function dislike(type: InteractionType, id: number): Promise<void> {
-    return jsonFetch(API_URL + `/dislike`, 'POST', {
-        'model': type,
-        'id': id
-    });
-}
-
 export async function report(id: number, reason: ReportReason): Promise<void> {
     return jsonFetch(API_URL + `/report`, 'POST', {
         'reason': reason,

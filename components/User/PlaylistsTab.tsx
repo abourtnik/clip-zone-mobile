@@ -3,11 +3,12 @@ import {useInfiniteQuery} from "@tanstack/react-query";
 import {getUserPlaylists} from "@/api/clipzone";
 import {Alert, ApiError, VideoSkeleton} from "../commons";
 import {Playlist} from "../Playlist";
+import {UserType} from "@/types";
 
 type Props = {
-    userId: number,
+    user: UserType,
 }
-export function PlaylistsTab({userId} : Props) {
+export function PlaylistsTab({user} : Props) {
 
     const {
         data: playlists,
@@ -19,8 +20,8 @@ export function PlaylistsTab({userId} : Props) {
         hasNextPage
     } = useInfiniteQuery({
         enabled: true,
-        queryKey: ['user', userId, 'playlists'],
-        queryFn: ({pageParam}) => getUserPlaylists(userId, pageParam),
+        queryKey: ['user', user.id, 'playlists'],
+        queryFn: ({pageParam}) => getUserPlaylists(user.id, pageParam),
         initialPageParam: 1,
         getNextPageParam: (lastPage, allPages, lastPageParam) => {
             if (lastPage.meta.current_page === lastPage.meta.last_page) {

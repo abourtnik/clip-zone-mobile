@@ -22,12 +22,10 @@ export const Comment = memo(({comment} : Props) => {
                 pressed && styles.pressed,
                 styles.main
             ]}
-            onPress={() => navigation.navigate('Replies', {comment: comment})}
+            onPress={() => comment.is_reply ? null : navigation.navigate('Replies', {comment: comment})}
         >
             <Pressable
-                onPress={() => {
-                    navigation.getParent()?.navigate('User', {id: comment.user.id, username: comment.user.username})
-                }}
+                onPress={() =>  navigation.getParent('HOME' as any)?.navigate('User', {id: comment.user.id, username: comment.user.username})}
             >
                 <Avatar.Image
                     size={25}

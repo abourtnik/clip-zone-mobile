@@ -92,11 +92,11 @@ export type UserType = {
     created_at: Date,
     pinned_video: TinyVideoType,
     videos: TinyVideoType[],
-    playlists: {
+    playlists: [{
         id: number,
         title: string,
         videos: TinyVideoType[],
-    }
+    }]
 }
 
 export type TinyUserType = {

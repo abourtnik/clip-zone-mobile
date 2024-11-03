@@ -27,7 +27,7 @@ const Stack= createNativeStackNavigator<StackParamList>();
 
 export default function HomeStack () {
     return (
-        <Stack.Navigator id="home">
+        <Stack.Navigator id="HOME">
             <Stack.Screen name="Home" component={Home}/>
             <Stack.Screen
                 name="Video"

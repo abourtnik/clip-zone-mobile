@@ -110,9 +110,9 @@ export default function User({ route } : Props) {
                                 case 'home':
                                     return <HomeTab user={user} />;
                                 case 'videos':
-                                    return <VideosTab userId={id} />;
+                                    return <VideosTab user={user} />;
                                 case 'playlists':
-                                    return <PlaylistsTab userId={id} />;
+                                    return <PlaylistsTab user={user} />;
                                 default:
                                     return null;
                             }

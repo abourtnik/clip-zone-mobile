@@ -13,14 +13,14 @@ export function useAuthMutation(options: Props) {
 
     return useMutation({
         ...options,
-        mutationFn: () => {
+        mutationFn: (args) => {
             if (isGuest) {
                 setError('AUTH', options.authError)
                 return Promise.reject()
             }
 
             if (options.mutationFn) {
-                return options.mutationFn()
+                return options.mutationFn(args)
             }
 
             return Promise.resolve()
