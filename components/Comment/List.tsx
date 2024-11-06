@@ -1,6 +1,6 @@
 import {ActivityIndicator, StyleSheet, View} from "react-native";
 import {Button, IconButton, Text} from "react-native-paper";
-import {ApiError, Loader} from "@/components/commons";
+import {ApiError, Loader, NetworkError} from "@/components/commons";
 import {BottomSheetFlatList, useBottomSheet} from "@gorhom/bottom-sheet";
 import {Comment} from "./Comment";
 import {useInfiniteQuery} from "@tanstack/react-query";
@@ -35,6 +35,7 @@ export function List({route} : Props) {
         isLoading,
         isFetching,
         isError,
+        isPaused,
         refetch,
         fetchNextPage,
         hasNextPage
@@ -89,6 +90,7 @@ export function List({route} : Props) {
                 <View style={styles.separator}></View>
             </View>
             <View style={styles.comments}>
+                {isPaused && <NetworkError refetch={refetch}/>}
                 { isLoading && <Loader/>}
                 {isError && <ApiError refetch={refetch}/>}
                 {

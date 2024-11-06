@@ -3,7 +3,7 @@ import {useInfiniteQuery} from "@tanstack/react-query";
 import {getReplies} from "@/api/clipzone";
 import {CommentType} from "@/types";
 import {Comment} from "./Comment";
-import {ApiError, Loader} from "@/components/commons";
+import {ApiError, Loader, NetworkError} from "@/components/commons";
 import {BottomSheetFlatList} from "@gorhom/bottom-sheet";
 
 type Props = {
@@ -23,6 +23,7 @@ export function Replies ({route}: Props) {
         isLoading,
         isFetching,
         isError,
+        isPaused,
         refetch,
         fetchNextPage,
         hasNextPage
@@ -45,6 +46,7 @@ export function Replies ({route}: Props) {
             <View style={{backgroundColor: 'lightgrey'}}>
                 <Comment comment={comment} />
             </View>
+            {isPaused && <NetworkError refetch={refetch}/>}
             { (isLoading || isFetching) && <Loader/>}
             {isError && <ApiError refetch={refetch}/>}
             {

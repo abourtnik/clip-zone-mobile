@@ -2,7 +2,7 @@ import {View, StyleSheet, ScrollView, FlatList, Image, RefreshControl} from 'rea
 import {Avatar, Button, Text, IconButton} from 'react-native-paper';
 import {useQuery} from "@tanstack/react-query";
 import {getPlaylist} from "@/api/clipzone";
-import {ApiError, Loader} from "@/components/commons";
+import {ApiError, Loader, NetworkError} from "@/components/commons";
 import {ListVideo as Video} from "../components/Videos";
 
 type Props = {
@@ -21,6 +21,7 @@ export default function Playlist({ route } : Props) {
         data: playlist,
         isLoading,
         isError,
+        isPaused,
         refetch
     } = useQuery({
         queryKey: ['playlist', uuid],
@@ -29,6 +30,7 @@ export default function Playlist({ route } : Props) {
 
     return (
         <>
+            {isPaused && <NetworkError refetch={refetch}/>}
             {isLoading && <Loader/>}
             {isError && <ApiError refetch={refetch}/>}
             {

@@ -2,16 +2,16 @@ import {ActivityIndicator, FlatList, RefreshControl, StyleSheet, View} from 'rea
 import {Button} from "react-native-paper";
 import {useInfiniteQuery} from "@tanstack/react-query";
 import {getUserVideos,} from "@/api/clipzone";
-import {Alert, ApiError, Loader} from "../commons";
+import {Alert, ApiError, Loader, NetworkError} from "@/components/commons";
 import {ListVideo as Video} from "../Videos";
 import {UserType, UserVideosSort} from "@/types";
-import {useState, Fragment} from "react";
+import {useState, Fragment, memo} from "react";
 
 type Props = {
-    user: UserType,
+    user: UserType
 }
 
-export function VideosTab({user} : Props) {
+export const VideosTab = memo(({user} : Props) => {
 
     const [sort, setSort] = useState<UserVideosSort>('latest');
 
@@ -22,10 +22,10 @@ export function VideosTab({user} : Props) {
         isError,
         refetch,
         fetchNextPage,
-        hasNextPage
+        hasNextPage,
+        isPaused
     } = useInfiniteQuery({
         enabled: true,
-        gcTime: 0,
         queryKey: ['user', user.id, 'videos', sort],
         queryFn: ({pageParam}) => getUserVideos(user.id, pageParam, sort),
         initialPageParam: 1,
@@ -79,6 +79,7 @@ export function VideosTab({user} : Props) {
                     </View>
                 }
                 <View style={styles.videos}>
+                    {isPaused && <NetworkError refetch={refetch}/>}
                     {isLoading && <Loader/>}
                     {isError && <ApiError refetch={refetch}/>}
                     {
@@ -105,7 +106,7 @@ export function VideosTab({user} : Props) {
             </Fragment>
         </View>
     )
-}
+})
 
 const styles = StyleSheet.create({
     tab: {

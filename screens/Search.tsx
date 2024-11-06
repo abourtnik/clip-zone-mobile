@@ -1,20 +1,16 @@
 import {FlatList, ScrollView, StyleSheet, View} from 'react-native';
 import {Searchbar, Text} from 'react-native-paper';
-import {useQuery} from "@tanstack/react-query";
 import {search} from "@/api/clipzone";
 import {useState} from "react";
 import {SafeAreaView} from 'react-native-safe-area-context'
 import {ListVideo} from "@/components/Videos";
+import {useSearchQuery} from "@/hooks/useSearchQuery";
 
 export default function Search() {
 
     const [query, setQuery] = useState<string>('');
 
-    const {data: results, isFetching, refetch} = useQuery({
-        queryKey: ['search', query],
-        queryFn: () => search(query),
-        enabled: query.trim().length > 0
-    });
+    const {data: results, isFetching} = useSearchQuery(query, 'search', search);
 
     return (
         <SafeAreaView style={styles.container}>

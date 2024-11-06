@@ -6,7 +6,7 @@ import BottomSheet from '@gorhom/bottom-sheet';
 import moment from "moment";
 import {useRef} from "react";
 import {CommentsBottomSheet} from "@/components/Comment";
-import {ApiError, Loader} from "@/components/commons";
+import {ApiError, Loader, NetworkError} from "@/components/commons";
 import {FullVideo as SuggestedVideo, Player, Description} from "../components/Videos";
 import {useNavigation} from "@react-navigation/native";
 import {RouteProps} from "@/navigation/HomeStack";
@@ -36,6 +36,7 @@ export default function Video({ route } : Props) {
         isLoading,
         isError,
         refetch,
+        isPaused
     } = useQuery({
         refetchOnMount: true,
         gcTime: 0,
@@ -45,6 +46,7 @@ export default function Video({ route } : Props) {
 
     return (
         <>
+            {isPaused && <NetworkError refetch={refetch}/>}
             {isLoading && <Loader/>}
             {isError && <ApiError refetch={refetch}/>}
             {

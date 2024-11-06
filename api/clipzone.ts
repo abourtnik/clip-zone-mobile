@@ -33,8 +33,8 @@ export async function getUserVideos(userId: number, page: number = 1, sort?: Use
     return jsonFetch(API_URL + `/users/${userId}/videos?page=${page}&sort=${sort}`);
 }
 
-export async function getUserPlaylists(userId: number, page: number = 1, sort?: string): Promise<Paginator<TinyPlaylistType>> {
-    return jsonFetch(API_URL + `/users/${userId}/playlists?page=${page}&sort=${sort}`);
+export async function getUserPlaylists(userId: number, page: number = 1): Promise<Paginator<TinyPlaylistType>> {
+    return jsonFetch(API_URL + `/users/${userId}/playlists?page=${page}`);
 }
 
 export function getVideoFile(file: string): string {

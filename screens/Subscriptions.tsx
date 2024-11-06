@@ -6,7 +6,7 @@ import {AuthStatus, useAuth} from "@/hooks/useAuth";
 import {useInfiniteQuery} from "@tanstack/react-query";
 import {getSubscriptionsVideos} from "@/api/clipzone";
 import {useAccount} from "@/hooks/useAccount";
-import {ApiError, VideoSkeleton} from "@/components/commons";
+import {ApiError, NetworkError, VideoSkeleton} from "@/components/commons";
 import {FullVideo as Video} from "@/components/Videos";
 
 type Props = {
@@ -22,6 +22,7 @@ export default function Subscriptions({navigation} : Props ) {
         isLoading,
         isFetching,
         isError,
+        isPaused,
         refetch,
         fetchNextPage,
         hasNextPage
@@ -43,6 +44,7 @@ export default function Subscriptions({navigation} : Props ) {
             {
                 status === AuthStatus.Authenticated &&
                 <View style={styles.container_auth}>
+                    {isPaused && <NetworkError refetch={refetch}/>}
                     {isLoading && [ ...Array(3).keys()].map(i => <VideoSkeleton key={i}/>)}
                     {isError && <ApiError refetch={refetch}/>}
                     {

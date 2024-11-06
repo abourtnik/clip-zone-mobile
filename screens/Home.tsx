@@ -2,7 +2,7 @@ import {View, StyleSheet, FlatList, RefreshControl, ActivityIndicator} from 'rea
 import {FullVideo as Video} from "../components/Videos";
 import {useInfiniteQuery} from "@tanstack/react-query";
 import {getVideos} from '@/api/clipzone'
-import {ApiError, VideoSkeleton} from "@/components/commons";
+import {ApiError, NetworkError, VideoSkeleton} from "@/components/commons";
 import {useThemeStore} from "@/stores/useThemeStore";
 
 export default function Home() {
@@ -16,7 +16,8 @@ export default function Home() {
         isError,
         refetch,
         fetchNextPage,
-        hasNextPage
+        hasNextPage,
+        isPaused
     } = useInfiniteQuery({
         queryKey: ['videos'],
         queryFn: ({pageParam}) => getVideos(pageParam),
@@ -31,6 +32,7 @@ export default function Home() {
 
     return (
         <View style={styles.container}>
+            {isPaused && <NetworkError refetch={refetch}/>}
             {isLoading && [ ...Array(3).keys()].map(i => <VideoSkeleton key={i}/>)}
             {isError && <ApiError refetch={refetch}/>}
             {

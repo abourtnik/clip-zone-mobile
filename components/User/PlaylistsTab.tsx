@@ -1,14 +1,15 @@
 import {ActivityIndicator, FlatList, RefreshControl, StyleSheet, View} from 'react-native';
 import {useInfiniteQuery} from "@tanstack/react-query";
 import {getUserPlaylists} from "@/api/clipzone";
-import {Alert, ApiError, VideoSkeleton} from "../commons";
+import {Alert, ApiError, Loader, NetworkError} from "@/components/commons";
 import {Playlist} from "../Playlist";
 import {UserType} from "@/types";
+import {memo} from "react";
 
 type Props = {
-    user: UserType,
+    user: UserType
 }
-export function PlaylistsTab({user} : Props) {
+export const PlaylistsTab = memo(({user} : Props) => {
 
     const {
         data: playlists,
@@ -17,7 +18,8 @@ export function PlaylistsTab({user} : Props) {
         isError,
         refetch,
         fetchNextPage,
-        hasNextPage
+        hasNextPage,
+        isPaused
     } = useInfiniteQuery({
         enabled: true,
         queryKey: ['user', user.id, 'playlists'],
@@ -35,7 +37,8 @@ export function PlaylistsTab({user} : Props) {
     return (
         <View style={styles.tab}>
             <View style={styles.playlists}>
-                {isLoading && [ ...Array(3).keys()].map(i => <VideoSkeleton key={i}/>)}
+                {isPaused && <NetworkError refetch={refetch}/>}
+                {isLoading && <Loader/>}
                 {isError && <ApiError refetch={refetch}/>}
                 {
                     playlists &&
@@ -60,7 +63,7 @@ export function PlaylistsTab({user} : Props) {
             </View>
         </View>
     )
-}
+});
 
 const styles = StyleSheet.create({
     tab: {

@@ -1,8 +1,8 @@
 import {View, StyleSheet, Pressable, Image, Linking, useWindowDimensions} from 'react-native';
-import {Button, Text, Avatar} from 'react-native-paper';
+import {Text, Avatar} from 'react-native-paper';
 import {useQuery} from "@tanstack/react-query";
 import {getUser} from "@/api/clipzone";
-import {ApiError, Loader} from "@/components/commons";
+import {ApiError, Loader, NetworkError} from "@/components/commons";
 import { TabBar, TabView} from 'react-native-tab-view';
 import {useRef, useState} from "react";
 import {HomeTab, PlaylistsTab, VideosTab, About} from "@/components/User";
@@ -29,6 +29,7 @@ export default function User({ route } : Props) {
         isLoading,
         isError,
         refetch,
+        isPaused
     } = useQuery({
         queryKey: ['user', id],
         queryFn: () => getUser(id)
@@ -40,6 +41,7 @@ export default function User({ route } : Props) {
 
     return (
         <>
+            {isPaused && <NetworkError refetch={refetch}/>}
             {isLoading && <Loader/>}
             {isError && <ApiError refetch={refetch}/>}
             {
@@ -82,6 +84,7 @@ export default function User({ route } : Props) {
                     }
                     <Subscribe style={styles.button} user={user}/>
                     <TabView
+                        lazy
                         navigationState={{
                             index: index,
                             routes: [
@@ -105,7 +108,7 @@ export default function User({ route } : Props) {
                                 style={{ backgroundColor: 'transparent', marginHorizontal: 15, }}
                             />
                         )}
-                        renderScene={({ route,position }) => {
+                        renderScene={({ route }) => {
                             switch (route.key) {
                                 case 'home':
                                     return <HomeTab user={user} />;

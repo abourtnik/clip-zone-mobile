@@ -3,12 +3,13 @@ import {Text} from 'react-native-paper';
 import {UserType} from "@/types";
 import {FullVideo, ListVideo} from "../Videos";
 import {Alert} from "@/components/commons";
+import {memo} from "react";
 
 type Props = {
     user: UserType,
 }
 
-export function HomeTab({user} : Props) {
+export const HomeTab = memo(({user} : Props) => {
 
     return (
         <View style={styles.tab}>
@@ -48,7 +49,7 @@ export function HomeTab({user} : Props) {
             />
         </View>
     )
-}
+});
 
 const styles = StyleSheet.create({
     tab: {
