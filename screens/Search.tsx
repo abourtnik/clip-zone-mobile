@@ -10,7 +10,11 @@ export default function Search() {
 
     const [query, setQuery] = useState<string>('');
 
-    const {data: results, isFetching} = useSearchQuery(query, 'search', search);
+    const {data: results, isFetching} = useSearchQuery({
+        query: query,
+        key: 'search',
+        searchFn: search
+    });
 
     return (
         <SafeAreaView style={styles.container}>
