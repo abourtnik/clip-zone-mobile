@@ -1,23 +1,35 @@
 {
   "expo": {
     "name": "ClipZone",
+    "description": "Open Source React Native Youtube Clone",
     "slug": "clip-zone",
-    "version": "1.0.0",
+    "privacy": "public",
+    "sdkVersion": "51.0.0",
+    "version": "0.1.0",
+    "platforms": ["ios", "android"],
+    "githubUrl": "https://github.com/abourtnik/clip-zone-mobile",
     "orientation": "portrait",
+    "backgroundColor": "#ffffff",
+    "primaryColor": "#3D556B",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "androidStatusBar": {
+      "barStyle": "dark-content",
+      "backgroundColor": "#3D556B"
+    },
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#3D556B"
     },
     "ios": {
-      "supportsTablet": false
+      "supportsTablet": false,
+      "backgroundColor": "#3D556B"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#3D556B"
       }
     },
     "web": {

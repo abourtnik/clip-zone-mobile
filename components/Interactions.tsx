@@ -5,6 +5,7 @@ import {VideoType} from "@/types";
 import {useAuthMutation} from "@/hooks/useAuthMutation";
 import {interact} from "@/api/clipzone";
 import {useReducer} from "react";
+import {useAccount} from "@/hooks/useAccount";
 
 type Props = {
     video: VideoType,
@@ -44,6 +45,8 @@ const reducer = (state: State, action: Action) : State => {
 
 export default function Interactions ({video}: Props) {
 
+    const {isAuthenticated} = useAccount();
+
     const {mutate} = useAuthMutation({
         mutationFn: (type: any) => interact(type, video.id),
         mutationKey: ['interaction', video.id],
@@ -58,7 +61,9 @@ export default function Interactions ({video}: Props) {
     } as State);
 
     const handleClick = async (type: Action) => {
-        dispatch(type)
+        if (isAuthenticated) {
+            dispatch(type)
+        }
         mutate(type.toLocaleLowerCase() as any)
     }
 

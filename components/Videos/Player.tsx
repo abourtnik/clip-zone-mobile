@@ -4,11 +4,15 @@ import {VideoType} from "@/types";
 import {ResizeMode, Video as ExpoVideo} from "expo-av";
 import {getVideoFile} from "@/api/clipzone";
 import {useSettingsStore} from "@/stores/useSettingsStore";
+import {useNavigation} from "@react-navigation/native";
+import {RouteProps} from "@/navigation/HomeStack";
 
 type Props = {
     video: VideoType,
 }
 export const Player = ({video} : Props) => {
+
+    const navigation = useNavigation<RouteProps>();
 
     const ref = useRef<ExpoVideo>(null);
 
@@ -21,6 +25,13 @@ export const Player = ({video} : Props) => {
             ref.current?.playAsync()
         }
     }, [loading]);
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('blur', (e) => {
+            ref.current?.stopAsync()
+        });
+        return unsubscribe
+    }, []);
 
     return (
         <ExpoVideo

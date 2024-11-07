@@ -39,7 +39,7 @@ export default function Login() {
     }
 
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.header}>
                 <Svg height="600" width="100%" viewBox="0 0 1440 720">
                     <Path
