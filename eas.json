@@ -14,17 +14,20 @@
       },
       "env": {
         "EXPO_PUBLIC_API_ENDPOINT": "https://www.clip-zone.com"
-      }
+      },
+      "channel": "development"
     },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "channel": "preview"
     },
     "production": {
       "node": "18.20.4",
       "autoIncrement": true,
       "env": {
         "EXPO_PUBLIC_API_ENDPOINT": "https://www.clip-zone.com"
-      }
+      },
+      "channel": "production"
     }
   },
   "submit": {
