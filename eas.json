@@ -1,0 +1,33 @@
+{
+  "cli": {
+    "version": ">= 12.6.2",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "node": "18.20.4",
+      "developmentClient": true,
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleRelease"
+      },
+      "env": {
+        "EXPO_PUBLIC_API_ENDPOINT": "https://www.clip-zone.com"
+      }
+    },
+    "preview": {
+      "distribution": "internal"
+    },
+    "production": {
+      "node": "18.20.4",
+      "autoIncrement": true,
+      "env": {
+        "EXPO_PUBLIC_API_ENDPOINT": "https://www.clip-zone.com"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

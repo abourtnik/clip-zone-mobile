@@ -6,7 +6,10 @@
     "privacy": "public",
     "sdkVersion": "51.0.0",
     "version": "0.1.0",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "githubUrl": "https://github.com/abourtnik/clip-zone-mobile",
     "orientation": "portrait",
     "backgroundColor": "#ffffff",
@@ -30,13 +33,19 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#3D556B"
-      }
+      },
+      "package": "com.abourtnik.clipzone"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-secure-store"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "aadc51ac-7aa0-4198-9d25-25ff7fab2e1e"
+      }
+    }
   }
 }
