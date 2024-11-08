@@ -136,6 +136,7 @@ export default function Account({navigation} : Props) {
             }
             <View style={styles.footer}>
                 <Text>App Version : {Constants.expoConfig?.version}</Text>
+                <Text>Url : {process.env.EXPO_PUBLIC_API_ENDPOINT}</Text>
             </View>
         </ScrollView>
     );
