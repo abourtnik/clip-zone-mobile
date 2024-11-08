@@ -27,13 +27,15 @@
     },
     "ios": {
       "supportsTablet": false,
-      "backgroundColor": "#3D556B"
+      "backgroundColor": "#3D556B",
+      "bundleIdentifier": "1"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#3D556B"
       },
+      "playStoreUrl": "https://play.google.com/store/apps/details?id=com.abourtnik.clipzone",
       "package": "com.abourtnik.clipzone"
     },
     "web": {

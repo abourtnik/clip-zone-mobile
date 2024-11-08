@@ -24,5 +24,7 @@ jobs:
             packager: npm
         - name: 📦 Install dependencies
           run: npm install
-        - name: 🚀 Build app
-          run: eas build --non-interactive --platform android --profile production
+#       - name: 🚀 Build app
+#          run: eas build --non-interactive --platform android --profile production --auto-submit
+        - name: 🚀 Create update
+          run: eas update --auto --non-interactive
