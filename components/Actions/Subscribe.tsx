@@ -5,6 +5,7 @@ import {useAccount} from "@/hooks/useAccount";
 import {subscribe} from "@/api/clipzone";
 import {TinyUserType} from "@/types";
 import {useAuthMutation} from "@/hooks/useAuthMutation";
+import {AUTH_ERROR} from "@/constants";
 
 type Props = Omit<ButtonProps, 'children'> & {
     user: TinyUserType;
@@ -24,7 +25,7 @@ export function Subscribe ({user, ...props} : Props) {
         mutationFn: () => subscribe(user.id),
         mutationKey: ['subscribe', user.id],
         onSuccess: () => setSubscribed(v => !v),
-        authError: 'Sign in to subscribe to this channel'
+        authError: AUTH_ERROR.SUBSCRIBE
     })
 
     if (isAuthenticated && account && account.id === user.id) {

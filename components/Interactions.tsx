@@ -6,6 +6,7 @@ import {useAuthMutation} from "@/hooks/useAuthMutation";
 import {interact} from "@/api/clipzone";
 import {useReducer} from "react";
 import {useAccount} from "@/hooks/useAccount";
+import {AUTH_ERROR} from "@/constants";
 
 type Props = {
     video: VideoType,
@@ -50,7 +51,7 @@ export default function Interactions ({video}: Props) {
     const {mutate} = useAuthMutation({
         mutationFn: (type: any) => interact(type, video.id),
         mutationKey: ['interaction', video.id],
-        authError: 'Sign in to make your opinion count.'
+        authError: AUTH_ERROR.INTERACT
     })
 
     const [state, dispatch] = useReducer(reducer, {

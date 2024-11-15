@@ -1,3 +1,4 @@
+import * as React from "react";
 import {Fragment, useEffect, useState} from "react";
 import {Button, ButtonProps, Portal, Modal, Text, RadioButton} from "react-native-paper";
 import {Image, StyleSheet, View,} from "react-native";
@@ -7,7 +8,7 @@ import {ReportReason, VideoType, REPORT_REASONS} from "@/types";
 import {useAuthMutation} from "@/hooks/useAuthMutation";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import moment from "moment/moment";
-import * as React from "react";
+import {AUTH_ERROR} from "@/constants";
 
 type Props = Omit<ButtonProps, 'children'> & {
     video: VideoType;
@@ -28,7 +29,7 @@ export function Report ({video, ...props} : Props) {
     const {isPending, mutateAsync, mutate} = useAuthMutation({
         mutationFn: () => report(video.id, value as ReportReason),
         mutationKey: ['report', video.id],
-        authError: 'Sign in to report inappropriate content.'
+        authError: AUTH_ERROR.REPORT
     });
 
     const handleReport = async () => {

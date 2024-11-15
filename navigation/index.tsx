@@ -11,7 +11,7 @@ import {useAccount} from "@/hooks/useAccount";
 import { Avatar } from 'react-native-paper';
 import {Platform,} from "react-native";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
-import {ToastError, ConnectionError} from "@/components/commons";
+import {AuthError, ConnectionError, MainError} from "@/components/commons";
 
 const Tab = createBottomTabNavigator();
 
@@ -96,8 +96,9 @@ export default function Navigation() {
                 }
 
             </Tab.Navigator>
-            <ToastError/>
+            <AuthError/>
             <ConnectionError/>
+            <MainError/>
         </NavigationContainer>
     );
 }

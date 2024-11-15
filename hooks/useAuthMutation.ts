@@ -1,13 +1,16 @@
 
 import {useMutation, UseMutationOptions} from "@tanstack/react-query";
 import {useErrorStore} from "@/stores/useErrorStore";
+import {useAuthStore} from "@/stores/useAuthStore";
 import {useAccount} from "@/hooks/useAccount";
+import {auth,AUTH_ERROR} from "@/constants";
 
-type Props = UseMutationOptions & { authError: string }
+type Props = UseMutationOptions & { authError: AUTH_ERROR }
 
 export function useAuthMutation(options: Props) {
 
-    const setError = useErrorStore((state) => state.setError);
+    const setMainError = useErrorStore((state) => state.setError);
+    const setAuthError = useAuthStore((state) => state.setError);
 
     const {isGuest} = useAccount();
 
@@ -15,7 +18,7 @@ export function useAuthMutation(options: Props) {
         ...options,
         mutationFn: (args) => {
             if (isGuest) {
-                setError('AUTH', options.authError)
+                setAuthError(auth[options.authError])
                 return Promise.reject()
             }
 
@@ -26,7 +29,7 @@ export function useAuthMutation(options: Props) {
             return Promise.resolve()
         },
         onError: (error) => {
-            setError('API', error.message)
+            setMainError(error.message)
         }
     });
 }
