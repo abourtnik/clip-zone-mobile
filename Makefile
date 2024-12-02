@@ -1,4 +1,4 @@
-.PHONY: help, start
+.PHONY: help, start, deploy
 .DEFAULT_GOAL=help
 
 help: ## Show help options
@@ -6,3 +6,6 @@ help: ## Show help options
 
 start: ## Start dev server
 	npx expo start
+
+deploy:
+	eas build --non-interactive --platform android --profile production --auto-submit

@@ -5,7 +5,7 @@
     "slug": "clip-zone",
     "privacy": "public",
     "sdkVersion": "51.0.0",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "platforms": [
       "ios",
       "android"
@@ -36,7 +36,9 @@
         "backgroundColor": "#3D556B"
       },
       "playStoreUrl": "https://play.google.com/store/apps/details?id=com.abourtnik.clipzone",
-      "package": "com.abourtnik.clipzone"
+      "package": "com.abourtnik.clipzone",
+      "userInterfaceStyle": "light",
+      "versionCode": 3
     },
     "web": {
       "favicon": "./assets/favicon.png"

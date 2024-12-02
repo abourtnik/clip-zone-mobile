@@ -29,12 +29,15 @@ export function Report ({video, ...props} : Props) {
     const {isPending, mutateAsync, mutate} = useAuthMutation({
         mutationFn: () => report(video.id, value as ReportReason),
         mutationKey: ['report', video.id],
-        authError: AUTH_ERROR.REPORT
+        authError: AUTH_ERROR.REPORT,
+        onSuccess: () => {
+            setReported(v => !v);
+        }
     });
 
     const handleReport = async () => {
         await mutateAsync()
-        setReported(v => !v);
+
     }
 
     if (isAuthenticated && account && account.id === video.user.id) {

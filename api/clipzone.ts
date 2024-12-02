@@ -1,6 +1,21 @@
 import {jsonFetch} from '@/functions/api'
 import * as Device from "expo-device";
-import {Account, CommentsSort, PlaylistType, UserType, UserVideosSort, VideoType, TinyVideoType, Paginator, CommentType, Search, TinyPlaylistType, TinyUserType, ReportReason} from "@/types";
+import {
+    Account,
+    CommentsSort,
+    PlaylistType,
+    UserType,
+    UserVideosSort,
+    VideoType,
+    TinyVideoType,
+    Paginator,
+    CommentType,
+    Search,
+    TinyPlaylistType,
+    TinyUserType,
+    ReportReason,
+    ResponsesPaginator
+} from "@/types";
 
 const API_URL =  process.env.EXPO_PUBLIC_API_ENDPOINT + '/api';
 const API_URL_FILE = process.env.EXPO_PUBLIC_API_ENDPOINT
@@ -49,7 +64,7 @@ export async function getComments(video_uuid: string, page: number = 1, sort?: C
     return jsonFetch(API_URL + `/videos/${video_uuid}/comments?sort=${sort}&page=`+ page);
 }
 
-export async function getReplies(video_uuid: string, comment_id: number, page: number = 1): Promise<Paginator<CommentType>> {
+export async function getCommentsReplies(video_uuid: string, comment_id: number, page: number = 1): Promise<ResponsesPaginator> {
     return jsonFetch(API_URL + `/videos/${video_uuid}/comments/${comment_id}/replies?page=`+ page);
 }
 

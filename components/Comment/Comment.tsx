@@ -61,7 +61,7 @@ export const Comment = memo(({comment} : Props) => {
                         style={{marginTop: 15}}
                         onPress={() => console.log('press')}
                     >
-                        <Text style={styles.replies}>{comment?.replies?.meta.total} replies</Text>
+                        <Text style={styles.replies}>{comment.replies_count} replies</Text>
                     </Pressable>
                 }
             </View>

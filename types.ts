@@ -160,8 +160,10 @@ export type CommentType = {
     can_report?: boolean,
     can_pin?: boolean,
     is_reply: boolean,
+    parent_id?: number,
     is_pinned?: boolean,
     has_replies?: boolean,
+    replies_count?: number,
     is_video_author_reply?: boolean,
     is_video_author_like?: boolean,
     video_author?: {
@@ -169,15 +171,7 @@ export type CommentType = {
         avatar: string
     },
     reported_at?: string,
-    replies?: {
-        data: CommentType[],
-        links: {
-            next: string | null
-        },
-        meta: {
-            total: number
-        }
-    },
+    replies?: ResponsesPaginator,
 }
 
 export type UserVideosSort = 'latest' | 'popular' | 'oldest'
@@ -199,6 +193,12 @@ export type Paginator<T> = {
         to: number,
         total: number
     }
+}
+
+export type ResponsesPaginator = {
+    data: CommentType[],
+    next_page: number | null,
+    total: number
 }
 
 export type Search = {

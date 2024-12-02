@@ -91,7 +91,7 @@ export function List({route} : Props) {
             </View>
             <View style={styles.comments}>
                 {isPaused && <NetworkError refetch={refetch}/>}
-                { isLoading && <Loader/>}
+                {isLoading && <Loader/>}
                 {isError && <ApiError refetch={refetch}/>}
                 {
                     comments &&

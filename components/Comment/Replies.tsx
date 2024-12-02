@@ -1,6 +1,6 @@
 import {ActivityIndicator, StyleSheet, View} from "react-native";
 import {useInfiniteQuery} from "@tanstack/react-query";
-import {getReplies} from "@/api/clipzone";
+import {getCommentsReplies} from "@/api/clipzone";
 import {CommentType} from "@/types";
 import {Comment} from "./Comment";
 import {ApiError, Loader, NetworkError} from "@/components/commons";
@@ -30,15 +30,10 @@ export function Replies ({route}: Props) {
     } = useInfiniteQuery({
         enabled : true,
         gcTime: 0,
-        queryKey: ['comments', comment.id, 'responses'],
-        queryFn: ({pageParam}) => getReplies(comment.video_uuid, comment.id, pageParam),
+        queryKey: ['comments', comment.id, 'replies'],
+        queryFn: ({pageParam}) => getCommentsReplies(comment.video_uuid, comment.id, pageParam),
         initialPageParam: 1,
-        getNextPageParam: (lastPage, allPages, lastPageParam) => {
-            if (lastPage.meta.current_page * lastPage.meta.per_page  > lastPage.meta.to) {
-                return undefined
-            }
-            return lastPageParam + 1
-        }
+        getNextPageParam: (lastPage) => lastPage.next_page,
     });
 
     return (
@@ -47,7 +42,7 @@ export function Replies ({route}: Props) {
                 <Comment comment={comment} />
             </View>
             {isPaused && <NetworkError refetch={refetch}/>}
-            { (isLoading || isFetching) && <Loader/>}
+            {(isLoading || isFetching) && <Loader/>}
             {isError && <ApiError refetch={refetch}/>}
             {
                 (!isFetching && responses) &&
