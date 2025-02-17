@@ -8,6 +8,7 @@ import {getSubscriptionsVideos} from "@/api/clipzone";
 import {useAccount} from "@/hooks/useAccount";
 import {ApiError, NetworkError, VideoSkeleton} from "@/components/commons";
 import {FullVideo as Video} from "@/components/Videos";
+import {useResponsive} from "@/hooks/useResponsive";
 
 type Props = {
     navigation: RouteProps
@@ -16,6 +17,8 @@ export default function Subscriptions({navigation} : Props ) {
 
     const {status} = useAuth();
     const {isAuthenticated} = useAccount();
+
+    const {numColumns, hasMultipleColumns} = useResponsive();
 
     const {
         data,
@@ -50,8 +53,14 @@ export default function Subscriptions({navigation} : Props ) {
                     {
                         data &&
                         <FlatList
+                            numColumns={numColumns}
+                            columnWrapperStyle={hasMultipleColumns ? styles.wrapper : false}
                             data={data.pages.flatMap(page => page.data)}
-                            renderItem={({item}) => <Video video={item} />}
+                            renderItem={({item}) => (
+                                <View style={{flex:1/numColumns}}>
+                                    <Video video={item} />
+                                </View>
+                            )}
                             keyExtractor={item => item.uuid}
                             ListFooterComponent={
                                 isFetching ? <ActivityIndicator color={'red'} style={{marginBottom: 10}}/> : null
@@ -65,6 +74,7 @@ export default function Subscriptions({navigation} : Props ) {
                                 <RefreshControl colors={["#9Bd35A", "#689F38"]} refreshing={isLoading} onRefresh={() => refetch()} />
                             }
                             onEndReached={(hasNextPage && !isFetching) ? () => fetchNextPage() : null}
+                            onEndReachedThreshold={2}
                         />
                     }
                 </View>
@@ -92,6 +102,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flexDirection: 'column',
         gap: 10,
+    },
+    wrapper: {
+        gap: 7,
+        margin: 10
     },
     title: {
         fontWeight: 'bold',

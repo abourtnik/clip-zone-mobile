@@ -26,7 +26,7 @@ export default function Navigation() {
     const insets = useSafeAreaInsets();
 
     return (
-        <NavigationContainer theme={theme}>
+        <NavigationContainer theme={theme} >
             <Tab.Navigator
                 safeAreaInsets={{
                     bottom: Platform.OS === "android" ? 10 : insets.bottom
@@ -34,6 +34,7 @@ export default function Navigation() {
                 initialRouteName="HomeTab"
                 screenOptions={{
                     headerShown : false,
+                    tabBarHideOnKeyboard: true,
                 }}
             >
                 <Tab.Screen
@@ -42,7 +43,7 @@ export default function Navigation() {
                     options={{
                         tabBarLabel: 'Home',
                         tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="home-outline" color={color} size={size} />
+                            <MaterialCommunityIcons name="home" color={color} size={size} />
                         ),
                     }}
                 />

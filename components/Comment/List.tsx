@@ -106,6 +106,7 @@ export function List({route} : Props) {
                         }
                         renderItem={({item}) => <Comment comment={item} />}
                         onEndReached={(hasNextPage && !isFetching) ? () => fetchNextPage() : null}
+                        onEndReachedThreshold={2}
                         ListFooterComponent={
                             isFetching ? <ActivityIndicator color={'red'} style={{marginBottom: 10}}/> : null
                         }

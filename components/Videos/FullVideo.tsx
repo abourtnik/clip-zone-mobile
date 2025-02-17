@@ -9,10 +9,13 @@ import {Thumbnail} from "./Thumbnail";
 
 type Props = {
     video: TinyVideoType,
+    height?: number
 }
-export const FullVideo = memo(({video} : Props) => {
+export const FullVideo = memo(({video, height = 230} : Props) => {
 
     const navigation = useNavigation<RouteProps>();
+
+    const thumbnailHeight = {height : height};
 
     return (
         <Pressable
@@ -22,7 +25,7 @@ export const FullVideo = memo(({video} : Props) => {
             ]}
             onPress={() => navigation.push('Video', {uuid: video.uuid})}
         >
-            <Thumbnail style={styles.thumbnail} source={{uri: video.thumbnail}}>
+            <Thumbnail style={[styles.thumbnail, thumbnailHeight]} source={{uri: video.thumbnail}}>
                 <View style={styles.time_container}>
                     <Text variant="labelSmall" style={styles.time}>{video.formated_duration}</Text>
                 </View>
@@ -49,8 +52,7 @@ const styles = StyleSheet.create({
         position: 'relative',
     },
     thumbnail : {
-        height : 230,
-        resizeMode :'cover'
+        resizeMode :'cover',
     },
     time_container: {
         position: 'absolute',

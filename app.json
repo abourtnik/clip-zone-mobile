@@ -11,7 +11,6 @@
       "android"
     ],
     "githubUrl": "https://github.com/abourtnik/clip-zone-mobile",
-    "orientation": "portrait",
     "backgroundColor": "#ffffff",
     "primaryColor": "#3D556B",
     "icon": "./assets/icon.png",
@@ -28,7 +27,8 @@
     "ios": {
       "supportsTablet": false,
       "backgroundColor": "#3D556B",
-      "bundleIdentifier": "1"
+      "bundleIdentifier": "1",
+      "requireFullScreen": true
     },
     "android": {
       "adaptiveIcon": {
@@ -38,13 +38,20 @@
       "playStoreUrl": "https://play.google.com/store/apps/details?id=com.abourtnik.clipzone",
       "package": "com.abourtnik.clipzone",
       "userInterfaceStyle": "light",
+      "softwareKeyboardLayoutMode": "pan",
       "versionCode": 3
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-secure-store"
+      "expo-secure-store",
+      [
+        "expo-screen-orientation",
+        {
+          "initialOrientation": "DEFAULT"
+        }
+      ]
     ],
     "extra": {
       "eas": {

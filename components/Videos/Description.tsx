@@ -12,8 +12,6 @@ type Props = {
     bottomSheetRef: RefObject<BottomSheet>
 }
 
-const video_height = 242;
-
 export function Description ({video, bottomSheetRef}: Props) {
 
     const navigation = useNavigation<RouteProps>();
@@ -21,7 +19,7 @@ export function Description ({video, bottomSheetRef}: Props) {
     return (
         <BottomSheet
             ref={bottomSheetRef}
-            snapPoints={[Dimensions.get('window').height - video_height]}
+            snapPoints={[Dimensions.get('window').height]}
             index={-1}
             enablePanDownToClose={true}
             backdropComponent={(props) => (
@@ -122,8 +120,7 @@ export function Description ({video, bottomSheetRef}: Props) {
 
 const styles = StyleSheet.create({
     container : {
-        flex: 1,
-        paddingBottom: 20
+        flex: 1
     },
     header: {
         justifyContent: 'space-between',

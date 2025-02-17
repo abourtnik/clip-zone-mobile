@@ -5,11 +5,14 @@ import {Alert, ApiError, Loader, NetworkError} from "@/components/commons";
 import {Playlist} from "../Playlist";
 import {UserType} from "@/types";
 import {memo} from "react";
+import {useResponsive} from "@/hooks/useResponsive";
 
 type Props = {
     user: UserType
 }
 export const PlaylistsTab = memo(({user} : Props) => {
+
+    const {numColumns, hasMultipleColumns} = useResponsive();
 
     const {
         data: playlists,
@@ -43,8 +46,14 @@ export const PlaylistsTab = memo(({user} : Props) => {
                 {
                     playlists &&
                     <FlatList
+                        numColumns={numColumns}
+                        columnWrapperStyle={hasMultipleColumns ? {gap: 7} : false}
                         data={playlists.pages.flatMap(page => page.data)}
-                        renderItem={({item}) => <Playlist playlist={item} />}
+                        renderItem={({item}) => (
+                            <View style={{flex:1/numColumns}}>
+                                <Playlist playlist={item} />
+                            </View>
+                        )}
                         keyExtractor={item => item.id.toString()}
                         ListFooterComponent={
                             isFetching ? <ActivityIndicator color={'red'} style={{marginBottom: 10}}/> : null
@@ -58,6 +67,7 @@ export const PlaylistsTab = memo(({user} : Props) => {
                             <RefreshControl colors={["#9Bd35A", "#689F38"]} refreshing={isLoading} onRefresh={() => refetch()} />
                         }
                         onEndReached={(hasNextPage && !isFetching) ? () => fetchNextPage() : null}
+                        onEndReachedThreshold={2}
                     />
                 }
             </View>

@@ -6,12 +6,15 @@ import {Alert, ApiError, Loader, NetworkError} from "@/components/commons";
 import {ListVideo as Video} from "../Videos";
 import {UserType, UserVideosSort} from "@/types";
 import {useState, Fragment, memo} from "react";
+import {useResponsive} from "@/hooks/useResponsive";
 
 type Props = {
     user: UserType
 }
 
 export const VideosTab = memo(({user} : Props) => {
+
+    const {numColumns, hasMultipleColumns} = useResponsive();
 
     const [sort, setSort] = useState<UserVideosSort>('latest');
 
@@ -85,8 +88,14 @@ export const VideosTab = memo(({user} : Props) => {
                     {
                         videos &&
                         <FlatList
+                            numColumns={numColumns}
+                            columnWrapperStyle={hasMultipleColumns ? {gap: 7} : false}
                             data={videos.pages.flatMap(page => page.data)}
-                            renderItem={({item}) => <Video video={item} />}
+                            renderItem={({item}) => (
+                                <View style={{flex:1/numColumns}}>
+                                    <Video video={item} />
+                                </View>
+                            )}
                             keyExtractor={item => item.uuid}
                             ListFooterComponent={
                                 isFetching ? <ActivityIndicator color={'red'} style={{marginBottom: 10}}/> : null
@@ -100,6 +109,7 @@ export const VideosTab = memo(({user} : Props) => {
                                 <RefreshControl colors={["#9Bd35A", "#689F38"]} refreshing={isLoading} onRefresh={() => refetch()} />
                             }
                             onEndReached={(hasNextPage && !isFetching) ? () => fetchNextPage() : null}
+                            onEndReachedThreshold={2}
                         />
                     }
                 </View>

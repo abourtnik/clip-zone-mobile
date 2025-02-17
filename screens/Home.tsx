@@ -4,8 +4,10 @@ import {useInfiniteQuery} from "@tanstack/react-query";
 import {getVideos} from '@/api/clipzone'
 import {ApiError, NetworkError, VideoSkeleton} from "@/components/commons";
 import {useThemeStore} from "@/stores/useThemeStore";
-
+import {useResponsive} from "@/hooks/useResponsive";
 export default function Home() {
+
+    const {numColumns, hasMultipleColumns} = useResponsive();
 
     const theme = useThemeStore(state => state.theme)
 
@@ -38,8 +40,14 @@ export default function Home() {
             {
                 videos &&
                 <FlatList
+                    numColumns={numColumns}
+                    columnWrapperStyle={hasMultipleColumns ? styles.wrapper : false}
                     data={videos.pages.flatMap(page => page.data)}
-                    renderItem={({item}) => <Video video={item} />}
+                    renderItem={({item}) => (
+                        <View style={{flex:1/numColumns}}>
+                            <Video video={item} />
+                        </View>
+                    )}
                     keyExtractor={item => item.uuid}
                     ListFooterComponent={
                         isFetching ? <ActivityIndicator color={'red'} style={{marginBottom: 10}}/> : null
@@ -48,6 +56,7 @@ export default function Home() {
                         <RefreshControl colors={["#9Bd35A", "#689F38"]} refreshing={isLoading} onRefresh={() => refetch()} />
                     }
                     onEndReached={(hasNextPage && !isFetching) ? () => fetchNextPage() : null}
+                    onEndReachedThreshold={2}
                 />
             }
         </View>
@@ -57,5 +66,9 @@ export default function Home() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    wrapper: {
+        gap: 7,
+        margin: 10
     }
 });

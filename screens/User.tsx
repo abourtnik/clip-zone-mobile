@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     banner : {
         marginTop: 10,
         marginHorizontal: 15,
-        height: 100,
+        height: 110,
         borderRadius: 10,
         resizeMode: 'cover',
     },

@@ -9,8 +9,6 @@ type Props = {
     bottomSheetRef: RefObject<BottomSheet>
 }
 
-const video_height = 242;
-
 export function CommentsBottomSheet ({video, bottomSheetRef}: Props) {
 
     const [open, setOpen] = useState<boolean>(false);
@@ -18,7 +16,7 @@ export function CommentsBottomSheet ({video, bottomSheetRef}: Props) {
     return (
         <BottomSheet
             ref={bottomSheetRef}
-            snapPoints={[Dimensions.get('window').height - video_height]}
+            snapPoints={[Dimensions.get('window').height]}
             index={-1}
             enablePanDownToClose={true}
             backdropComponent={(props) => (

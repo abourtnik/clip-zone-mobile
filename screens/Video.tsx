@@ -12,6 +12,7 @@ import {useNavigation} from "@react-navigation/native";
 import {RouteProps} from "@/navigation/HomeStack";
 import {Download, Report, Save, Share, Subscribe} from "@/components/Actions";
 import Interactions from "@/components/Interactions";
+import {useResponsive} from "@/hooks/useResponsive";
 
 
 type Props = {
@@ -30,6 +31,8 @@ export default function Video({ route } : Props) {
 
     const comments = useRef<BottomSheet>(null);
     const description = useRef<BottomSheet>(null);
+
+    const {numColumns, hasMultipleColumns} = useResponsive();
 
     const {
         data: video,
@@ -151,7 +154,13 @@ export default function Video({ route } : Props) {
                                     }
                                     data={video.suggested}
                                     keyExtractor={item => item.uuid}
-                                    renderItem={({item}) => <SuggestedVideo video={item} />}
+                                    renderItem={({item}) => (
+                                        <View style={{flex:1/numColumns}}>
+                                            <SuggestedVideo video={item} />
+                                        </View>
+                                    )}
+                                    numColumns={numColumns}
+                                    columnWrapperStyle={hasMultipleColumns ? styles.wrapper : false}
                                 />
                             }
                         <CommentsBottomSheet video={video} bottomSheetRef={comments}></CommentsBottomSheet>
@@ -166,6 +175,10 @@ export default function Video({ route } : Props) {
 const styles = StyleSheet.create({
     container : {
         flex: 1,
+    },
+    wrapper: {
+        gap: 7,
+        margin: 10
     },
     pressed : {
         backgroundColor : '#E8E8E8'

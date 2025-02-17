@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState} from 'react'
-import {View, StyleSheet, ActivityIndicator} from 'react-native';
+import {View, StyleSheet, ActivityIndicator, useWindowDimensions} from 'react-native';
 import {VideoType} from "@/types";
 import {ResizeMode, Video as ExpoVideo} from "expo-av";
 import {getVideoFile} from "@/api/clipzone";
@@ -20,6 +20,10 @@ export const Player = ({video} : Props) => {
 
     const autoPlay = useSettingsStore(state => state.autoPlay)
 
+    const {height} = useWindowDimensions();
+
+    const videoHeight = {height : height / 3};
+
     useEffect(() => {
         if (!loading && autoPlay) {
             ref.current?.playAsync()
@@ -38,7 +42,7 @@ export const Player = ({video} : Props) => {
             posterSource={{uri:video.thumbnail}}
             onLoad={() => setLoading(false)}
             ref={ref}
-            style={styles.player}
+            style={[styles.player, videoHeight]}
             useNativeControls={true}
             resizeMode={ResizeMode.COVER}
             source={{uri: getVideoFile(video.file)}}
@@ -46,7 +50,7 @@ export const Player = ({video} : Props) => {
         >
             {
                 loading &&
-                <View style={styles.loader}>
+                <View style={[styles.loader, videoHeight]}>
                     <ActivityIndicator/>
                 </View>
             }
@@ -57,11 +61,9 @@ export const Player = ({video} : Props) => {
 const styles = StyleSheet.create({
     player: {
         width: '100%',
-        height: 242,
     },
     loader: {
         width: '100%',
-        height: 242,
         backgroundColor: '#E6E6E6',
         justifyContent: 'center',
         alignItems: 'center'

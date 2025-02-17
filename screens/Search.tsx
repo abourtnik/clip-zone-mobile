@@ -1,10 +1,11 @@
-import {FlatList, ScrollView, StyleSheet, View} from 'react-native';
+import {FlatList, ScrollView, StyleSheet, View, Keyboard} from 'react-native';
 import {Searchbar, Text} from 'react-native-paper';
 import {search} from "@/api/clipzone";
 import {useState} from "react";
 import {SafeAreaView} from 'react-native-safe-area-context'
 import {ListVideo} from "@/components/Videos";
 import {useSearchQuery} from "@/hooks/useSearchQuery";
+import {useResponsive} from "@/hooks/useResponsive";
 
 export default function Search() {
 
@@ -15,6 +16,8 @@ export default function Search() {
         key: 'search',
         searchFn: search
     });
+
+    const {numColumns, hasMultipleColumns} = useResponsive();
 
     return (
         <SafeAreaView style={styles.container}>
@@ -31,12 +34,12 @@ export default function Search() {
                     style={{height: 40, backgroundColor: 'white'}}
                 />
             </View>
-            <ScrollView style={styles.results}>
+            <ScrollView style={styles.results} onScroll={() => Keyboard.dismiss()}>
             {
                 results &&
                     <FlatList
                         scrollEnabled={false}
-                        contentContainerStyle={{flex: 1}}
+                        contentContainerStyle={{flex: 1, paddingBottom: 20}}
                         ListEmptyComponent={
                             <View style={styles.empty}>
                                 <Text style={styles.empty_text}>No results found</Text>
@@ -44,7 +47,13 @@ export default function Search() {
                         }
                         data={results.items}
                         keyExtractor={(item, index) => index.toString()}
-                        renderItem={({item}) => <ListVideo video={item} />}
+                        renderItem={({item}) => (
+                            <View style={{flex:1/numColumns}}>
+                                <ListVideo video={item} />
+                            </View>
+                        )}
+                        numColumns={numColumns}
+                        columnWrapperStyle={hasMultipleColumns ? {gap: 7} : false}
                     />
             }
             </ScrollView>
@@ -65,12 +74,13 @@ const styles = StyleSheet.create({
     },
     results: {
         flex: 1,
-        paddingVertical: 20,
+        paddingTop: 5,
         marginBottom: -40,
         backgroundColor: 'white',
     },
     empty: {
         flex: 1,
+        marginTop: 30,
         justifyContent: 'center',
         alignItems: 'center'
     },

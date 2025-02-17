@@ -59,7 +59,7 @@ export const Comment = memo(({comment} : Props) => {
                     comment.has_replies &&
                     <Pressable
                         style={{marginTop: 15}}
-                        onPress={() => console.log('press')}
+                        onPress={() => navigation.navigate('Replies', {comment: comment})}
                     >
                         <Text style={styles.replies}>{comment.replies_count} replies</Text>
                     </Pressable>

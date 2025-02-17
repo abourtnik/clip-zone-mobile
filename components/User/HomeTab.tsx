@@ -1,9 +1,10 @@
-import {StyleSheet, View, FlatList, SectionList} from 'react-native';
+import {StyleSheet, View, FlatList, SectionList, useWindowDimensions} from 'react-native';
 import {Text} from 'react-native-paper';
 import {UserType} from "@/types";
 import {FullVideo, ListVideo} from "../Videos";
 import {Alert} from "@/components/commons";
 import {memo} from "react";
+import {useResponsive} from "@/hooks/useResponsive";
 
 type Props = {
     user: UserType,
@@ -11,12 +12,21 @@ type Props = {
 
 export const HomeTab = memo(({user} : Props) => {
 
+    const {numColumns, hasMultipleColumns} = useResponsive();
+
+    const {height} = useWindowDimensions();
+
     return (
         <View style={styles.tab}>
             <FlatList
                 ListHeaderComponent={
                     <>
-                        {user.pinned_video && <FullVideo video={user.pinned_video}></FullVideo>}
+                        {
+                            user.pinned_video &&
+                            <View style={hasMultipleColumns ? {marginHorizontal: 10} : {}}>
+                                <FullVideo video={user.pinned_video} height={height / 3}></FullVideo>
+                            </View>
+                        }
                         {
                             user.videos_count > 0 &&
                             <View style={styles.tab}>
@@ -25,8 +35,14 @@ export const HomeTab = memo(({user} : Props) => {
                         }
                     </>
                 }
+                numColumns={numColumns}
+                columnWrapperStyle={hasMultipleColumns ? {gap: 7} : false}
                 data={user.videos}
-                renderItem={({item}) => <ListVideo video={item} />}
+                renderItem={({item}) => (
+                    <View style={{flex:1/numColumns}}>
+                        <ListVideo video={item} />
+                    </View>
+                )}
                 keyExtractor={item => item.uuid}
                 ListFooterComponent={
                     <SectionList
@@ -35,7 +51,21 @@ export const HomeTab = memo(({user} : Props) => {
                             data: playlist.videos,
                         }))}
                         keyExtractor={(item, index) => item.uuid}
-                        renderItem={({item}) => <ListVideo video={item} />}
+                        renderItem={({section, index}) => {
+                            if (index !== 0) return null;
+                            return (
+                                <FlatList
+                                    numColumns={numColumns}
+                                    columnWrapperStyle={hasMultipleColumns ? {gap: 7} : false}
+                                    data={section.data}
+                                    renderItem={({item}) => (
+                                        <View style={{flex:1/numColumns}}>
+                                            <ListVideo video={item} />
+                                        </View>
+                                    )}
+                                    keyExtractor={item => item.uuid}
+                                />
+                        )}}
                         renderSectionHeader={({section: {title}}) => (
                             <Text style={styles.title} variant={'titleMedium'}>{title}</Text>
                         )}
@@ -54,11 +84,11 @@ export const HomeTab = memo(({user} : Props) => {
 const styles = StyleSheet.create({
     tab: {
         flex: 1,
-        marginTop: 10,
+        paddingVertical: 10
     },
     title : {
         paddingHorizontal: 15,
-        marginBottom : 10
+        paddingVertical: 10,
     },
     empty: {
         marginHorizontal: 15
