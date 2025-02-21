@@ -5,7 +5,6 @@ import {useNavigation} from "@react-navigation/native";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import {RouteProps} from "@/navigation/HomeStack";
 import {Thumbnail} from "@/components/Videos";
-import {useResponsive} from "@/hooks/useResponsive";
 import {useActionSheet} from "@expo/react-native-action-sheet";
 import {InfiniteData, useQueryClient} from "@tanstack/react-query";
 import {useConfirm} from "@/hooks/useConfirm";
@@ -21,8 +20,6 @@ type Props = {
 export function MyPlaylist({playlist} : Props) {
 
     const navigation = useNavigation<RouteProps>();
-
-    const {hasMultipleColumns} = useResponsive();
 
     const { showActionSheetWithOptions } = useActionSheet();
 
@@ -69,19 +66,12 @@ export function MyPlaylist({playlist} : Props) {
         <Pressable
             style={({ pressed }) => [
                 pressed && styles.pressed,
-                styles.container,
-                {flexDirection: hasMultipleColumns ? 'column' : 'row'}
+                styles.container
             ]}
             onPress={() => navigation.navigate('Playlist', {uuid: playlist.uuid})}
             onLongPress={() => showActions()}
         >
-            <Thumbnail
-                style={[
-                    styles.thumbnail,
-                    {height: hasMultipleColumns ? 230 : 80},
-                ]}
-                url={playlist.thumbnail}
-            >
+            <Thumbnail style={styles.thumbnail} url={playlist.thumbnail}>
                 <View style={styles.count_container}>
                     <MaterialCommunityIcons name="format-list-bulleted" color={'white'} size={12} />
                     <Text variant="labelSmall" style={styles.count}>{playlist.videos_count}</Text>
@@ -106,12 +96,14 @@ export function MyPlaylist({playlist} : Props) {
 
 const styles = StyleSheet.create({
     container : {
+        flexDirection: 'row',
         gap: 10,
-        paddingVertical: 5,
+        paddingVertical: 7,
         paddingHorizontal: 10,
     },
     thumbnail : {
-        flex: 3,
+        height: 94,
+        width: 168,
         borderRadius: 10,
         overflow: 'hidden',
         resizeMode: 'stretch'

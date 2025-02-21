@@ -1,18 +1,11 @@
 import * as React from 'react';
 import {ActivityIndicator, FlatList, RefreshControl, StyleSheet, View,} from "react-native";
-import {RouteProps} from "@/navigation/SubscriptionStack";
 import {useCursorQuery} from "@/hooks/useCursorQuery";
 import {getMyPlaylists} from "@/api/clipzone";
 import {Alert, ApiError, Loader, NetworkError} from "@/components/commons";
-import {useResponsive} from "@/hooks/useResponsive";
 import {MyPlaylist} from "@/components/Playlists";
 
-type Props = {
-    navigation: RouteProps
-}
-export default function Playlists({navigation} : Props ) {
-
-    const {numColumns, hasMultipleColumns} = useResponsive();
+export default function Playlists() {
 
     const {
         data: playlists,
@@ -36,14 +29,9 @@ export default function Playlists({navigation} : Props ) {
             {
                 playlists &&
                 <FlatList
-                    key={numColumns}
-                    numColumns={numColumns}
-                    columnWrapperStyle={hasMultipleColumns ? {gap: 7} : false}
                     data={playlists.pages.flatMap(page => page.data)}
                     renderItem={({item}) => (
-                        <View style={{flex:1/numColumns}}>
-                            <MyPlaylist playlist={item} />
-                        </View>
+                        <MyPlaylist playlist={item} />
                     )}
                     keyExtractor={item => item.uuid}
                     ListFooterComponent={

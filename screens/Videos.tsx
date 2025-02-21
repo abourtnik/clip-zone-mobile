@@ -1,18 +1,11 @@
 import * as React from 'react';
 import {ActivityIndicator, FlatList, RefreshControl, StyleSheet, View,} from "react-native";
-import {RouteProps} from "@/navigation/SubscriptionStack";
 import {useCursorQuery} from "@/hooks/useCursorQuery";
 import {getMyVideos} from "@/api/clipzone";
 import {Alert, ApiError, Loader, NetworkError} from "@/components/commons";
 import {MyVideo as Video} from "@/components/Videos";
-import {useResponsive} from "@/hooks/useResponsive";
 
-type Props = {
-    navigation: RouteProps
-}
-export default function Videos({navigation} : Props ) {
-
-    const {numColumns, hasMultipleColumns} = useResponsive();
+export default function Videos() {
 
     const {
         data: videos,
@@ -36,14 +29,9 @@ export default function Videos({navigation} : Props ) {
             {
                 videos &&
                 <FlatList
-                    key={numColumns}
-                    numColumns={numColumns}
-                    columnWrapperStyle={hasMultipleColumns ? {gap: 7} : false}
                     data={videos.pages.flatMap(page => page.data)}
                     renderItem={({item}) => (
-                        <View style={{flex:1/numColumns}}>
-                            <Video video={item} />
-                        </View>
+                        <Video video={item} />
                     )}
                     keyExtractor={item => item.uuid}
                     ListFooterComponent={

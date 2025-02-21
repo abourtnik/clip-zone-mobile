@@ -2,7 +2,7 @@ import {View, StyleSheet, ScrollView, FlatList, Image, RefreshControl, Share} fr
 import {Avatar, Button, Text, IconButton} from 'react-native-paper';
 import {useQuery} from "@tanstack/react-query";
 import {getPlaylist} from "@/api/clipzone";
-import {ApiError, Loader, NetworkError} from "@/components/commons";
+import {Alert, ApiError, Loader, NetworkError} from "@/components/commons";
 import {ListVideo as Video} from "../components/Videos";
 import {useResponsive} from "@/hooks/useResponsive";
 import {LinearGradient} from "expo-linear-gradient";
@@ -92,6 +92,11 @@ export default function Playlist({ route } : Props) {
                                 refreshControl={
                                     <RefreshControl colors={["#9Bd35A", "#689F38"]} refreshing={isLoading} onRefresh={() => refetch()} />
                                 }
+                                ListEmptyComponent={
+                                    <View style={styles.empty}>
+                                        <Alert message={'This playlist does not contain any videos at the moment.'} />
+                                    </View>
+                                }
                             />
                         </View>
                     </ScrollView>
@@ -147,5 +152,8 @@ const styles = StyleSheet.create({
     },
     videos : {
         marginVertical: 10
+    },
+    empty: {
+        marginHorizontal: 15
     },
 });

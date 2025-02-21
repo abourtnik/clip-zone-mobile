@@ -6,7 +6,6 @@ import moment from "moment";
 import {CursorPaginator, MyVideoType} from "@/types";
 import {RouteProps} from "@/navigation/HomeStack";
 import {Thumbnail} from "./Thumbnail";
-import {useResponsive} from "@/hooks/useResponsive";
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import {deleteVideo} from "@/api/clipzone";
 import {useAuthMutation} from "@/hooks/useAuthMutation";
@@ -23,8 +22,6 @@ type Props = {
 export const MyVideo = memo(({video} : Props) => {
 
     const navigation = useNavigation<RouteProps>();
-
-    const {hasMultipleColumns} = useResponsive();
 
     const { showActionSheetWithOptions } = useActionSheet();
 
@@ -71,19 +68,12 @@ export const MyVideo = memo(({video} : Props) => {
         <Pressable
             style={({ pressed }) => [
                 pressed && styles.pressed,
-                styles.container,
-                {flexDirection: hasMultipleColumns ? 'column' : 'row'}
+                styles.container
             ]}
             onPress={() => navigation.navigate('Video', {uuid: video.uuid})}
             onLongPress={() => showActions()}
         >
-            <Thumbnail
-                style={[
-                    styles.thumbnail,
-                    {height: hasMultipleColumns ? 230 : 80},
-                ]}
-                url={video.thumbnail}
-            >
+            <Thumbnail style={styles.thumbnail} url={video.thumbnail}>
                 <View style={styles.time_container}>
                     <Text variant="labelSmall" style={styles.time}>{video.formated_duration}</Text>
                 </View>
@@ -124,12 +114,14 @@ export const MyVideo = memo(({video} : Props) => {
 
 const styles = StyleSheet.create({
     container : {
+        flexDirection: 'row',
         gap: 10,
-        paddingVertical: 5,
+        paddingVertical: 7,
         paddingHorizontal: 10,
     },
     thumbnail : {
-        flex: 3,
+        height: 94,
+        width: 168,
         borderRadius: 10,
         overflow: 'hidden',
         resizeMode: 'stretch'
