@@ -51,7 +51,7 @@ export const HomeTab = memo(({user} : Props) => {
                             title: playlist.title,
                             data: playlist.videos,
                         }))}
-                        keyExtractor={(item, index) => item.uuid}
+                        keyExtractor={(_, index) => index.toString()}
                         renderItem={({section, index}) => {
                             if (index !== 0) return null;
                             return (
@@ -64,7 +64,7 @@ export const HomeTab = memo(({user} : Props) => {
                                             <ListVideo video={item} />
                                         </View>
                                     )}
-                                    keyExtractor={item => item.uuid}
+                                    keyExtractor={(_, index) => index.toString()}
                                 />
                         )}}
                         renderSectionHeader={({section: {title}}) => (

@@ -51,6 +51,7 @@ export const MyVideo = memo(({video} : Props) => {
         showActionSheetWithOptions({
             options : ['Share', 'Delete', 'Cancel'],
             cancelButtonIndex : 2,
+            disabledButtonIndices: video.is_public ? [] : [0],
         }, actionPress)
     }
 
@@ -91,7 +92,7 @@ export const MyVideo = memo(({video} : Props) => {
                 <Text numberOfLines={2} style={styles.title}>{video.title}</Text>
                 <Text variant={'labelSmall'} style={styles.info}>{video.views} views • {moment(video.date).fromNow()}</Text>
                 <View style={{flexDirection: 'row', gap: 15, marginTop: 10, alignItems: 'center'}}>
-                    <MaterialCommunityIcons name={STATUS_ICON[video.status]} size={15} color={'black'} />
+                    <MaterialCommunityIcons name={STATUS_ICON[video.status] as any} size={15} color={'black'} />
                     {
                         video.status !== VIDEO_STATUS.DRAFT &&
                         <>
@@ -112,7 +113,6 @@ export const MyVideo = memo(({video} : Props) => {
                 </View>
             </View>
             <IconButton
-                //style={{flex: 1}}
                 icon="dots-vertical"
                 iconColor={'black'}
                 size={20}

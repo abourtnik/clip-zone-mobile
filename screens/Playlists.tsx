@@ -68,7 +68,7 @@ export default function Playlists({navigation} : Props ) {
 const styles = StyleSheet.create({
     videos: {
         flex: 1,
-        marginTop: 10,
+        paddingBottom: 5,
     },
     empty: {
         height: 37,

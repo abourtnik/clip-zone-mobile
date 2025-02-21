@@ -1,3 +1,6 @@
+import {STATUS as VIDEO_STATUS} from "@/constants/videos";
+import {STATUS as PLAYLIST_STATUS} from "@/constants/playlists";
+
 export type Account = {
     id: number,
     username: string,
@@ -32,6 +35,7 @@ export type VideoType = {
     user: TinyUserType,
     comments: number
     publication_date: Date
+    status: VIDEO_STATUS
     first_comment?: {
         content: string,
         user_avatar: string
@@ -63,7 +67,8 @@ export type MyVideoType = {
     formated_duration: string,
     views: number,
     date: string,
-    status: number,
+    is_public: boolean,
+    status: VIDEO_STATUS,
     like_count: number
     comments_count: number
 }
@@ -134,6 +139,8 @@ export type PlaylistType = {
     thumbnail?: string,
     description: string,
     icon: string,
+    route: string,
+    is_active: boolean
     videos_count?: number
     user: TinyUserType,
     videos: TinyVideoType[]
@@ -144,8 +151,10 @@ export type TinyPlaylistType = {
     uuid: string,
     title: string,
     thumbnail?: string,
+    route: string,
+    is_active: boolean
     icon: string,
-    status: string,
+    status: PLAYLIST_STATUS,
     has_video?: boolean,
     videos_count?: number
 }

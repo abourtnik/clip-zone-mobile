@@ -5,7 +5,7 @@ import {useQuery} from "@tanstack/react-query";
 import {getSource} from "@/functions/image";
 
 type Props = PropsWithChildren<ImageBackgroundProps> & {
-    url: string;
+    url?: string;
 }
 export function Thumbnail ({children, url, ...props} : Props) {
 
@@ -15,7 +15,8 @@ export function Thumbnail ({children, url, ...props} : Props) {
 
     const {data: source} = useQuery({
         queryKey: ['video.thumbnail', url],
-        queryFn: () => getSource(url)
+        queryFn: () => getSource(url),
+        enabled: !!url
     });
 
     return (

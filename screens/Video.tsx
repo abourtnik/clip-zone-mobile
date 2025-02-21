@@ -13,6 +13,8 @@ import {RouteProps} from "@/navigation/HomeStack";
 import {Download, Report, Save, Share, Subscribe} from "@/components/Actions";
 import Interactions from "@/components/Interactions";
 import {useResponsive} from "@/hooks/useResponsive";
+import {STATUS_ICON, STATUS as VIDEO_STATUS} from "@/constants/videos";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 
 type Props = {
@@ -71,6 +73,7 @@ export default function Video({ route } : Props) {
                                                 <Text style={styles.title} variant="titleMedium">{video.title}</Text>
                                                 <View style={styles.infos}>
                                                     <Text style={styles.info} variant={"bodySmall"}>{video.views} views {moment(video.publication_date).fromNow()}</Text>
+                                                    {video.status !== VIDEO_STATUS.PUBLIC && <MaterialCommunityIcons name={STATUS_ICON[video.status] as any} size={15} color={'black'} />}
                                                     <Text>...more</Text>
                                                 </View>
                                             </Pressable>

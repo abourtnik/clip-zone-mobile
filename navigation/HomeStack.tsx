@@ -1,25 +1,11 @@
 import type {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import Home from "../screens/Home";
-import Video from "../screens/Video";
-import User from "../screens/User";
-import Login from "../screens/Login";
-import Playlist from "../screens/Playlist";
+import {videoScreens, VideoStackParamList} from "./VideoStack";
+import Home from "@/screens/Home";
 
 type StackParamList = {
     Home: undefined;
-    Video: {
-        uuid: string
-    };
-    Login: undefined;
-    User: {
-        id: number
-        username: string
-    };
-    Playlist: {
-        uuid: string
-    };
-};
+} & VideoStackParamList;
 
 export type RouteProps = NativeStackNavigationProp<StackParamList>;
 
@@ -29,34 +15,7 @@ export default function HomeStack () {
     return (
         <Stack.Navigator id="HOME">
             <Stack.Screen name="Home" component={Home}/>
-            <Stack.Screen
-                name="Video"
-                component={Video}
-                options={(props) => ({
-                    headerBackTitleVisible: false,
-                    title: ''
-                })}
-            />
-            <Stack.Screen
-                name="User"
-                component={User}
-                options={(props) => ({
-                    headerBackTitleVisible : false,
-                    title: props.route.params.username
-                })}
-            />
-            <Stack.Screen
-                name="Playlist"
-                component={Playlist}
-                options={(props) => ({
-                    headerBackTitleVisible: false,
-                    title: ''
-                })}
-            />
-            <Stack.Screen
-                name="Login"
-                component={Login}
-            />
+            {videoScreens(Stack)}
         </Stack.Navigator>
     );
 }

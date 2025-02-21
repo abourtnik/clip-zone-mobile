@@ -1,10 +1,11 @@
-import {View, StyleSheet, ScrollView, FlatList, Image, RefreshControl} from 'react-native';
+import {View, StyleSheet, ScrollView, FlatList, Image, RefreshControl, Share} from 'react-native';
 import {Avatar, Button, Text, IconButton} from 'react-native-paper';
 import {useQuery} from "@tanstack/react-query";
 import {getPlaylist} from "@/api/clipzone";
 import {ApiError, Loader, NetworkError} from "@/components/commons";
 import {ListVideo as Video} from "../components/Videos";
 import {useResponsive} from "@/hooks/useResponsive";
+import {LinearGradient} from "expo-linear-gradient";
 
 type Props = {
     route: {
@@ -31,6 +32,11 @@ export default function Playlist({ route } : Props) {
         queryFn: () => getPlaylist(uuid)
     });
 
+    const share = () => {
+        if (!playlist) return
+        Share.share({title: playlist.title, message: playlist.route})
+    }
+
     return (
         <>
             {isPaused && <NetworkError refetch={refetch}/>}
@@ -39,7 +45,7 @@ export default function Playlist({ route } : Props) {
             {
                 playlist &&
                     <ScrollView style={styles.container}>
-                        <View style={styles.infos}>
+                        <LinearGradient style={styles.infos} colors={['#4c669f', '#3b5998', '#192f6a']}>
                             <Image resizeMode={'cover'} style={styles.thumbnail} source={{uri: playlist.thumbnail}}/>
                             <Text style={styles.title} variant="titleLarge">{playlist.title}</Text>
                             <View style={styles.user}>
@@ -57,15 +63,19 @@ export default function Playlist({ route } : Props) {
                                     mode={'contained'}
                                     containerColor={'#536790'}
                                 />
-                                <IconButton
-                                    icon="share"
-                                    iconColor={'white'}
-                                    size={20}
-                                    mode={'contained'}
-                                    containerColor={'#536790'}
-                                />
+                                {
+                                    playlist.is_active &&
+                                    <IconButton
+                                        icon="share"
+                                        iconColor={'white'}
+                                        size={20}
+                                        mode={'contained'}
+                                        containerColor={'#536790'}
+                                        onPress={share}
+                                    />
+                                }
                             </View>
-                        </View>
+                        </LinearGradient>
                         <View style={styles.videos}>
                             <FlatList
                                 key={numColumns}
@@ -78,7 +88,7 @@ export default function Playlist({ route } : Props) {
                                         <Video video={item} />
                                     </View>
                                 )}
-                                keyExtractor={item => item.id.toString()}
+                                keyExtractor={(_, index) => index.toString()}
                                 refreshControl={
                                     <RefreshControl colors={["#9Bd35A", "#689F38"]} refreshing={isLoading} onRefresh={() => refetch()} />
                                 }
@@ -136,6 +146,6 @@ const styles = StyleSheet.create({
         fontSize: 13
     },
     videos : {
-        marginTop: 10
+        marginVertical: 10
     },
 });

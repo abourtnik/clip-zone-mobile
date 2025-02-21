@@ -49,6 +49,7 @@ export function MyPlaylist({playlist} : Props) {
         showActionSheetWithOptions({
             options : ['Share', 'Delete', 'Cancel'],
             cancelButtonIndex : 2,
+            disabledButtonIndices: playlist.is_active ? [] : [0],
         }, actionPress)
     }
 
@@ -87,10 +88,10 @@ export function MyPlaylist({playlist} : Props) {
                 </View>
             </Thumbnail>
             <View style={styles.infos}>
-                <Text style={styles.title}>{playlist.title}</Text>
+                <Text numberOfLines={2} style={styles.title}>{playlist.title}</Text>
                 <Text variant={'labelMedium'} style={styles.info}>{playlist.videos_count} videos</Text>
                 <View style={{flexDirection: 'row', gap: 15, marginTop: 10, alignItems: 'center'}}>
-                    <Text variant="labelMedium" style={{color: 'white'}}>{playlist.status}</Text>
+                    <Text variant="labelSmall">{playlist.status}</Text>
                 </View>
             </View>
             <IconButton
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
     },
     thumbnail : {
-        flex: 2,
+        flex: 3,
         borderRadius: 10,
         overflow: 'hidden',
         resizeMode: 'stretch'
