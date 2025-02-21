@@ -1,7 +1,7 @@
 import {useEffect, useRef, useState} from 'react'
 import {View, StyleSheet, ActivityIndicator, useWindowDimensions} from 'react-native';
 import {VideoType} from "@/types";
-import {ResizeMode, Video as ExpoVideo} from "expo-av";
+import {AVPlaybackSource, ResizeMode, Video as ExpoVideo} from "expo-av";
 import {getVideoFile} from "@/api/clipzone";
 import {useSettingsStore} from "@/stores/useSettingsStore";
 import {useNavigation} from "@react-navigation/native";
@@ -52,7 +52,7 @@ export const Player = ({video} : Props) => {
             style={[styles.player, videoHeight]}
             useNativeControls={true}
             resizeMode={ResizeMode.COVER}
-            source={source}
+            source={source as AVPlaybackSource}
             volume={0.5}
         >
             {

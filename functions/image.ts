@@ -12,7 +12,7 @@ export async function getSource(url?: string) : Promise<ImageSource> {
     const token = await getToken();
 
     return {
-        ...(url && {uri:  url}),
+        uri: url,
         ...(token && {headers:  {'Authorization': 'Bearer ' + token}})
     }
 }

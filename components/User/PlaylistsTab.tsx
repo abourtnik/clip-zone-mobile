@@ -39,39 +39,37 @@ export const PlaylistsTab = memo(({user} : Props) => {
 
     return (
         <View style={styles.tab}>
-            <View style={styles.playlists}>
-                {isPaused && <NetworkError refetch={refetch}/>}
-                {isLoading && <Loader/>}
-                {isError && <ApiError refetch={refetch}/>}
-                {
-                    playlists &&
-                    <FlatList
-                        key={numColumns}
-                        numColumns={numColumns}
-                        columnWrapperStyle={hasMultipleColumns ? {gap: 7} : false}
-                        data={playlists.pages.flatMap(page => page.data)}
-                        renderItem={({item}) => (
-                            <View style={{flex:1/numColumns}}>
-                                <ListPlaylist playlist={item} />
-                            </View>
-                        )}
-                        keyExtractor={item => item.id.toString()}
-                        ListFooterComponent={
-                            isFetching ? <ActivityIndicator color={'red'} style={{marginBottom: 10}}/> : null
-                        }
-                        ListEmptyComponent={
-                            <View style={styles.empty}>
-                                <Alert message={'This user has no playlists'} />
-                            </View>
-                        }
-                        refreshControl={
-                            <RefreshControl colors={["#9Bd35A", "#689F38"]} refreshing={isLoading} onRefresh={() => refetch()} />
-                        }
-                        onEndReached={(hasNextPage && !isFetching) ? () => fetchNextPage() : null}
-                        onEndReachedThreshold={2}
-                    />
-                }
-            </View>
+            {isPaused && <NetworkError refetch={refetch}/>}
+            {isLoading && <Loader/>}
+            {isError && <ApiError refetch={refetch}/>}
+            {
+                playlists &&
+                <FlatList
+                    key={numColumns}
+                    numColumns={numColumns}
+                    columnWrapperStyle={hasMultipleColumns ? {gap: 10} : false}
+                    data={playlists.pages.flatMap(page => page.data)}
+                    renderItem={({item}) => (
+                        <View style={{flex:1/numColumns}}>
+                            <ListPlaylist playlist={item} />
+                        </View>
+                    )}
+                    keyExtractor={item => item.id.toString()}
+                    ListFooterComponent={
+                        isFetching ? <ActivityIndicator color={'red'} style={{marginBottom: 10}}/> : null
+                    }
+                    ListEmptyComponent={
+                        <View style={styles.empty}>
+                            <Alert message={'This user has no playlists'} />
+                        </View>
+                    }
+                    refreshControl={
+                        <RefreshControl colors={["#9Bd35A", "#689F38"]} refreshing={isLoading} onRefresh={() => refetch()} />
+                    }
+                    onEndReached={(hasNextPage && !isFetching) ? () => fetchNextPage() : null}
+                    onEndReachedThreshold={2}
+                />
+            }
         </View>
     )
 });
@@ -80,9 +78,7 @@ const styles = StyleSheet.create({
     tab: {
         flex: 1,
         marginTop: 10,
-    },
-    playlists: {
-        flex: 1
+        marginHorizontal: 10
     },
     empty: {
         marginHorizontal: 15

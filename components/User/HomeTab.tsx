@@ -23,7 +23,7 @@ export const HomeTab = memo(({user} : Props) => {
                     <>
                         {
                             user.pinned_video &&
-                            <View style={hasMultipleColumns ? {marginHorizontal: 10} : {}}>
+                            <View>
                                 <FullVideo video={user.pinned_video} height={height / 3}></FullVideo>
                             </View>
                         }
@@ -37,7 +37,7 @@ export const HomeTab = memo(({user} : Props) => {
                 }
                 key={numColumns}
                 numColumns={numColumns}
-                columnWrapperStyle={hasMultipleColumns ? {gap: 7} : false}
+                columnWrapperStyle={hasMultipleColumns ? {gap: 10} : false}
                 data={user.videos}
                 renderItem={({item}) => (
                     <View style={{flex:1/numColumns}}>
@@ -57,7 +57,7 @@ export const HomeTab = memo(({user} : Props) => {
                             return (
                                 <FlatList
                                     numColumns={numColumns}
-                                    columnWrapperStyle={hasMultipleColumns ? {gap: 7} : false}
+                                    columnWrapperStyle={hasMultipleColumns ? {gap: 10} : false}
                                     data={section.data}
                                     renderItem={({item}) => (
                                         <View style={{flex:1/numColumns}}>
@@ -85,10 +85,9 @@ export const HomeTab = memo(({user} : Props) => {
 const styles = StyleSheet.create({
     tab: {
         flex: 1,
-        marginTop: 10
+        margin: 10
     },
     title : {
-        paddingHorizontal: 15,
         paddingVertical: 10,
     },
     empty: {

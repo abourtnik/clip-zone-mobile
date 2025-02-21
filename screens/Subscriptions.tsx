@@ -48,7 +48,20 @@ export default function Subscriptions({navigation} : Props ) {
                 status === AuthStatus.Authenticated &&
                 <View style={styles.container_auth}>
                     {isPaused && <NetworkError refetch={refetch}/>}
-                    {isLoading && [ ...Array(3).keys()].map(i => <VideoSkeleton key={i}/>)}
+                    {isLoading &&
+                        <FlatList
+                            key={numColumns}
+                            numColumns={numColumns}
+                            columnWrapperStyle={hasMultipleColumns ? styles.wrapper : false}
+                            data={[ ...Array(numColumns * 4).keys()]}
+                            renderItem={({item}) => (
+                                <View style={{flex:1/numColumns}}>
+                                    <VideoSkeleton/>
+                                </View>
+                            )}
+                            keyExtractor={((item, index) => index.toString())}
+                        />
+                    }
                     {isError && <ApiError refetch={refetch}/>}
                     {
                         data &&
@@ -105,7 +118,7 @@ const styles = StyleSheet.create({
         gap: 10,
     },
     wrapper: {
-        gap: 7,
+        gap: 10,
         margin: 10
     },
     title: {

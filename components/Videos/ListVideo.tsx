@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
     container : {
         gap: 10,
         paddingVertical: 5,
-        paddingHorizontal: 10,
     },
     thumbnail : {
         flex: 2,
@@ -77,7 +76,7 @@ const styles = StyleSheet.create({
         gap: 10
     },
     title : {
-
+        marginBottom: 2
     },
     infos : {
         flex: 3

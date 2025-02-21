@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     wrapper: {
-        gap: 7,
+        gap: 10,
         margin: 10
     },
     pressed : {

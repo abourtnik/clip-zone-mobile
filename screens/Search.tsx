@@ -39,7 +39,7 @@ export default function Search() {
                 results &&
                     <FlatList
                         scrollEnabled={false}
-                        contentContainerStyle={{flex: 1, paddingBottom: 20}}
+                        contentContainerStyle={{margin: 10}}
                         ListEmptyComponent={
                             <View style={styles.empty}>
                                 <Text style={styles.empty_text}>No results found</Text>
@@ -75,7 +75,6 @@ const styles = StyleSheet.create({
     },
     results: {
         flex: 1,
-        paddingTop: 5,
         backgroundColor: 'white',
         ...Platform.select({
             ios: {

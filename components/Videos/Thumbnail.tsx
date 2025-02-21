@@ -27,7 +27,7 @@ export function Thumbnail ({children, url, ...props} : Props) {
             {...props}
         >
             {children}
-            {loading && <View style={styles.loader}></View>}
+            {loading && <View style={[styles.loader, hasMultipleColumns ? {borderRadius: 10} : {}]}></View>}
         </ImageBackground>
     );
 }

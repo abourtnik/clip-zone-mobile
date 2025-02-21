@@ -90,7 +90,7 @@ export const VideosTab = memo(({user} : Props) => {
                         <FlatList
                             key={numColumns}
                             numColumns={numColumns}
-                            columnWrapperStyle={hasMultipleColumns ? {gap: 7} : false}
+                            columnWrapperStyle={hasMultipleColumns ? {gap: 10} : false}
                             data={videos.pages.flatMap(page => page.data)}
                             renderItem={({item}) => (
                                 <View style={{flex:1/numColumns}}>
@@ -137,6 +137,7 @@ const styles = StyleSheet.create({
     videos: {
         flex: 1,
         marginTop: 10,
+        marginHorizontal: 10
     },
     empty: {
         height: 37,

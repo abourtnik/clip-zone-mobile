@@ -35,7 +35,20 @@ export default function Home() {
     return (
         <View style={styles.container}>
             {isPaused && <NetworkError refetch={refetch}/>}
-            {isLoading && [ ...Array(3).keys()].map(i => <VideoSkeleton key={i}/>)}
+            {isLoading &&
+                <FlatList
+                    key={numColumns}
+                    numColumns={numColumns}
+                    columnWrapperStyle={hasMultipleColumns ? styles.wrapper : false}
+                    data={[ ...Array(numColumns * 4).keys()]}
+                    renderItem={() => (
+                        <View style={{flex:1/numColumns}}>
+                            <VideoSkeleton/>
+                        </View>
+                    )}
+                    keyExtractor={((_, index) => index.toString())}
+                />
+            }
             {isError && <ApiError refetch={refetch}/>}
             {
                 videos &&
@@ -69,7 +82,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     wrapper: {
-        gap: 7,
+        gap: 10,
         margin: 10
     }
 });
