@@ -4,6 +4,7 @@ import {useQuery} from "@tanstack/react-query";
 import {getPlaylist} from "@/api/clipzone";
 import {ApiError, Loader, NetworkError} from "@/components/commons";
 import {ListVideo as Video} from "../components/Videos";
+import {useResponsive} from "@/hooks/useResponsive";
 
 type Props = {
     route: {
@@ -16,6 +17,8 @@ type Props = {
 export default function Playlist({ route } : Props) {
 
     const { uuid } = route.params;
+
+    const {numColumns, hasMultipleColumns} = useResponsive();
 
     const {
         data: playlist,
@@ -65,9 +68,16 @@ export default function Playlist({ route } : Props) {
                         </View>
                         <View style={styles.videos}>
                             <FlatList
+                                key={numColumns}
+                                numColumns={numColumns}
+                                columnWrapperStyle={hasMultipleColumns ? {gap: 7} : false}
                                 scrollEnabled={false}
                                 data={playlist.videos}
-                                renderItem={({item}) => <Video video={item} />}
+                                renderItem={({item}) => (
+                                    <View style={{flex:1/numColumns}}>
+                                        <Video video={item} />
+                                    </View>
+                                )}
                                 keyExtractor={item => item.id.toString()}
                                 refreshControl={
                                     <RefreshControl colors={["#9Bd35A", "#689F38"]} refreshing={isLoading} onRefresh={() => refetch()} />
@@ -87,7 +97,7 @@ const styles = StyleSheet.create({
     infos : {
         paddingHorizontal: 20,
         paddingVertical: 15,
-        backgroundColor: '#1E3A72',
+        backgroundColor: '#6C747E',
     },
     thumbnail : {
         height: 200,

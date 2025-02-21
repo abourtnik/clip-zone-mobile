@@ -11,6 +11,6 @@ export function useCursorQuery<TData = unknown> ({key, fetchFn} : Options<TData>
         queryKey: key,
         queryFn: fetchFn,
         initialPageParam: null,
-        getNextPageParam: (lastPage) => lastPage.meta.next_cursor ?? undefined,
+        getNextPageParam: (lastPage) => lastPage.meta.next_cursor,
     });
 }

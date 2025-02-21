@@ -1,15 +1,18 @@
-import {View, StyleSheet, FlatList, RefreshControl, ActivityIndicator} from 'react-native';
-import {FullVideo as Video} from "../components/Videos";
-import {useInfiniteQuery} from "@tanstack/react-query";
-import {getVideos} from '@/api/clipzone'
-import {ApiError, NetworkError, VideoSkeleton} from "@/components/commons";
-import {useThemeStore} from "@/stores/useThemeStore";
+import * as React from 'react';
+import {ActivityIndicator, FlatList, RefreshControl, StyleSheet, View,} from "react-native";
+import {RouteProps} from "@/navigation/SubscriptionStack";
+import {useCursorQuery} from "@/hooks/useCursorQuery";
+import {getMyVideos} from "@/api/clipzone";
+import {Alert, ApiError, Loader, NetworkError} from "@/components/commons";
+import {MyVideo as Video} from "@/components/Videos";
 import {useResponsive} from "@/hooks/useResponsive";
-export default function Home() {
+
+type Props = {
+    navigation: RouteProps
+}
+export default function Videos({navigation} : Props ) {
 
     const {numColumns, hasMultipleColumns} = useResponsive();
-
-    const theme = useThemeStore(state => state.theme)
 
     const {
         data: videos,
@@ -19,30 +22,23 @@ export default function Home() {
         refetch,
         fetchNextPage,
         hasNextPage,
-        isPaused
-    } = useInfiniteQuery({
-        queryKey: ['videos'],
-        queryFn: ({pageParam}) => getVideos(pageParam),
-        initialPageParam: 1,
-        getNextPageParam: (lastPage, allPages, lastPageParam) => {
-            if (lastPage.meta.current_page === lastPage.meta.last_page) {
-                return undefined
-            }
-            return lastPageParam + 1
-        }
+        isPaused,
+    } = useCursorQuery({
+        key: ['user-videos'],
+        fetchFn: ({pageParam}) => getMyVideos(pageParam),
     });
 
     return (
-        <View style={styles.container}>
+        <View style={styles.videos}>
             {isPaused && <NetworkError refetch={refetch}/>}
-            {isLoading && [ ...Array(3).keys()].map(i => <VideoSkeleton key={i}/>)}
+            {isLoading && <Loader/>}
             {isError && <ApiError refetch={refetch}/>}
             {
                 videos &&
                 <FlatList
                     key={numColumns}
                     numColumns={numColumns}
-                    columnWrapperStyle={hasMultipleColumns ? styles.wrapper : false}
+                    columnWrapperStyle={hasMultipleColumns ? {gap: 7} : false}
                     data={videos.pages.flatMap(page => page.data)}
                     renderItem={({item}) => (
                         <View style={{flex:1/numColumns}}>
@@ -53,23 +49,29 @@ export default function Home() {
                     ListFooterComponent={
                         isFetching ? <ActivityIndicator color={'red'} style={{marginBottom: 10}}/> : null
                     }
+                    ListEmptyComponent={
+                        <View style={styles.empty}>
+                            <Alert message={'This user has no videos'} />
+                        </View>
+                    }
                     refreshControl={
                         <RefreshControl colors={["#9Bd35A", "#689F38"]} refreshing={isLoading} onRefresh={() => refetch()} />
                     }
                     onEndReached={(hasNextPage && !isFetching) ? () => fetchNextPage() : null}
-                    onEndReachedThreshold={2}
+                    onEndReachedThreshold={0.5}
                 />
             }
         </View>
-    );
+    )
 }
 
 const styles = StyleSheet.create({
-    container: {
+    videos: {
         flex: 1,
+        paddingBottom: 5,
     },
-    wrapper: {
-        gap: 7,
-        margin: 10
-    }
+    empty: {
+        height: 37,
+        marginHorizontal: 15
+    },
 });

@@ -5,7 +5,7 @@ import {useAuthStore} from "@/stores/useAuthStore";
 import {useAccount} from "@/hooks/useAccount";
 import {auth,AUTH_ERROR} from "@/constants";
 
-type Props = UseMutationOptions & { authError: AUTH_ERROR }
+type Props = UseMutationOptions & { authError?: AUTH_ERROR }
 
 export function useAuthMutation(options: Props) {
 
@@ -18,7 +18,7 @@ export function useAuthMutation(options: Props) {
         ...options,
         mutationFn: (args) => {
             if (isGuest) {
-                setAuthError(auth[options.authError])
+                setAuthError(auth[options.authError ?? AUTH_ERROR.UNAUTHORIZED])
                 return Promise.reject()
             }
 

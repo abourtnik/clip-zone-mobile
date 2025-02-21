@@ -159,6 +159,7 @@ export default function Video({ route } : Props) {
                                             <SuggestedVideo video={item} />
                                         </View>
                                     )}
+                                    key={numColumns}
                                     numColumns={numColumns}
                                     columnWrapperStyle={hasMultipleColumns ? styles.wrapper : false}
                                 />

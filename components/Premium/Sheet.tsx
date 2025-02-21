@@ -53,7 +53,7 @@ export const Sheet = ({sheetRef}: Props) => {
                     <Button labelStyle={styles.button} mode="text" onPress={() => sheetRef.current?.close()}>
                         Not now
                     </Button>
-                    <Button labelStyle={styles.button} mode="contained" onPress={() => Linking.openURL('https://clip-zone.com/premium')}>
+                    <Button buttonColor={'#FFC107'} labelStyle={styles.button} mode="contained" onPress={() => Linking.openURL('https://clip-zone.com/premium')}>
                         Start Trial
                     </Button>
                 </View>

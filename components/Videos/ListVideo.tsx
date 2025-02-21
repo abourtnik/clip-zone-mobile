@@ -6,6 +6,7 @@ import moment from "moment";
 import {SearchVideoType, TinyVideoType} from "@/types";
 import {RouteProps} from "@/navigation/HomeStack";
 import {Thumbnail} from "./Thumbnail";
+import {useResponsive} from "@/hooks/useResponsive";
 
 type Props = {
     video: TinyVideoType | SearchVideoType,
@@ -14,15 +15,24 @@ export const ListVideo = memo(({video} : Props) => {
 
     const navigation = useNavigation<RouteProps>();
 
+    const {hasMultipleColumns} = useResponsive();
+
     return (
         <Pressable
             style={({ pressed }) => [
                 pressed && styles.pressed,
-                styles.container
+                styles.container,
+                {flexDirection: hasMultipleColumns ? 'column' : 'row'}
             ]}
             onPress={() => navigation.navigate('Video', {uuid: video.uuid})}
         >
-            <Thumbnail style={styles.thumbnail} source={{uri: video.thumbnail}}>
+            <Thumbnail
+                style={[
+                    styles.thumbnail,
+                    {height: hasMultipleColumns ? 230 : 80},
+                ]}
+                url={video.thumbnail}
+            >
                 <View style={styles.time_container}>
                     <Text variant="labelSmall" style={styles.time}>{video.formated_duration}</Text>
                 </View>
@@ -37,14 +47,12 @@ export const ListVideo = memo(({video} : Props) => {
 
 const styles = StyleSheet.create({
     container : {
-        flexDirection: 'row',
         gap: 10,
         paddingVertical: 5,
         paddingHorizontal: 10,
     },
     thumbnail : {
         flex: 2,
-        height : 80,
         borderRadius: 10,
         overflow: 'hidden',
         resizeMode: 'stretch'

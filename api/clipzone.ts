@@ -14,7 +14,9 @@ import {
     TinyPlaylistType,
     TinyUserType,
     ReportReason,
-    ResponsesPaginator
+    ResponsesPaginator,
+    CursorPaginator,
+    MyVideoType
 } from "@/types";
 
 const API_URL =  process.env.EXPO_PUBLIC_API_ENDPOINT + '/api';
@@ -29,7 +31,7 @@ export async function login(username: string, password: string): Promise<Account
 }
 
 export async function logout(): Promise<void> {
-    return jsonFetch(API_URL + '/logout', 'POST');
+    return jsonFetch(API_URL + '/me/logout', 'POST');
 }
 
 export async function getVideos(page: number = 1): Promise<Paginator<TinyVideoType>> {
@@ -73,11 +75,19 @@ export async function getPlaylist(uuid: string): Promise<PlaylistType> {
 }
 
 export async function getSubscriptionsVideos(page: number = 1): Promise<Paginator<TinyVideoType>> {
-    return jsonFetch(API_URL + `/users/subscriptions-videos?page=`+ page);
+    return jsonFetch(API_URL + `/me/subscriptions-videos?page=`+ page);
 }
 
 export async function getSubscriptionsChannels(page: number = 1): Promise<Paginator<TinyUserType>> {
-    return jsonFetch(API_URL + `/users/subscriptions-channels?page=`+ page);
+    return jsonFetch(API_URL + `/me/subscriptions-channels?page=`+ page);
+}
+
+export async function getMyVideos(cursor: string | null): Promise<CursorPaginator<MyVideoType>> {
+    return jsonFetch(API_URL + `/me/videos`+ (cursor ? `?cursor=` + cursor  : ''));
+}
+
+export async function getMyPlaylists(cursor: string | null): Promise<CursorPaginator<TinyPlaylistType>> {
+    return jsonFetch(API_URL + `/me/playlists`+ (cursor ? `?cursor=` + cursor  : ''));
 }
 
 export async function subscribe(user_id: number): Promise<void> {
@@ -97,4 +107,12 @@ export async function report(id: number, reason: ReportReason): Promise<void> {
         'type': 'App\\Models\\Video',
         'id': id
     });
+}
+
+export async function deleteVideo(uuid: string): Promise<void> {
+    return jsonFetch(API_URL + `/videos/${uuid}`, 'DELETE');
+}
+
+export async function deletePlaylist(uuid: string): Promise<void> {
+    return jsonFetch(API_URL + `/playlists/${uuid}`, 'DELETE');
 }

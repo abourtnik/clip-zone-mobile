@@ -35,6 +35,7 @@ export const HomeTab = memo(({user} : Props) => {
                         }
                     </>
                 }
+                key={numColumns}
                 numColumns={numColumns}
                 columnWrapperStyle={hasMultipleColumns ? {gap: 7} : false}
                 data={user.videos}
@@ -84,7 +85,7 @@ export const HomeTab = memo(({user} : Props) => {
 const styles = StyleSheet.create({
     tab: {
         flex: 1,
-        paddingVertical: 10
+        marginTop: 10
     },
     title : {
         paddingHorizontal: 15,

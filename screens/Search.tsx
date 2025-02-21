@@ -1,4 +1,4 @@
-import {FlatList, ScrollView, StyleSheet, View, Keyboard} from 'react-native';
+import {FlatList, ScrollView, StyleSheet, View, Keyboard, Platform} from 'react-native';
 import {Searchbar, Text} from 'react-native-paper';
 import {search} from "@/api/clipzone";
 import {useState} from "react";
@@ -52,6 +52,7 @@ export default function Search() {
                                 <ListVideo video={item} />
                             </View>
                         )}
+                        key={numColumns}
                         numColumns={numColumns}
                         columnWrapperStyle={hasMultipleColumns ? {gap: 7} : false}
                     />
@@ -75,8 +76,12 @@ const styles = StyleSheet.create({
     results: {
         flex: 1,
         paddingTop: 5,
-        marginBottom: -40,
         backgroundColor: 'white',
+        ...Platform.select({
+            ios: {
+                marginBottom: -40,
+            }
+        })
     },
     empty: {
         flex: 1,

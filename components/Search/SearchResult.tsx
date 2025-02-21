@@ -1,12 +1,12 @@
 import {Pressable, View, StyleSheet} from "react-native";
-import {Icon, Text} from "react-native-paper";
-import {SearchResultType} from "../../types";
+import {Text} from "react-native-paper";
+import {SearchVideoType} from "@/types";
 import {useNavigation} from "@react-navigation/native";
-import {RouteProps} from "../../navigation/HomeStack";
+import {RouteProps} from "@/navigation/HomeStack";
 import {Thumbnail} from "../Videos";
 
 type Props = {
-    result: SearchResultType
+    result: SearchVideoType
 }
 export default function SearchResult ({result}: Props) {
 
@@ -19,7 +19,7 @@ export default function SearchResult ({result}: Props) {
         ]}
         onPress={() => navigation.navigate('Video', {uuid: result.uuid})}
         >
-            <Thumbnail style={styles.thumbnail} source={{uri: result.thumbnail}}>
+            <Thumbnail style={styles.thumbnail} url={result.thumbnail}>
                 <View style={styles.time_container}>
                     <Text variant="labelSmall" style={styles.time}>22</Text>
                 </View>

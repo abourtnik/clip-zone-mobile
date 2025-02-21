@@ -2,7 +2,7 @@ import {ActivityIndicator, FlatList, RefreshControl, StyleSheet, View} from 'rea
 import {useInfiniteQuery} from "@tanstack/react-query";
 import {getUserPlaylists} from "@/api/clipzone";
 import {Alert, ApiError, Loader, NetworkError} from "@/components/commons";
-import {Playlist} from "../Playlist";
+import {ListPlaylist} from "@/components/Playlists";
 import {UserType} from "@/types";
 import {memo} from "react";
 import {useResponsive} from "@/hooks/useResponsive";
@@ -46,12 +46,13 @@ export const PlaylistsTab = memo(({user} : Props) => {
                 {
                     playlists &&
                     <FlatList
+                        key={numColumns}
                         numColumns={numColumns}
                         columnWrapperStyle={hasMultipleColumns ? {gap: 7} : false}
                         data={playlists.pages.flatMap(page => page.data)}
                         renderItem={({item}) => (
                             <View style={{flex:1/numColumns}}>
-                                <Playlist playlist={item} />
+                                <ListPlaylist playlist={item} />
                             </View>
                         )}
                         keyExtractor={item => item.id.toString()}
@@ -81,8 +82,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     playlists: {
-        flex: 1,
-        paddingBottom: 10,
+        flex: 1
     },
     empty: {
         marginHorizontal: 15

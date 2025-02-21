@@ -6,6 +6,8 @@ import {getVideoFile} from "@/api/clipzone";
 import {useSettingsStore} from "@/stores/useSettingsStore";
 import {useNavigation} from "@react-navigation/native";
 import {RouteProps} from "@/navigation/HomeStack";
+import {useQuery} from "@tanstack/react-query";
+import {getSource} from "@/functions/image";
 
 type Props = {
     video: VideoType,
@@ -23,6 +25,11 @@ export const Player = ({video} : Props) => {
     const {height} = useWindowDimensions();
 
     const videoHeight = {height : height / 3};
+
+    const {data: source} = useQuery({
+        queryKey: ['video.player', video.uuid],
+        queryFn: () => getSource(getVideoFile(video.file))
+    });
 
     useEffect(() => {
         if (!loading && autoPlay) {
@@ -45,7 +52,7 @@ export const Player = ({video} : Props) => {
             style={[styles.player, videoHeight]}
             useNativeControls={true}
             resizeMode={ResizeMode.COVER}
-            source={{uri: getVideoFile(video.file)}}
+            source={source}
             volume={0.5}
         >
             {

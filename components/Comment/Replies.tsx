@@ -1,4 +1,4 @@
-import {ActivityIndicator, StyleSheet, View} from "react-native";
+import {ActivityIndicator, ScrollView, StyleSheet, View} from "react-native";
 import {useInfiniteQuery} from "@tanstack/react-query";
 import {getCommentsReplies} from "@/api/clipzone";
 import {CommentType} from "@/types";
@@ -37,7 +37,7 @@ export function Replies ({route}: Props) {
     });
 
     return (
-        <View style={{backgroundColor: 'white', flex: 1}}>
+        <ScrollView style={{backgroundColor: 'white', flex: 1}}>
             <View style={{backgroundColor: 'lightgrey'}}>
                 <Comment comment={comment} />
             </View>
@@ -47,6 +47,7 @@ export function Replies ({route}: Props) {
             {
                 (!isFetching && responses) &&
                 <BottomSheetFlatList
+                    scrollEnabled={false}
                     contentContainerStyle={styles.responses}
                     data={responses.pages.flatMap(page => page.data)}
                     keyExtractor={item => item.id.toString()}
@@ -57,7 +58,7 @@ export function Replies ({route}: Props) {
                     }
                 />
             }
-        </View>
+        </ScrollView>
     )
 }
 

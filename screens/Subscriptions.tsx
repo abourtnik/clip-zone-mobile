@@ -53,6 +53,7 @@ export default function Subscriptions({navigation} : Props ) {
                     {
                         data &&
                         <FlatList
+                            key={numColumns}
                             numColumns={numColumns}
                             columnWrapperStyle={hasMultipleColumns ? styles.wrapper : false}
                             data={data.pages.flatMap(page => page.data)}

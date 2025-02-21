@@ -5,25 +5,35 @@ import {useNavigation} from "@react-navigation/native";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import {RouteProps} from "@/navigation/HomeStack";
 import {Thumbnail} from "@/components/Videos";
+import {useResponsive} from "@/hooks/useResponsive";
 
 
 type Props = {
     playlist: TinyPlaylistType,
 }
 
-export function Playlist({playlist} : Props) {
+export function ListPlaylist({playlist} : Props) {
 
     const navigation = useNavigation<RouteProps>();
+
+    const {hasMultipleColumns} = useResponsive();
 
     return (
         <Pressable
             style={({ pressed }) => [
                 pressed && styles.pressed,
-                styles.container
+                styles.container,
+                {flexDirection: hasMultipleColumns ? 'column' : 'row'}
             ]}
             onPress={() => navigation.navigate('Playlist', {uuid: playlist.uuid})}
         >
-            <Thumbnail style={styles.thumbnail} source={{uri: playlist.thumbnail}}>
+            <Thumbnail
+                style={[
+                    styles.thumbnail,
+                    {height: hasMultipleColumns ? 230 : 80},
+                ]}
+                url={playlist.thumbnail}
+            >
                 <View style={styles.count_container}>
                     <MaterialCommunityIcons name="format-list-bulleted" color={'white'} size={12} />
                     <Text variant="labelSmall" style={styles.count}>{playlist.videos_count}</Text>
@@ -39,14 +49,12 @@ export function Playlist({playlist} : Props) {
 
 const styles = StyleSheet.create({
     container : {
-        flexDirection: 'row',
         gap: 10,
         paddingVertical: 5,
         paddingHorizontal: 10,
     },
     thumbnail : {
         flex: 2,
-        height : 80,
         borderRadius: 10,
         overflow: 'hidden',
         resizeMode: 'stretch'

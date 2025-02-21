@@ -68,6 +68,26 @@ export default function Account({navigation} : Props) {
                     <Text style={styles.premium_text} variant="titleMedium">ClipZone Premium</Text>
                 </View>*/
             }
+            {
+                status === AuthStatus.Authenticated &&
+                <List.Section >
+                    <List.Subheader>Your contents</List.Subheader>
+                    <List.Item
+                        title="Your videos"
+                        left={() => <List.Icon icon="video-account" />}
+                        right={() => <List.Icon icon="chevron-right" />}
+                        style={[styles.item, styles.border]}
+                        onPress={() => navigation.navigate('Videos')}
+                    />
+                    <List.Item
+                        title="Your playlists"
+                        left={() => <List.Icon icon="playlist-play" />}
+                        right={() => <List.Icon icon="chevron-right" />}
+                        onPress={() => navigation.navigate('Playlists')}
+                        style={styles.item}
+                    />
+                </List.Section>
+            }
             <List.Section>
                 <List.Subheader>{t( 'Settings')}</List.Subheader>
                 {/*<List.Item

@@ -3,9 +3,8 @@
     "name": "ClipZone",
     "description": "Open Source React Native Youtube Clone",
     "slug": "clip-zone",
-    "privacy": "public",
     "sdkVersion": "51.0.0",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "platforms": [
       "ios",
       "android"
@@ -38,8 +37,7 @@
       "playStoreUrl": "https://play.google.com/store/apps/details?id=com.abourtnik.clipzone",
       "package": "com.abourtnik.clipzone",
       "userInterfaceStyle": "light",
-      "softwareKeyboardLayoutMode": "pan",
-      "versionCode": 3
+      "softwareKeyboardLayoutMode": "pan"
     },
     "web": {
       "favicon": "./assets/favicon.png"

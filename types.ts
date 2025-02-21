@@ -53,6 +53,21 @@ export type TinyVideoType = {
     is_private?: boolean
 }
 
+export type MyVideoType = {
+    id: number,
+    uuid: string,
+    title: string,
+    route: string,
+    short_title : string,
+    thumbnail: string,
+    formated_duration: string,
+    views: number,
+    date: string,
+    status: number,
+    like_count: number
+    comments_count: number
+}
+
 export type SearchVideoType = {
     title: string,
     user: string

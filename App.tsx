@@ -3,7 +3,9 @@ import Navigation from './navigation/index'
 import {useThemeStore} from "./stores/useThemeStore";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import NetInfo from '@react-native-community/netinfo'
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { onlineManager } from '@tanstack/react-query'
+import { ConfirmContextProvider } from './contexts/ConfirmContext'
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -33,7 +35,11 @@ export default function App() {
       <QueryClientProvider client={queryClient}>
           <GestureHandlerRootView style={{ flex: 1 }}>
               <PaperProvider theme={theme}>
-                  <Navigation/>
+                  <ConfirmContextProvider>
+                      <ActionSheetProvider>
+                          <Navigation/>
+                      </ActionSheetProvider>
+                  </ConfirmContextProvider>
               </PaperProvider>
           </GestureHandlerRootView>
       </QueryClientProvider>
