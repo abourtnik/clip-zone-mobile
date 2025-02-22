@@ -25,6 +25,7 @@ export default function Playlist({ route } : Props) {
         data: playlist,
         isLoading,
         isError,
+        error,
         isPaused,
         refetch
     } = useQuery({
@@ -41,7 +42,7 @@ export default function Playlist({ route } : Props) {
         <>
             {isPaused && <NetworkError refetch={refetch}/>}
             {isLoading && <Loader/>}
-            {isError && <ApiError refetch={refetch}/>}
+            {isError && <ApiError refetch={refetch} error={error}/>}
             {
                 playlist &&
                     <ScrollView style={styles.container}>

@@ -28,6 +28,7 @@ export default function User({ route } : Props) {
         data: user,
         isLoading,
         isError,
+        error,
         refetch,
         isPaused
     } = useQuery({
@@ -43,7 +44,7 @@ export default function User({ route } : Props) {
         <>
             {isPaused && <NetworkError refetch={refetch}/>}
             {isLoading && <Loader/>}
-            {isError && <ApiError refetch={refetch}/>}
+            {isError && <ApiError refetch={refetch} error={error}/>}
             {
                 user &&
                 <View style={styles.container}>

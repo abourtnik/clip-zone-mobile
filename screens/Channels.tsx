@@ -22,6 +22,7 @@ export default function Channels({navigation} : Props ) {
         isLoading,
         isFetching,
         isError,
+        error,
         refetch,
         fetchNextPage,
         hasNextPage
@@ -44,7 +45,7 @@ export default function Channels({navigation} : Props ) {
                 status === AuthStatus.Authenticated &&
                 <View style={styles.container_auth}>
                     {isLoading && <Loader/>}
-                    {isError && <ApiError refetch={refetch}/>}
+                    {isError && <ApiError refetch={refetch} error={error}/>}
                     {
                         users &&
                         <FlatList

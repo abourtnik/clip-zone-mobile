@@ -23,6 +23,7 @@ export function Replies ({route}: Props) {
         isLoading,
         isFetching,
         isError,
+        error,
         isPaused,
         refetch,
         fetchNextPage,
@@ -43,7 +44,7 @@ export function Replies ({route}: Props) {
             </View>
             {isPaused && <NetworkError refetch={refetch}/>}
             {(isLoading || isFetching) && <Loader/>}
-            {isError && <ApiError refetch={refetch}/>}
+            {isError && <ApiError refetch={refetch} error={error}/>}
             {
                 (!isFetching && responses) &&
                 <BottomSheetFlatList

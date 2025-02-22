@@ -3,13 +3,15 @@ import {StyleSheet, View} from "react-native";
 
 type Props = {
     refetch: Function
+    error: Error
 }
 
-export function ApiError ({refetch}: Props) {
+export function ApiError ({refetch, error}: Props) {
+
     return (
         <View style={styles.container}>
             <Text style={styles.title} variant="bodyLarge">Oups! Something went wrong!</Text>
-            <Text style={styles.text}>We are working on fixing the problem. Please try again.</Text>
+            <Text style={styles.text}>{error.message ?? 'We are working on fixing the problem. Please try again.'}</Text>
             <Button icon="reload" mode="contained" onPress={() => refetch()}>
                 Try again
             </Button>

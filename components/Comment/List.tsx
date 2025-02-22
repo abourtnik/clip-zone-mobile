@@ -35,6 +35,7 @@ export function List({route} : Props) {
         isLoading,
         isFetching,
         isError,
+        error,
         isPaused,
         refetch,
         fetchNextPage,
@@ -92,7 +93,7 @@ export function List({route} : Props) {
             <View style={styles.comments}>
                 {isPaused && <NetworkError refetch={refetch}/>}
                 {isLoading && <Loader/>}
-                {isError && <ApiError refetch={refetch}/>}
+                {isError && <ApiError refetch={refetch} error={error}/>}
                 {
                     comments &&
                     <BottomSheetFlatList

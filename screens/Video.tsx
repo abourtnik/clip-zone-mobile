@@ -40,6 +40,7 @@ export default function Video({ route } : Props) {
         data: video,
         isLoading,
         isError,
+        error,
         refetch,
         isPaused
     } = useQuery({
@@ -53,7 +54,7 @@ export default function Video({ route } : Props) {
         <>
             {isPaused && <NetworkError refetch={refetch}/>}
             {isLoading && <Loader/>}
-            {isError && <ApiError refetch={refetch}/>}
+            {isError && <ApiError refetch={refetch} error={error}/>}
             {
                 video &&
                     <View style={styles.container}>

@@ -25,6 +25,7 @@ export default function Subscriptions({navigation} : Props ) {
         isLoading,
         isFetching,
         isError,
+        error,
         isPaused,
         refetch,
         fetchNextPage,
@@ -62,7 +63,7 @@ export default function Subscriptions({navigation} : Props ) {
                             keyExtractor={((item, index) => index.toString())}
                         />
                     }
-                    {isError && <ApiError refetch={refetch}/>}
+                    {isError && <ApiError refetch={refetch} error={error}/>}
                     {
                         data &&
                         <FlatList

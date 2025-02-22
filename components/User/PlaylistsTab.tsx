@@ -19,6 +19,7 @@ export const PlaylistsTab = memo(({user} : Props) => {
         isLoading,
         isFetching,
         isError,
+        error,
         refetch,
         fetchNextPage,
         hasNextPage,
@@ -41,7 +42,7 @@ export const PlaylistsTab = memo(({user} : Props) => {
         <View style={styles.tab}>
             {isPaused && <NetworkError refetch={refetch}/>}
             {isLoading && <Loader/>}
-            {isError && <ApiError refetch={refetch}/>}
+            {isError && <ApiError refetch={refetch} error={error}/>}
             {
                 playlists &&
                 <FlatList

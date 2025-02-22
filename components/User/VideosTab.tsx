@@ -23,6 +23,7 @@ export const VideosTab = memo(({user} : Props) => {
         isLoading,
         isFetching,
         isError,
+        error,
         refetch,
         fetchNextPage,
         hasNextPage,
@@ -84,7 +85,7 @@ export const VideosTab = memo(({user} : Props) => {
                 <View style={styles.videos}>
                     {isPaused && <NetworkError refetch={refetch}/>}
                     {isLoading && <Loader/>}
-                    {isError && <ApiError refetch={refetch}/>}
+                    {isError && <ApiError refetch={refetch} error={error}/>}
                     {
                         videos &&
                         <FlatList
