@@ -46,13 +46,26 @@ export function useAuth () {
             setAccount(null)
             await deleteToken()
             await queryClient.invalidateQueries({ queryKey: ['video'] });
+        }).catch(async (error) => {
+            if(error.cause === 401) {
+                setAccount(null)
+                await deleteToken()
+                await queryClient.invalidateQueries({ queryKey: ['video'] });
+            }
         })
+    }, []);
+
+    const manualLogout = useCallback( async () => {
+        setAccount(null)
+        await deleteToken()
+        await queryClient.invalidateQueries({ queryKey: ['video'] });
     }, []);
 
     return {
         account,
         status,
         login,
-        logout
+        logout,
+        manualLogout
     }
 }

@@ -5,10 +5,12 @@ import {RouteProps} from "@/navigation/HomeStack";
 import BottomSheet, {BottomSheetBackdrop, BottomSheetView} from "@gorhom/bottom-sheet";
 import {Linking, StyleSheet, View} from "react-native";
 import {useRef, useEffect} from "react";
+import {useAuth} from "@/hooks/useAuth";
 
 export function AuthError () {
 
     const {error, reset} = useAuthStore();
+    const {manualLogout} = useAuth();
 
     const navigation = useNavigation<RouteProps>();
 
@@ -16,6 +18,11 @@ export function AuthError () {
 
     useEffect(() => {
         error ? bottomSheet.current?.expand() : bottomSheet.current?.close()
+
+        if (error && error.code === 401) {
+            manualLogout()
+        }
+
     }, [error]);
 
     const login = () => {
@@ -55,7 +62,7 @@ export function AuthError () {
                         <Button labelStyle={styles.button} mode="outlined" onPress={register}>
                             Register
                         </Button>
-                        <Button labelStyle={styles.button} mode="contained" onPress={login}>
+                        <Button labelStyle={styles.button} textColor={'white'} mode="contained" onPress={login}>
                             Sign In
                         </Button>
                     </View>

@@ -7,6 +7,7 @@ import Svg, {Path} from 'react-native-svg';
 import {Alert} from "@/components/commons";
 import {useNavigation} from "@react-navigation/native";
 import {RouteProps} from "@/navigation/AccountStack";
+import {useState} from "react";
 
 type FormData = {
     username: string,
@@ -15,6 +16,8 @@ type FormData = {
 export default function Login() {
 
     const navigation = useNavigation<RouteProps>();
+
+    const [showPassword, setShowPassword] = useState<boolean>(false);
 
     const {
         control,
@@ -77,8 +80,9 @@ export default function Login() {
                                 label="Password"
                                 onChangeText={onChange}
                                 value={value}
-                                secureTextEntry={true}
+                                secureTextEntry={!showPassword}
                                 mode={'outlined'}
+                                right={<TextInput.Icon icon={showPassword ? 'eye-off' : 'eye'} onPress={() => setShowPassword(!showPassword)} />}
 
                             />
                         )}

@@ -28,7 +28,11 @@ export function useAuthMutation(options: Props) {
 
             return Promise.resolve()
         },
-        onError: (error) => {
+        onError: async (error) => {
+            if(error.cause === 401) {
+                setAuthError(auth[AUTH_ERROR.UNAUTHENTICATED])
+                return
+            }
             setMainError(error.message)
         }
     });

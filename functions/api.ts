@@ -35,5 +35,5 @@ export async function jsonFetch(
         return data;
     }
 
-    throw new Error(data?.message ?? 'Oups! Something went wrong!')
+    throw new Error(data?.message ?? 'Oups! Something went wrong!', {cause: response.status})
 }
