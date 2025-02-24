@@ -18,6 +18,7 @@ export default function Home() {
         isError,
         refetch,
         fetchNextPage,
+        error,
         hasNextPage,
         isPaused
     } = useInfiniteQuery({
@@ -49,7 +50,7 @@ export default function Home() {
                     keyExtractor={((_, index) => index.toString())}
                 />
             }
-            {isError && <ApiError refetch={refetch}/>}
+            {isError && <ApiError refetch={refetch} error={error}/>}
             {
                 videos &&
                 <FlatList

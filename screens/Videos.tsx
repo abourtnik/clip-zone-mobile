@@ -18,8 +18,8 @@ export default function Videos() {
         hasNextPage,
         isPaused,
     } = useCursorQuery({
-        key: ['user-videos'],
-        fetchFn: ({pageParam}) => getMyVideos(pageParam),
+        queryKey: ['user-videos'],
+        queryFn: ({pageParam}) => getMyVideos(pageParam),
     });
 
     return (

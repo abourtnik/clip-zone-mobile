@@ -1,15 +1,13 @@
-import {InfiniteData, useInfiniteQuery, UseInfiniteQueryResult} from "@tanstack/react-query";
+import {InfiniteData, useInfiniteQuery, UseInfiniteQueryResult, UndefinedInitialDataInfiniteOptions, QueryKey} from "@tanstack/react-query";
 import {CursorPaginator} from "@/types";
 
-type Options<TData> = {
-    key: string[],
-    fetchFn: ({pageParam} : {pageParam: string | null}) => Promise<CursorPaginator<TData>>,
-}
+type Options<TData> = Omit<UndefinedInitialDataInfiniteOptions<CursorPaginator<TData>, Error, InfiniteData<CursorPaginator<TData>>, QueryKey, string|null>,  "getNextPageParam" | "initialPageParam">
 
-export function useCursorQuery<TData = unknown> ({key, fetchFn} : Options<TData>) : UseInfiniteQueryResult<InfiniteData<CursorPaginator<TData>>> {
+type UseCursorQueryResult<TData> = UseInfiniteQueryResult<InfiniteData<CursorPaginator<TData>>>
+
+export function useCursorQuery<TData = unknown> (options : Options<TData>) : UseCursorQueryResult<TData> {
      return useInfiniteQuery({
-        queryKey: key,
-        queryFn: fetchFn,
+        ...options,
         initialPageParam: null,
         getNextPageParam: (lastPage) => lastPage.meta.next_cursor,
     });

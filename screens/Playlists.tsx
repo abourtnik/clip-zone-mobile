@@ -18,8 +18,8 @@ export default function Playlists() {
         hasNextPage,
         isPaused,
     } = useCursorQuery({
-        key: ['user-playlists'],
-        fetchFn: ({pageParam}) => getMyPlaylists(pageParam),
+        queryKey: ['user-playlists'],
+        queryFn: ({pageParam}) => getMyPlaylists(pageParam),
     });
 
     return (
