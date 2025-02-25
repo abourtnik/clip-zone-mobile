@@ -5,7 +5,7 @@
   },
   "build": {
     "development": {
-      "node": "18.20.4",
+      "bun": "1.2.0",
       "developmentClient": true,
       "distribution": "internal",
       "android": {
@@ -22,7 +22,7 @@
       "channel": "preview"
     },
     "production": {
-      "node": "18.20.4",
+      "bun": "1.2.0",
       "autoIncrement": true,
       "env": {
         "EXPO_PUBLIC_API_ENDPOINT": "https://www.clip-zone.com"
