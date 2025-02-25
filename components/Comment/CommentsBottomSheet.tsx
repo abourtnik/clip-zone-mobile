@@ -17,6 +17,7 @@ export function CommentsBottomSheet ({video, bottomSheetRef}: Props) {
         <BottomSheet
             ref={bottomSheetRef}
             snapPoints={[Dimensions.get('window').height]}
+            enableDynamicSizing={false}
             index={-1}
             enablePanDownToClose={true}
             backdropComponent={(props) => (

@@ -3,7 +3,7 @@
     "name": "ClipZone",
     "description": "Open Source React Native Youtube Clone",
     "slug": "clip-zone",
-    "sdkVersion": "51.0.0",
+    "newArchEnabled": true,
     "version": "0.1.2",
     "platforms": [
       "ios",

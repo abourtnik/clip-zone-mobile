@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
         fontSize: 13
     },
     videos : {
-        marginVertical: 10
+        margin: 10
     },
     empty: {
         marginHorizontal: 15
