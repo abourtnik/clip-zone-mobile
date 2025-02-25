@@ -34,8 +34,8 @@ export async function logout(): Promise<void> {
     return jsonFetch(API_URL + '/me/logout', 'POST');
 }
 
-export async function getVideos(page: number = 1): Promise<Paginator<TinyVideoType>> {
-    return jsonFetch(API_URL + `/videos?page=`+ page);
+export async function getVideos(cursor: string | null): Promise<CursorPaginator<TinyVideoType>> {
+    return jsonFetch(API_URL + `/videos` + (cursor ? `?cursor=` + cursor  : ''));
 }
 
 export async function getVideo(uuid: string): Promise<VideoType> {
@@ -46,12 +46,12 @@ export async function getUser(id: number): Promise<UserType> {
     return jsonFetch(API_URL + `/users/${id}`);
 }
 
-export async function getUserVideos(userId: number, page: number = 1, sort?: UserVideosSort): Promise<Paginator<TinyVideoType>> {
-    return jsonFetch(API_URL + `/users/${userId}/videos?page=${page}&sort=${sort}`);
+export async function getUserVideos(userId: number, cursor: string | null, sort?: UserVideosSort): Promise<CursorPaginator<TinyVideoType>> {
+    return jsonFetch(API_URL + `/users/${userId}/videos?sort=${sort}` + (cursor ? `&cursor=` + cursor  : ''));
 }
 
-export async function getUserPlaylists(userId: number, page: number = 1): Promise<Paginator<TinyPlaylistType>> {
-    return jsonFetch(API_URL + `/users/${userId}/playlists?page=${page}`);
+export async function getUserPlaylists(userId: number, cursor: string | null): Promise<CursorPaginator<TinyPlaylistType>> {
+    return jsonFetch(API_URL + `/users/${userId}/playlists` + (cursor ? `?cursor=` + cursor  : ''));
 }
 
 export function getVideoFile(file: string): string {
@@ -74,12 +74,12 @@ export async function getPlaylist(uuid: string): Promise<PlaylistType> {
     return jsonFetch(API_URL + `/playlists/${uuid}`);
 }
 
-export async function getSubscriptionsVideos(page: number = 1): Promise<Paginator<TinyVideoType>> {
-    return jsonFetch(API_URL + `/me/subscriptions-videos?page=`+ page);
+export async function getSubscriptionsVideos(cursor: string | null): Promise<CursorPaginator<TinyVideoType>> {
+    return jsonFetch(API_URL + `/me/subscriptions-videos` + (cursor ? `?cursor=` + cursor  : ''));
 }
 
-export async function getSubscriptionsChannels(page: number = 1): Promise<Paginator<TinyUserType>> {
-    return jsonFetch(API_URL + `/me/subscriptions-channels?page=`+ page);
+export async function getSubscriptionsChannels(cursor: string | null): Promise<CursorPaginator<TinyUserType>> {
+    return jsonFetch(API_URL + `/me/subscriptions-channels` + (cursor ? `?cursor=` + cursor  : ''));
 }
 
 export async function getMyVideos(cursor: string | null): Promise<CursorPaginator<MyVideoType>> {

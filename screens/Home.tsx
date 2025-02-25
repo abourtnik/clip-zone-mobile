@@ -1,10 +1,10 @@
 import {View, StyleSheet, FlatList, RefreshControl, ActivityIndicator} from 'react-native';
 import {FullVideo as Video} from "../components/Videos";
-import {useInfiniteQuery} from "@tanstack/react-query";
 import {getVideos} from '@/api/clipzone'
 import {ApiError, NetworkError, VideoSkeleton} from "@/components/commons";
 import {useThemeStore} from "@/stores/useThemeStore";
 import {useResponsive} from "@/hooks/useResponsive";
+import {useCursorQuery} from "@/hooks/useCursorQuery";
 export default function Home() {
 
     const {numColumns, hasMultipleColumns} = useResponsive();
@@ -21,16 +21,9 @@ export default function Home() {
         error,
         hasNextPage,
         isPaused
-    } = useInfiniteQuery({
+    } = useCursorQuery({
         queryKey: ['videos'],
-        queryFn: ({pageParam}) => getVideos(pageParam),
-        initialPageParam: 1,
-        getNextPageParam: (lastPage, allPages, lastPageParam) => {
-            if (lastPage.meta.current_page === lastPage.meta.last_page) {
-                return undefined
-            }
-            return lastPageParam + 1
-        }
+        queryFn: ({pageParam}) => getVideos(pageParam)
     });
 
     return (

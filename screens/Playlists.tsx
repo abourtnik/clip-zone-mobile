@@ -47,7 +47,7 @@ export default function Playlists() {
                         <RefreshControl colors={["#9Bd35A", "#689F38"]} refreshing={isLoading} onRefresh={() => refetch()} />
                     }
                     onEndReached={(hasNextPage && !isFetching) ? () => fetchNextPage() : null}
-                    onEndReachedThreshold={2}
+                    onEndReachedThreshold={0.5}
                 />
             }
         </View>

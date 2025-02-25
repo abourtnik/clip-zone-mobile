@@ -3,11 +3,11 @@ import {View, StyleSheet, Image, FlatList, ActivityIndicator, RefreshControl, Pr
 import {Text, Button, Avatar} from "react-native-paper";
 import {RouteProps} from "@/navigation/SubscriptionStack";
 import {AuthStatus, useAuth} from "@/hooks/useAuth";
-import {useInfiniteQuery} from "@tanstack/react-query";
 import {getSubscriptionsChannels} from "@/api/clipzone";
 import {useAccount} from "@/hooks/useAccount";
 import {ApiError, Loader} from "@/components/commons";
 import {Subscribe} from "@/components/Actions";
+import {useCursorQuery} from "@/hooks/useCursorQuery";
 
 type Props = {
     navigation: RouteProps
@@ -26,17 +26,10 @@ export default function Channels({navigation} : Props ) {
         refetch,
         fetchNextPage,
         hasNextPage
-    } = useInfiniteQuery({
+    } = useCursorQuery({
         queryKey: ['subscriptions-channels'],
         queryFn: ({pageParam}) => getSubscriptionsChannels(pageParam),
         enabled: isAuthenticated,
-        initialPageParam: 1,
-        getNextPageParam: (lastPage, allPages, lastPageParam) => {
-            if (lastPage.meta.current_page === lastPage.meta.last_page) {
-                return undefined
-            }
-            return lastPageParam + 1
-        }
     });
 
     return (

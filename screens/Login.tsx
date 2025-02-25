@@ -82,7 +82,7 @@ export default function Login() {
                                 value={value}
                                 secureTextEntry={!showPassword}
                                 mode={'outlined'}
-                                right={<TextInput.Icon icon={showPassword ? 'eye-off' : 'eye'} onPress={() => setShowPassword(!showPassword)} />}
+                                right={<TextInput.Icon icon={showPassword ? 'eye-off' : 'eye'} size={20} onPress={() => setShowPassword(!showPassword)} />}
 
                             />
                         )}

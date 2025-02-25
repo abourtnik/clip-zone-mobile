@@ -3,12 +3,12 @@ import {View, StyleSheet, Image, FlatList, ActivityIndicator, RefreshControl} fr
 import {Text, Button,} from "react-native-paper";
 import {RouteProps} from "@/navigation/SubscriptionStack";
 import {AuthStatus, useAuth} from "@/hooks/useAuth";
-import {useInfiniteQuery} from "@tanstack/react-query";
 import {getSubscriptionsVideos} from "@/api/clipzone";
 import {useAccount} from "@/hooks/useAccount";
 import {ApiError, NetworkError, VideoSkeleton} from "@/components/commons";
 import {FullVideo as Video} from "@/components/Videos";
 import {useResponsive} from "@/hooks/useResponsive";
+import {useCursorQuery} from "@/hooks/useCursorQuery";
 
 type Props = {
     navigation: RouteProps
@@ -30,17 +30,10 @@ export default function Subscriptions({navigation} : Props ) {
         refetch,
         fetchNextPage,
         hasNextPage
-    } = useInfiniteQuery({
+    } = useCursorQuery({
         queryKey: ['subscriptions-videos'],
         queryFn: ({pageParam}) => getSubscriptionsVideos(pageParam),
         enabled: isAuthenticated,
-        initialPageParam: 1,
-        getNextPageParam: (lastPage, allPages, lastPageParam) => {
-            if (lastPage.meta.current_page === lastPage.meta.last_page) {
-                return undefined
-            }
-            return lastPageParam + 1
-        }
     });
 
     return (

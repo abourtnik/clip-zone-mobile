@@ -1,11 +1,11 @@
 import {ActivityIndicator, FlatList, RefreshControl, StyleSheet, View} from 'react-native';
-import {useInfiniteQuery} from "@tanstack/react-query";
 import {getUserPlaylists} from "@/api/clipzone";
 import {Alert, ApiError, Loader, NetworkError} from "@/components/commons";
 import {ListPlaylist} from "@/components/Playlists";
 import {UserType} from "@/types";
 import {memo} from "react";
 import {useResponsive} from "@/hooks/useResponsive";
+import {useCursorQuery} from "@/hooks/useCursorQuery";
 
 type Props = {
     user: UserType
@@ -24,17 +24,9 @@ export const PlaylistsTab = memo(({user} : Props) => {
         fetchNextPage,
         hasNextPage,
         isPaused
-    } = useInfiniteQuery({
-        enabled: true,
+    } = useCursorQuery({
         queryKey: ['user', user.id, 'playlists'],
         queryFn: ({pageParam}) => getUserPlaylists(user.id, pageParam),
-        initialPageParam: 1,
-        getNextPageParam: (lastPage, allPages, lastPageParam) => {
-            if (lastPage.meta.current_page === lastPage.meta.last_page) {
-                return undefined
-            }
-            return lastPageParam + 1
-        }
     });
 
 
