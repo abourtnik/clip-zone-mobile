@@ -1,22 +1,22 @@
-import {useEffect, useRef, useState} from 'react'
+import {useEffect, useState} from 'react'
 import {View, StyleSheet, ActivityIndicator, useWindowDimensions} from 'react-native';
 import {VideoType} from "@/types";
-import {AVPlaybackSource, ResizeMode, Video as ExpoVideo} from "expo-av";
 import {getVideoFile} from "@/api/clipzone";
 import {useSettingsStore} from "@/stores/useSettingsStore";
 import {useNavigation} from "@react-navigation/native";
 import {RouteProps} from "@/navigation/HomeStack";
 import {useQuery} from "@tanstack/react-query";
 import {getSource} from "@/functions/image";
+import { useEventListener } from 'expo';
+import {useVideoPlayer,  VideoSource, VideoView} from 'expo-video';
 
 type Props = {
     video: VideoType,
 }
+
 export const Player = ({video} : Props) => {
 
     const navigation = useNavigation<RouteProps>();
-
-    const ref = useRef<ExpoVideo>(null);
 
     const [loading, setLoading] = useState(true);
 
@@ -31,29 +31,38 @@ export const Player = ({video} : Props) => {
         queryFn: () => getSource(getVideoFile(video.file))
     });
 
+    const player = useVideoPlayer(source as VideoSource, player => {
+        player.volume = 0.5;
+    });
+
+    useEventListener(player, 'statusChange', ({ status, error }) => {
+        if (status === 'readyToPlay'){
+            setLoading(false)
+        }
+    });
+
     useEffect(() => {
         if (!loading && autoPlay) {
-            ref.current?.playAsync()
+            player.play()
         }
     }, [loading]);
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('blur', (e) => {
-            ref.current?.stopAsync()
+            player.pause();
+            player.currentTime = 0;
         });
         return unsubscribe
     }, []);
 
     return (
-        <ExpoVideo
-            posterSource={{uri:video.thumbnail}}
-            onLoad={() => setLoading(false)}
-            ref={ref}
+        <VideoView
             style={[styles.player, videoHeight]}
-            useNativeControls={true}
-            resizeMode={ResizeMode.COVER}
-            source={source as AVPlaybackSource}
-            volume={0.5}
+            player={player}
+            allowsFullscreen
+            allowsPictureInPicture
+            contentFit={'cover'}
+            nativeControls={true}
         >
             {
                 loading &&
@@ -61,7 +70,7 @@ export const Player = ({video} : Props) => {
                     <ActivityIndicator/>
                 </View>
             }
-        </ExpoVideo>
+        </VideoView>
     );
 }
 
@@ -71,6 +80,7 @@ const styles = StyleSheet.create({
     },
     loader: {
         width: '100%',
+        zIndex: 10,
         backgroundColor: '#E6E6E6',
         justifyContent: 'center',
         alignItems: 'center'

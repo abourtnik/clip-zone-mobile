@@ -97,11 +97,6 @@ export default function User({ route } : Props) {
                         renderTabBar={props => (
                             <TabBar
                                 {...props}
-                                renderLabel={({ route, focused, color }) => (
-                                    <Text style={{ color }}>
-                                        {route.title}
-                                    </Text>
-                                )}
                                 tabStyle={{ width: 'auto' }}
                                 activeColor={'black'}
                                 inactiveColor={'gray'}
