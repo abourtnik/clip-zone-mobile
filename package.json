@@ -23,7 +23,6 @@
     "expo-dev-client": "~5.0.12",
     "expo-device": "~7.0.2",
     "expo-linear-gradient": "~14.0.2",
-    "expo-media-library": "~17.0.6",
     "expo-screen-orientation": "~8.0.4",
     "expo-secure-store": "~14.0.1",
     "expo-status-bar": "~2.0.1",
