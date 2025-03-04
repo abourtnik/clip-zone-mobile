@@ -38,17 +38,19 @@ export function Replies ({route}: Props) {
     });
 
     return (
-        <ScrollView style={{backgroundColor: 'white', flex: 1}}>
-            <View style={{backgroundColor: 'lightgrey'}}>
-                <Comment comment={comment} />
-            </View>
+        <View style={{backgroundColor: 'white', flex: 1}}>
             {isPaused && <NetworkError refetch={refetch}/>}
-            {(isLoading || isFetching) && <Loader/>}
+            {(isLoading) && <Loader/>}
             {isError && <ApiError refetch={refetch} error={error}/>}
             {
-                (!isFetching && responses) &&
+                responses &&
                 <BottomSheetFlatList
-                    scrollEnabled={false}
+                    ListHeaderComponent={
+                        <View style={{backgroundColor: 'lightgrey'}}>
+                            <Comment comment={comment} />
+                        </View>
+                    }
+                    //scrollEnabled={false}
                     contentContainerStyle={styles.responses}
                     data={responses.pages.flatMap(page => page.data)}
                     keyExtractor={item => item.id.toString()}
@@ -57,9 +59,10 @@ export function Replies ({route}: Props) {
                     ListFooterComponent={
                         isFetching ? <ActivityIndicator color={'red'} style={{marginBottom: 10}}/> : null
                     }
+                    onEndReachedThreshold={1}
                 />
             }
-        </ScrollView>
+        </View>
     )
 }
 
@@ -67,7 +70,7 @@ const styles = StyleSheet.create({
     responses: {
         //flex: 1,
         //backgroundColor: 'white'
-        marginLeft: 40,
-        paddingVertical: 10
+        //marginLeft: 40,
+        //paddingVertical: 10
     },
 });

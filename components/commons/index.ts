@@ -6,3 +6,4 @@ export { ConnectionError } from './errors/ConnectionError';
 export { AuthError } from './errors/AuthError';
 export { VideoSkeleton } from './skeletons/Video';
 export { Alert } from './Alert';
+export { HtmlContent } from './HtmlContent';

@@ -1,4 +1,4 @@
-import {RefObject} from 'react'
+import {RefObject, useState} from 'react'
 import {Dimensions, Pressable, StyleSheet, View} from 'react-native';
 import {IconButton, Text, Avatar, Button} from 'react-native-paper';
 import BottomSheet, {BottomSheetBackdrop, BottomSheetScrollView} from "@gorhom/bottom-sheet";
@@ -6,6 +6,8 @@ import {VideoType} from "@/types";
 import moment from "moment";
 import {useNavigation} from "@react-navigation/native";
 import {RouteProps} from "@/navigation/HomeStack";
+import {HtmlContent} from '@/components/commons';
+
 
 type Props = {
     video: VideoType,
@@ -15,6 +17,8 @@ type Props = {
 export function Description ({video, bottomSheetRef}: Props) {
 
     const navigation = useNavigation<RouteProps>();
+
+    const [expand, setExpand] = useState<boolean>(false);
 
     return (
         <BottomSheet
@@ -63,14 +67,16 @@ export function Description ({video, bottomSheetRef}: Props) {
                             </View>
                         </View>
                         {
-                            video.short_description &&
+                            (video.description && video.description_is_long) &&
                             <Pressable
                                 style={({ pressed }) => [
+                                    styles.description,
                                     pressed && styles.pressed,
-                                    styles.description
                                 ]}
+                                onPress={() => setExpand(v => !v)}
                             >
-                                <Text>{video.short_description}</Text>
+                                <HtmlContent html={expand ? video.description : video.short_description}/>
+                                <Text style={{marginTop: 10, color: 'purple'}}>{ expand ? 'Show less' : 'Show more'}</Text>
                             </Pressable>
                         }
                     </View>

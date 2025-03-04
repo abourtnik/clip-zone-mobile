@@ -1,11 +1,12 @@
-import {Fragment, memo} from 'react'
+import {Fragment, memo, useState} from 'react'
 import {View, StyleSheet, Pressable} from 'react-native';
-import { Avatar, Text } from 'react-native-paper';
+import {Avatar, Text} from 'react-native-paper';
 import {CommentType} from "@/types";
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import {useNavigation} from "@react-navigation/native";
 import {RouteProps} from "@/navigation/CommentsStack";
 import moment from "moment/moment";
+import {HtmlContent} from "@/components/commons";
 
 
 type Props = {
@@ -15,6 +16,8 @@ type Props = {
 export const Comment = memo(({comment} : Props) => {
 
     const navigation = useNavigation<RouteProps>();
+
+    const [expand, setExpand] = useState<boolean>(false);
 
     return (
         <Pressable
@@ -54,7 +57,15 @@ export const Comment = memo(({comment} : Props) => {
                         </Fragment>
                     }
                 </View>
-                <Text variant={"bodyMedium"} style={styles.content}>{comment.content}</Text>
+                <View>
+                    <HtmlContent html={expand ? comment.parsed_content : comment.short_content}/>
+                    {
+                        comment.is_long &&
+                        <Pressable style={{marginTop: 10}} onPress={() => setExpand(!expand)}>
+                            <Text variant={"bodyMedium"} style={{color: 'purple'}}>{expand ? 'Show less' : 'Show more'}</Text>
+                        </Pressable>
+                    }
+                </View>
                 {
                     comment.has_replies &&
                     <Pressable

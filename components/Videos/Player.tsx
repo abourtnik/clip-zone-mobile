@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {useEffect, useState, useRef} from 'react'
 import {View, StyleSheet, ActivityIndicator, useWindowDimensions} from 'react-native';
 import {VideoType} from "@/types";
 import {getVideoFile} from "@/api/clipzone";
@@ -7,8 +7,8 @@ import {useNavigation} from "@react-navigation/native";
 import {RouteProps} from "@/navigation/HomeStack";
 import {useQuery} from "@tanstack/react-query";
 import {getSource} from "@/functions/image";
-import { useEventListener } from 'expo';
-import {useVideoPlayer,  VideoSource, VideoView} from 'expo-video';
+import {AVPlaybackSource, ResizeMode, Video as ExpoVideo} from "expo-av";
+
 
 type Props = {
     video: VideoType,
@@ -17,6 +17,8 @@ type Props = {
 export const Player = ({video} : Props) => {
 
     const navigation = useNavigation<RouteProps>();
+
+    const ref = useRef<ExpoVideo>(null);
 
     const [loading, setLoading] = useState(true);
 
@@ -31,38 +33,30 @@ export const Player = ({video} : Props) => {
         queryFn: () => getSource(getVideoFile(video.file))
     });
 
-    const player = useVideoPlayer(source as VideoSource, player => {
-        player.volume = 0.5;
-    });
-
-    useEventListener(player, 'statusChange', ({ status, error }) => {
-        if (status === 'readyToPlay'){
-            setLoading(false)
-        }
-    });
-
     useEffect(() => {
-        if (!loading && autoPlay) {
-            player.play()
+
+        if (!loading && autoPlay && navigation.isFocused()) {
+            ref.current?.playAsync()
         }
     }, [loading]);
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('blur', (e) => {
-            player.pause();
-            player.currentTime = 0;
+            ref.current?.stopAsync()
         });
         return unsubscribe
     }, []);
 
     return (
-        <VideoView
+        <ExpoVideo
+            posterSource={{uri:video.thumbnail}}
+            onLoad={() => setLoading(false)}
+            ref={ref}
             style={[styles.player, videoHeight]}
-            player={player}
-            allowsFullscreen
-            allowsPictureInPicture
-            contentFit={'cover'}
-            nativeControls={true}
+            useNativeControls={true}
+            resizeMode={ResizeMode.COVER}
+            source={source as AVPlaybackSource}
+            volume={0.5}
         >
             {
                 loading &&
@@ -70,8 +64,8 @@ export const Player = ({video} : Props) => {
                     <ActivityIndicator/>
                 </View>
             }
-        </VideoView>
-    );
+        </ExpoVideo>
+    )
 }
 
 const styles = StyleSheet.create({

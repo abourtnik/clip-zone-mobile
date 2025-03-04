@@ -27,6 +27,8 @@ export type VideoType = {
     title: string,
     short_title : string
     short_description : string
+    description: string
+    description_is_long: boolean
     thumbnail: string,
     duration: number,
     formated_duration: string
