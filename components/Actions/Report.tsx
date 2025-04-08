@@ -98,10 +98,10 @@ export function Report ({video, ...props} : Props) {
                 onPress={() => isGuest ? mutate() : setShowModal(true)}
                 labelStyle={styles.button}
                 disabled={reported}
-                textColor={reported ? 'black' : 'white'}
-                buttonColor={reported ? '#E8E8E8' : '#6750A4'}
+                buttonColor={'rgba(0, 0, 0, 0.03)'}
+                textColor={'black'}
                 icon={({ size, color }) => (
-                    <MaterialCommunityIcons name="flag-outline" size={20} color={color} style={styles.button_icon}/>
+                    <MaterialCommunityIcons name="flag-outline" size={17} color={color} style={styles.button_icon}/>
                 )}
                 mode={'contained'}
             >
@@ -115,11 +115,12 @@ export function Report ({video, ...props} : Props) {
 const styles = StyleSheet.create({
     button: {
         marginVertical: 6,
-        marginHorizontal: 10,
-        fontSize: 13
+        marginHorizontal: 13,
+        fontSize: 13,
+        fontWeight: 'normal'
     },
     button_icon: {
-        paddingRight: 15
+        paddingRight: 10
     },
     form: {
         marginVertical: 15,

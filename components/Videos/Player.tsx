@@ -1,70 +1,77 @@
-import {useEffect, useState, useRef} from 'react'
+import {useEffect, useState, Fragment} from 'react'
 import {View, StyleSheet, ActivityIndicator, useWindowDimensions} from 'react-native';
 import {VideoType} from "@/types";
 import {getVideoFile} from "@/api/clipzone";
 import {useSettingsStore} from "@/stores/useSettingsStore";
-import {useNavigation} from "@react-navigation/native";
-import {RouteProps} from "@/navigation/HomeStack";
 import {useQuery} from "@tanstack/react-query";
 import {getSource} from "@/functions/image";
-import {AVPlaybackSource, ResizeMode, Video as ExpoVideo} from "expo-av";
-
+import {useVideoPlayer,  VideoSource, VideoView} from 'expo-video';
+import {useEventListener} from "expo";
 
 type Props = {
     video: VideoType,
+    play: boolean
 }
 
-export const Player = ({video} : Props) => {
-
-    const navigation = useNavigation<RouteProps>();
-
-    const ref = useRef<ExpoVideo>(null);
+export const Player = ({video, play} : Props) => {
 
     const [loading, setLoading] = useState(true);
-
-    const autoPlay = useSettingsStore(state => state.autoPlay)
-
-    const {height} = useWindowDimensions();
-
-    const videoHeight = {height : height / 3};
 
     const {data: source} = useQuery({
         queryKey: ['video.player', video.uuid],
         queryFn: () => getSource(getVideoFile(video.file))
     });
 
-    useEffect(() => {
+    const autoPlay = useSettingsStore(state => state.autoPlay)
 
-        if (!loading && autoPlay && navigation.isFocused()) {
-            ref.current?.playAsync()
+    const player = useVideoPlayer(source as VideoSource, player => {
+        player.volume = 0.5;
+    });
+
+    useEventListener(player, 'statusChange', ({ status, error }) => {
+        if (status === 'readyToPlay'){
+            setLoading(false)
+        }
+    });
+
+    useEffect(() => {
+        if (play) {
+            player.play()
+        } else {
+            player.pause()
+        }
+
+    }, [play]);
+
+    const {height} = useWindowDimensions();
+
+    const videoHeight = {height : height / 3};
+
+    useEffect(() => {
+        if (!loading && autoPlay) {
+            player.play()
         }
     }, [loading]);
 
-    useEffect(() => {
-        const unsubscribe = navigation.addListener('blur', (e) => {
-            ref.current?.stopAsync()
-        });
-        return unsubscribe
-    }, []);
-
     return (
-        <ExpoVideo
-            posterSource={{uri:video.thumbnail}}
-            onLoad={() => setLoading(false)}
-            ref={ref}
-            style={[styles.player, videoHeight]}
-            useNativeControls={true}
-            resizeMode={ResizeMode.COVER}
-            source={source as AVPlaybackSource}
-            volume={0.5}
-        >
-            {
-                loading &&
-                <View style={[styles.loader, videoHeight]}>
-                    <ActivityIndicator/>
-                </View>
-            }
-        </ExpoVideo>
+        <Fragment>
+            <VideoView
+                player={player}
+                allowsFullscreen
+                allowsPictureInPicture
+                style={[styles.player, videoHeight]}
+                contentFit={'cover'}
+                nativeControls={true}
+            >
+                {
+                    loading &&
+                    <View style={[styles.loader, videoHeight]}>
+                        <ActivityIndicator/>
+                    </View>
+                }
+            </VideoView>
+        </Fragment>
+
     )
 }
 

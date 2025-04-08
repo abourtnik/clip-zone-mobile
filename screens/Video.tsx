@@ -4,7 +4,7 @@ import {useQuery} from "@tanstack/react-query";
 import {getVideo} from "@/api/clipzone";
 import BottomSheet from '@gorhom/bottom-sheet';
 import moment from "moment";
-import {useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 import {CommentsBottomSheet} from "@/components/Comment";
 import {ApiError, Loader, NetworkError} from "@/components/commons";
 import {FullVideo as SuggestedVideo, Player, Description} from "../components/Videos";
@@ -15,7 +15,6 @@ import Interactions from "@/components/Interactions";
 import {useResponsive} from "@/hooks/useResponsive";
 import {STATUS_ICON, STATUS as VIDEO_STATUS} from "@/constants/videos";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-
 
 type Props = {
     route: {
@@ -35,6 +34,17 @@ export default function Video({ route } : Props) {
     const description = useRef<BottomSheet>(null);
 
     const {numColumns, hasMultipleColumns} = useResponsive();
+
+    const [play, setPlay] = useState(true);
+
+    useEffect(() => {
+        const blur = navigation.addListener('blur', (e) => {
+            setPlay(false);
+        });
+        return () => {
+            navigation.removeListener('blur', blur);
+        }
+    }, []);
 
     const {
         data: video,
@@ -58,7 +68,7 @@ export default function Video({ route } : Props) {
             {
                 video &&
                     <View style={styles.container}>
-                        <Player video={video}/>
+                        <Player video={video} play={play} />
                         <View style={{flex: 1}}>
                             {
                                 video &&
@@ -102,9 +112,7 @@ export default function Video({ route } : Props) {
                                                 horizontal={true}
                                                 contentContainerStyle={styles.buttons_container}
                                             >
-                                                <View>
-                                                    <Interactions video={video}/>
-                                                </View>
+                                                <Interactions video={video}/>
                                                 <Share video={video}/>
                                                 <Download video={video}/>
                                                 {/*<Save video={video}/>*/}

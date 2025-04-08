@@ -49,6 +49,13 @@
         {
           "initialOrientation": "DEFAULT"
         }
+      ],
+      [
+        "expo-video",
+        {
+          "supportsBackgroundPlayback": true,
+          "supportsPictureInPicture": true
+        }
       ]
     ],
     "extra": {

@@ -12,6 +12,7 @@ const queryClient = new QueryClient({
       queries: {
         networkMode: 'online',
         refetchOnReconnect: false,
+        retry: false
       },
     },
 });

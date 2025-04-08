@@ -21,6 +21,8 @@ export function Share ({video, ...props} : Props) {
             {...props}
             onPress={share}
             labelStyle={styles.button}
+            buttonColor={'rgba(0, 0, 0, 0.03)'}
+            textColor={'black'}
             icon={({ size, color }) => (
                 <MaterialCommunityIcons name="share" size={17} color={color} style={styles.button_icon}/>
             )}
@@ -35,10 +37,11 @@ export function Share ({video, ...props} : Props) {
 const styles = StyleSheet.create({
     button: {
         marginVertical: 6,
-        marginHorizontal: 10,
-        fontSize: 13
+        marginHorizontal: 13,
+        fontSize: 13,
+        fontWeight: 'normal'
     },
     button_icon: {
-        paddingRight: 15
+        paddingRight: 10
     }
 });

@@ -78,7 +78,7 @@ export default function Interactions ({video}: Props) {
                     styles.interaction
                 ]}
             >
-                {state.liked ? <FontAwesome name="thumbs-up" size={20} color="green" /> : <FontAwesome name="thumbs-o-up" size={20} color="black" /> }
+                {state.liked ? <FontAwesome name="thumbs-up" size={17} color="black" /> : <FontAwesome name="thumbs-o-up" size={17} color="black" /> }
                 {video.show_likes && state.counterLike > 0 && <Text>{state.counterLike}</Text>}
             </Pressable>
             <View style={styles.separator}></View>
@@ -89,7 +89,7 @@ export default function Interactions ({video}: Props) {
                     styles.interaction
                 ]}
             >
-                {state.disliked ? <FontAwesome name="thumbs-down" size={20} color="red" /> : <FontAwesome name="thumbs-o-down" size={20} color="black" /> }
+                {state.disliked ? <FontAwesome name="thumbs-down" size={17} color="black" /> : <FontAwesome name="thumbs-o-down" size={17} color="black" /> }
                 {video.show_likes && state.counterDislike > 0 && <Text>{state.counterDislike}</Text>}
             </Pressable>
         </View>
@@ -99,6 +99,7 @@ export default function Interactions ({video}: Props) {
 
 const styles = StyleSheet.create({
     container : {
+        flex: 1,
         backgroundColor: 'rgba(0, 0, 0, 0.05)',
         borderRadius: 15,
         flexDirection : 'row'
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
         flexDirection : 'row',
         justifyContent: 'center',
         paddingHorizontal: 20,
-        paddingVertical: 8,
+        paddingVertical: 7,
         borderRadius: 15,
         gap: 10
     },

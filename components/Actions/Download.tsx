@@ -28,9 +28,12 @@ export function Download ({video, ...props} : Props) {
                 onPress={download}
                 labelStyle={styles.button}
                 icon={({ size, color }) => (
-                    <MaterialCommunityIcons name="download" size={18} color={color} style={styles.button_icon}/>
+                    <MaterialCommunityIcons name="download" size={17} color={color} style={styles.button_icon}/>
                 )}
-                mode={'contained'}>
+                mode={'contained'}
+                buttonColor={'rgba(0, 0, 0, 0.03)'}
+                textColor={'black'}
+            >
                 Download
             </Button>
         </>
@@ -41,16 +44,11 @@ export function Download ({video, ...props} : Props) {
 const styles = StyleSheet.create({
     button: {
         marginVertical: 6,
-        marginHorizontal: 10,
-        fontSize: 13
+        marginHorizontal: 13,
+        fontSize: 13,
+        fontWeight: 'normal'
     },
     button_icon: {
-        paddingRight: 15
-    },
-    buttons_container: {
-       flexDirection: 'row',
-       alignItems: 'center',
-       justifyContent: 'flex-end',
-       gap: 10,
-    },
+        paddingRight: 10
+    }
 });
