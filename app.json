@@ -11,28 +11,35 @@
     ],
     "githubUrl": "https://github.com/abourtnik/clip-zone-mobile",
     "backgroundColor": "#ffffff",
-    "primaryColor": "#3D556B",
-    "icon": "./assets/icon.png",
+    "primaryColor": "#344E69",
+    "icon": "./assets/icons/icon.png",
     "userInterfaceStyle": "light",
     "androidStatusBar": {
       "barStyle": "dark-content",
-      "backgroundColor": "#3D556B"
+      "backgroundColor": "#344E69"
     },
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/icons/splash-icon-light.png",
       "resizeMode": "contain",
-      "backgroundColor": "#3D556B"
+      "backgroundColor": "#344E69"
     },
     "ios": {
       "supportsTablet": false,
-      "backgroundColor": "#3D556B",
+      "backgroundColor": "#344E69",
       "bundleIdentifier": "1",
-      "requireFullScreen": true
+      "requireFullScreen": true,
+      "icon": {
+        "dark": "./assets/icons/ios-dark.png",
+        "light": "./assets/icons/ios-light.png",
+        "tinted": "./assets/icons/ios-tinted.png"
+      }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#3D556B"
+        "foregroundImage": "./assets/icons/android-icon.png",
+        "monochromeImage": "./assets/icons/android-icon.png",
+        "backgroundImage": "./assets/icons/android-icon.png",
+        "backgroundColor": "#344E69"
       },
       "playStoreUrl": "https://play.google.com/store/apps/details?id=com.abourtnik.clipzone",
       "package": "com.abourtnik.clipzone",
@@ -55,6 +62,19 @@
         {
           "supportsBackgroundPlayback": true,
           "supportsPictureInPicture": true
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#344E69",
+          "image": "./assets/icons/splash-icon-light.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "dark": {
+            "image": "./assets/splash-icon-dark.png",
+            "backgroundColor": "#344E69"
+          }
         }
       ]
     ],

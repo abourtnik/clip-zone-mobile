@@ -16,6 +16,7 @@ export function About ({user, bottomSheetRef}: Props) {
         <BottomSheet
             ref={bottomSheetRef}
             snapPoints={['50%']}
+            enableDynamicSizing={false}
             index={-1}
             enablePanDownToClose={true}
             backdropComponent={(props) => (
