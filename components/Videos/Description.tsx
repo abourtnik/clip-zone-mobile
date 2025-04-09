@@ -99,26 +99,6 @@ export function Description ({video, bottomSheetRef}: Props) {
                             {video.user.show_subscribers && <Text style={styles.subscribers}>{video.user.subscribers} subscribers</Text>}
                         </View>
                     </Pressable>
-                    <View style={styles.buttons}>
-                        <Button
-                            labelStyle={styles.button}
-                            mode={'outlined'}
-                            compact={true}
-                            icon={'video-outline'}
-                            onPress={() => navigation.navigate('User', {id: video.user.id, username: video.user.username})}
-                        >
-                            Videos
-                        </Button>
-                        <Button
-                            labelStyle={styles.button}
-                            mode={'outlined'}
-                            compact={true}
-                            icon={'account-box'}
-                            onPress={() => navigation.navigate('User', {id: video.user.id, username: video.user.username})}
-                        >
-                            About
-                        </Button>
-                    </View>
                 </BottomSheetScrollView>
             </View>
         </BottomSheet>
@@ -186,15 +166,5 @@ const styles = StyleSheet.create({
     },
     subscribers : {
         color : 'grey'
-    },
-    buttons : {
-        flexDirection:'row',
-        gap: 8,
-        paddingHorizontal: 15,
-    },
-    button : {
-        marginVertical: 5,
-        marginHorizontal: 10,
-        fontSize: 13
     }
 });

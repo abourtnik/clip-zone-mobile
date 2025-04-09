@@ -114,7 +114,7 @@ export function Report ({video, ...props} : Props) {
 
 const styles = StyleSheet.create({
     button: {
-        marginVertical: 6,
+        marginVertical: 7,
         marginHorizontal: 13,
         fontSize: 13,
         fontWeight: 'normal'

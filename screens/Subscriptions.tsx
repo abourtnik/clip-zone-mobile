@@ -122,6 +122,7 @@ const styles = StyleSheet.create({
         color: 'grey'
     },
     button: {
+        backgroundColor: 'black',
         marginTop: 10,
     },
     header: {

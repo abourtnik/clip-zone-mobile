@@ -12,6 +12,8 @@ import { Avatar } from 'react-native-paper';
 import {Platform,} from "react-native";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {AuthError, ConnectionError, MainError} from "@/components/commons";
+import Constants from 'expo-constants';
+
 
 const Tab = createBottomTabNavigator();
 
@@ -35,7 +37,9 @@ export default function Navigation() {
                 screenOptions={{
                     headerShown : false,
                     tabBarHideOnKeyboard: true,
+                    tabBarActiveTintColor:Constants.expoConfig?.primaryColor
                 }}
+
             >
                 <Tab.Screen
                     name="HomeTab"

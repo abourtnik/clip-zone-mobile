@@ -46,7 +46,7 @@ export default function Login() {
             <View style={styles.header}>
                 <Svg height="600" width="100%" viewBox="0 0 1440 720">
                     <Path
-                        fill="#6B4EAB"
+                        fill="#000000"
                         fill-opacity="1"
                         d="M0,192L60,186.7C120,181,240,171,360,186.7C480,203,600,245,720,250.7C840,256,960,224,1080,218.7C1200,213,1320,235,1380,245.3L1440,256L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"
                     />
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     header: {
-        backgroundColor:'#6B4EAB',
+        backgroundColor: 'black',
         height:215,
         width:'100%'
     },
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
         color : '#6B4EAB',
         fontWeight: 'bold',
     },
-    button :{
+    button: {
         marginTop: 25,
         marginBottom: 15,
     },

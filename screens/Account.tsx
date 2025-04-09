@@ -150,7 +150,7 @@ export default function Account({navigation} : Props) {
             </List.Section>
             {
                 status === AuthStatus.Authenticated &&
-                <Button compact={true} mode="text" onPress={logout}>
+                <Button compact={true} mode="text" onPress={logout} textColor={'black'}>
                     Logout
                 </Button>
             }
@@ -170,6 +170,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 10
     },
     button: {
+        backgroundColor: 'black',
         borderRadius: 10
     },
     account: {
