@@ -4,7 +4,7 @@
     "description": "Open Source React Native Youtube Clone",
     "slug": "clip-zone",
     "newArchEnabled": true,
-    "version": "0.1.3",
+    "version": "0.1.6",
     "platforms": [
       "ios",
       "android"
@@ -36,9 +36,9 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/icons/android-icon.png",
-        "monochromeImage": "./assets/icons/android-icon.png",
-        "backgroundImage": "./assets/icons/android-icon.png",
+        "foregroundImage": "./assets/icons/android-icon-foreground.png",
+        "monochromeImage": "./assets/icons/android-icon-monochrome.png",
+        "backgroundImage": "./assets/icons/android-icon-background.png",
         "backgroundColor": "#344E69"
       },
       "playStoreUrl": "https://play.google.com/store/apps/details?id=com.abourtnik.clipzone",
@@ -72,7 +72,7 @@
           "imageWidth": 200,
           "resizeMode": "contain",
           "dark": {
-            "image": "./assets/splash-icon-dark.png",
+            "image": "./assets/icons/splash-icon-dark.png",
             "backgroundColor": "#344E69"
           }
         }
