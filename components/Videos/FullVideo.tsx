@@ -38,7 +38,7 @@ export const FullVideo = memo(({video, height = 230} : Props) => {
                 </Pressable>
                 <View style={styles.infos}>
                     <Text style={styles.title}>{video.title}</Text>
-                    <Text variant={'labelMedium'} style={styles.info}>{video.user.username} • {video.views} views • {moment(video.publication_date).fromNow()}</Text>
+                    <Text variant={'labelMedium'} style={styles.info}>{video.user.username} • {video.views} views • {moment(video.published_at).fromNow()}</Text>
                 </View>
             </View>
         </Pressable>

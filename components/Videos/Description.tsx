@@ -63,8 +63,8 @@ export function Description ({video, bottomSheetRef}: Props) {
                                 <Text variant={'bodySmall'} style={styles.label}>Views</Text>
                             </View>
                             <View style={styles.info}>
-                                <Text style={styles.counter}>{moment(video.publication_date).format('YYYY')}</Text>
-                                <Text variant={'bodySmall'} style={styles.label}>{moment(video.publication_date).format('DD MMM')}</Text>
+                                <Text style={styles.counter}>{moment(video.published_at).format('YYYY')}</Text>
+                                <Text variant={'bodySmall'} style={styles.label}>{moment(video.published_at).format('DD MMM')}</Text>
                             </View>
                         </View>
                         {

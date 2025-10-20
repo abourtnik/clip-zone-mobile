@@ -36,7 +36,7 @@ export type VideoType = {
     route: string
     user: TinyUserType,
     comments: number
-    publication_date: Date
+    published_at: Date
     status: VIDEO_STATUS
     first_comment?: {
         content: string,
@@ -54,7 +54,7 @@ export type TinyVideoType = {
     formated_duration: string,
     views: number,
     route: string,
-    publication_date: string | number,
+    published_at: string | number,
     user: TinyUserType
     is_private?: boolean
 }
@@ -80,7 +80,7 @@ export type SearchVideoType = {
     user: string
     views: string,
     formated_duration: string,
-    publication_date: number,
+    published_at: number,
     thumbnail: string,
     url: string,
     uuid: string,
@@ -88,7 +88,7 @@ export type SearchVideoType = {
         title: string,
         user: string,
         views: string,
-        publication_date: string,
+        published_at: string,
         thumbnail: string,
         url: string,
         uuid: string

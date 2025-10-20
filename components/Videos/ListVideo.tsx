@@ -39,7 +39,7 @@ export const ListVideo = memo(({video} : Props) => {
             </Thumbnail>
             <View style={styles.infos}>
                 <Text style={styles.title}>{video.title}</Text>
-                <Text variant={'labelMedium'} style={styles.info}>{video.views} views • {typeof video.publication_date === "number" ? moment.unix(video.publication_date).fromNow() : moment(video.publication_date).fromNow()}</Text>
+                <Text variant={'labelMedium'} style={styles.info}>{video.views} views • {typeof video.published_at === "number" ? moment.unix(video.published_at).fromNow() : moment(video.published_at).fromNow()}</Text>
             </View>
         </Pressable>
     );
