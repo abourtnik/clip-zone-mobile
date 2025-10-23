@@ -1,6 +1,6 @@
 import {RefObject, useState} from 'react'
 import {Dimensions, Pressable, StyleSheet, View} from 'react-native';
-import {IconButton, Text, Avatar, Button} from 'react-native-paper';
+import {IconButton, Text, Avatar} from 'react-native-paper';
 import BottomSheet, {BottomSheetBackdrop, BottomSheetScrollView} from "@gorhom/bottom-sheet";
 import {VideoType} from "@/types";
 import moment from "moment";
@@ -107,7 +107,8 @@ export function Description ({video, bottomSheetRef}: Props) {
 
 const styles = StyleSheet.create({
     container : {
-        flex: 1
+        flex: 1,
+        paddingBottom: 60
     },
     header: {
         justifyContent: 'space-between',

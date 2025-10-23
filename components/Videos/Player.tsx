@@ -57,7 +57,9 @@ export const Player = ({video, play} : Props) => {
         <Fragment>
             <VideoView
                 player={player}
-                allowsFullscreen
+                fullscreenOptions={{
+                    enable: true
+                }}
                 allowsPictureInPicture
                 style={[styles.player, videoHeight]}
                 contentFit={'cover'}

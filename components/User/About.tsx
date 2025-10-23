@@ -87,7 +87,8 @@ export function About ({user, bottomSheetRef}: Props) {
 
 const styles = StyleSheet.create({
     container : {
-        flex: 1
+        flex: 1,
+        paddingBottom: 60
     },
     header: {
         justifyContent: 'space-between',
