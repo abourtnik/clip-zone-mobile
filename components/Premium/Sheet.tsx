@@ -1,21 +1,21 @@
 import {View, StyleSheet, Linking} from 'react-native';
-import BottomSheet, {BottomSheetBackdrop, BottomSheetView} from "@gorhom/bottom-sheet";
+import {BottomSheetBackdrop, BottomSheetModal, BottomSheetView} from "@gorhom/bottom-sheet";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 import {RefObject} from "react";
 import {Text, Button} from "react-native-paper";
 
 type Props = {
-    sheetRef: RefObject<BottomSheet>
+    sheetRef: RefObject<BottomSheetModal | null>
 }
 export const Sheet = ({sheetRef}: Props) => {
 
     return (
-        <BottomSheet
+        <BottomSheetModal
             ref={sheetRef}
             snapPoints={[360]}
-            index={-1}
             enablePanDownToClose={true}
+            enableDynamicSizing={false}
             backdropComponent={(props) => (
                 <BottomSheetBackdrop
                     {...props}
@@ -50,7 +50,7 @@ export const Sheet = ({sheetRef}: Props) => {
                 </View>
 
                 <View style={styles.button_container}>
-                    <Button labelStyle={styles.button} mode="text" onPress={() => sheetRef.current?.close()}>
+                    <Button labelStyle={styles.button} textColor={'black'} mode="text" onPress={() => sheetRef.current?.close()}>
                         Not now
                     </Button>
                     <Button buttonColor={'#FFC107'} labelStyle={styles.button} mode="contained" onPress={() => Linking.openURL('https://clip-zone.com/premium')}>
@@ -58,7 +58,7 @@ export const Sheet = ({sheetRef}: Props) => {
                     </Button>
                 </View>
             </BottomSheetView>
-        </BottomSheet>
+        </BottomSheetModal>
     );
 }
 

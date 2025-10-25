@@ -1,5 +1,5 @@
 import { onlineManager } from '@tanstack/react-query'
-import {Portal, Snackbar} from "react-native-paper";
+import {Snackbar} from "react-native-paper";
 import {useEffect, useState} from "react";
 export function ConnectionError () {
 
@@ -12,18 +12,16 @@ export function ConnectionError () {
         return () => unsubscribe();
     }, []);
     return (
-        <Portal>
-            <Snackbar
-                visible={visible}
-                onDismiss={() => setVisible(false)}
-                action={{
-                    label: 'Ignore',
-                    onPress: () => setVisible(false),
-                }}
-                duration={Infinity}
-            >
-                No internet connection
-            </Snackbar>
-        </Portal>
+        <Snackbar
+            visible={visible}
+            onDismiss={() => setVisible(false)}
+            action={{
+                label: 'Ignore',
+                onPress: () => setVisible(false),
+            }}
+            duration={Infinity}
+        >
+            No internet connection
+        </Snackbar>
     )
 }

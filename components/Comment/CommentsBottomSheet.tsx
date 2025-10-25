@@ -3,10 +3,11 @@ import {Dimensions} from 'react-native';
 import BottomSheet, {BottomSheetBackdrop} from "@gorhom/bottom-sheet";
 import {VideoType} from "@/types";
 import CommentsStack from "@/navigation/CommentsStack";
+import {BottomSheetMethods} from "@gorhom/bottom-sheet/src/types";
 
 type Props = {
     video: VideoType,
-    bottomSheetRef: RefObject<BottomSheet>
+    bottomSheetRef: RefObject<BottomSheetMethods | null>
 }
 
 export function CommentsBottomSheet ({video, bottomSheetRef}: Props) {

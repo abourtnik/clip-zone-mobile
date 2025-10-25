@@ -1,8 +1,8 @@
-import {Button, Portal, Text} from "react-native-paper";
+import {Button, Text} from "react-native-paper";
 import {useAuthStore} from "@/stores/useAuthStore";
 import {useNavigation} from "@react-navigation/native";
 import {RouteProps} from "@/navigation/HomeStack";
-import BottomSheet, {BottomSheetBackdrop, BottomSheetView} from "@gorhom/bottom-sheet";
+import {BottomSheetBackdrop, BottomSheetModal, BottomSheetView} from "@gorhom/bottom-sheet";
 import {Linking, StyleSheet, View} from "react-native";
 import {useRef, useEffect} from "react";
 import {useAuth} from "@/hooks/useAuth";
@@ -14,10 +14,10 @@ export function AuthError () {
 
     const navigation = useNavigation<RouteProps>();
 
-    const bottomSheet = useRef<BottomSheet>(null);
+    const bottomSheet = useRef<BottomSheetModal>(null);
 
     useEffect(() => {
-        error ? bottomSheet.current?.expand() : bottomSheet.current?.close()
+        error ? bottomSheet.current?.present() : bottomSheet.current?.close()
 
         if (error && error.code === 401) {
             manualLogout()
@@ -37,38 +37,48 @@ export function AuthError () {
 
 
     return (
-        <Portal>
-            <BottomSheet
-                ref={bottomSheet}
-                snapPoints={[180]}
-                onClose={reset}
-                index={-1}
-                enablePanDownToClose={true}
-                backdropComponent={(props) => (
-                    <BottomSheetBackdrop
-                        {...props}
-                        disappearsOnIndex={-1}
-                        appearsOnIndex={0}
-                        opacity={0.5}
-                    />
-                )}
-            >
-                <BottomSheetView style={styles.container} >
-                    <View style={styles.content}>
-                        <Text variant={'titleMedium'} style={styles.title}>{error?.title}</Text>
-                        <Text style={styles.description} variant={'titleSmall'}>{error?.description}</Text>
-                    </View>
-                    <View style={styles.button_container}>
-                        <Button labelStyle={styles.button} mode="outlined" onPress={register}>
-                            Register
-                        </Button>
-                        <Button labelStyle={styles.button} textColor={'white'} mode="contained" onPress={login}>
-                            Sign In
-                        </Button>
-                    </View>
-                </BottomSheetView>
-            </BottomSheet>
-        </Portal>
+        <BottomSheetModal
+            ref={bottomSheet}
+            snapPoints={[180]}
+            onDismiss={reset}
+            enablePanDownToClose={true}
+            enableDynamicSizing={false}
+            backdropComponent={(props) => (
+                <BottomSheetBackdrop
+                    {...props}
+                    disappearsOnIndex={-1}
+                    appearsOnIndex={0}
+                    opacity={0.5}
+                />
+            )}
+        >
+            <BottomSheetView style={styles.container} >
+                <View style={styles.content}>
+                    <Text variant={'titleMedium'} style={styles.title}>{error?.title}</Text>
+                    <Text style={styles.description} variant={'titleSmall'}>{error?.description}</Text>
+                </View>
+                <View style={styles.button_container}>
+                    <Button
+                        labelStyle={styles.button}
+                        mode="outlined"
+                        onPress={register}
+                        buttonColor={'#272727'}
+                        textColor={'white'}
+                    >
+                        Register
+                    </Button>
+                    <Button
+                        labelStyle={styles.button}
+                        mode="contained"
+                        onPress={login}
+                        buttonColor={'#272727'}
+                        textColor={'white'}
+                    >
+                        Sign In
+                    </Button>
+                </View>
+            </BottomSheetView>
+        </BottomSheetModal>
     )
 }
 const styles = StyleSheet.create({
@@ -97,7 +107,7 @@ const styles = StyleSheet.create({
     },
     button: {
         marginVertical: 10,
-        fontSize: 14,
+        fontSize: 13,
         fontWeight: 'bold',
     }
 });

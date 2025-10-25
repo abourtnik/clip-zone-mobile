@@ -1,4 +1,4 @@
-import {FlatList, ScrollView, StyleSheet, View, Keyboard, Platform} from 'react-native';
+import {FlatList, ScrollView, StyleSheet, View, Keyboard} from 'react-native';
 import {Searchbar, Text} from 'react-native-paper';
 import {search} from "@/api/clipzone";
 import {useState} from "react";
@@ -20,7 +20,7 @@ export default function Search() {
     const {numColumns, hasMultipleColumns} = useResponsive();
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={styles.container} edges={['top']}>
             <View style={styles.searchbar}>
                 <Searchbar
                     autoCapitalize={'none'}
@@ -64,23 +64,17 @@ export default function Search() {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: '#3D556B'
+        flex: 1
     },
     searchbar: {
         paddingHorizontal: 10,
         paddingVertical: 10,
-        backgroundColor: '#3D556B',
+        backgroundColor: 'black',
         width: '100%'
     },
     results: {
         flex: 1,
         backgroundColor: 'white',
-        ...Platform.select({
-            ios: {
-                marginBottom: -40,
-            }
-        })
     },
     empty: {
         flex: 1,

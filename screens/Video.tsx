@@ -2,7 +2,6 @@ import {View, StyleSheet, Pressable, FlatList, ScrollView} from 'react-native';
 import {Text, Avatar} from 'react-native-paper';
 import {useQuery} from "@tanstack/react-query";
 import {getVideo} from "@/api/clipzone";
-import BottomSheet from '@gorhom/bottom-sheet';
 import moment from "moment";
 import {useEffect, useRef, useState} from "react";
 import {CommentsBottomSheet} from "@/components/Comment";
@@ -15,6 +14,7 @@ import Interactions from "@/components/Interactions";
 import {useResponsive} from "@/hooks/useResponsive";
 import {STATUS_ICON, STATUS as VIDEO_STATUS} from "@/constants/videos";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import {BottomSheetMethods} from "@gorhom/bottom-sheet/src/types";
 
 type Props = {
     route: {
@@ -30,8 +30,8 @@ export default function Video({ route } : Props) {
 
     const navigation = useNavigation<RouteProps>();
 
-    const comments = useRef<BottomSheet>(null);
-    const description = useRef<BottomSheet>(null);
+    const comments = useRef<BottomSheetMethods>(null);
+    const description = useRef<BottomSheetMethods>(null);
 
     const {numColumns, hasMultipleColumns} = useResponsive();
 

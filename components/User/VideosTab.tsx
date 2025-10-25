@@ -52,6 +52,8 @@ export const VideosTab = memo(({user} : Props) => {
                             labelStyle={styles.button}
                             compact={true}
                             onPress={() => selectSort('latest')}
+                            buttonColor={sort === 'latest' ? 'black' : 'white'}
+                            textColor={sort === 'latest' ? 'white' : 'black'}
                         >
                             Latest
                         </Button>
@@ -61,6 +63,8 @@ export const VideosTab = memo(({user} : Props) => {
                             labelStyle={styles.button}
                             compact={true}
                             onPress={() => selectSort('popular')}
+                            buttonColor={sort === 'popular' ? 'black' : 'white'}
+                            textColor={sort === 'popular' ? 'white' : 'black'}
                         >
                             Popular
                         </Button>
@@ -70,6 +74,8 @@ export const VideosTab = memo(({user} : Props) => {
                             labelStyle={styles.button}
                             compact={true}
                             onPress={() => selectSort('oldest')}
+                            buttonColor={sort === 'oldest' ? 'black' : 'white'}
+                            textColor={sort === 'oldest' ? 'white' : 'black'}
                         >
                             Oldest
                         </Button>

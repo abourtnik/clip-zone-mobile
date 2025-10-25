@@ -1,10 +1,10 @@
-import {Button, ButtonProps, Portal} from "react-native-paper";
+import {Button, ButtonProps} from "react-native-paper";
 import {StyleSheet} from "react-native";
 import {VideoType} from "@/types";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import {Sheet} from "@/components/Premium";
 import {useRef} from "react";
-import BottomSheet from "@gorhom/bottom-sheet";
+import {BottomSheetModal} from "@gorhom/bottom-sheet";
 
 type Props = Omit<ButtonProps, 'children'> & {
     video: VideoType;
@@ -12,17 +12,15 @@ type Props = Omit<ButtonProps, 'children'> & {
 
 export function Download ({video, ...props} : Props) {
 
-    const premium = useRef<BottomSheet>(null);
+    const premium = useRef<BottomSheetModal>(null);
 
     const download = () => {
-        premium.current?.expand()
+        premium.current?.present()
     }
 
     return (
         <>
-            <Portal>
-                <Sheet sheetRef={premium}/>
-            </Portal>
+            <Sheet sheetRef={premium}/>
             <Button
                 {...props}
                 onPress={download}

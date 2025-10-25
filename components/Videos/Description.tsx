@@ -7,11 +7,11 @@ import moment from "moment";
 import {useNavigation} from "@react-navigation/native";
 import {RouteProps} from "@/navigation/HomeStack";
 import {HtmlContent} from '@/components/commons';
-
+import {BottomSheetMethods} from "@gorhom/bottom-sheet/src/types";
 
 type Props = {
     video: VideoType,
-    bottomSheetRef: RefObject<BottomSheet>
+    bottomSheetRef: RefObject<BottomSheetMethods | null>
 }
 
 export function Description ({video, bottomSheetRef}: Props) {
@@ -36,79 +36,76 @@ export function Description ({video, bottomSheetRef}: Props) {
                 />
             )}
         >
-            <View style={styles.container}>
-                <View style={styles.header}>
-                    <Text variant={'titleMedium'}>Description</Text>
-                    <IconButton
-                        icon="close"
-                        iconColor={'black'}
-                        size={20}
-                        onPress={() => bottomSheetRef.current?.close()}
-                    />
-                </View>
-                <View style={styles.separator}></View>
-                <BottomSheetScrollView contentContainerStyle={styles.content_container}>
-                    <View style={styles.content}>
-                        <Text variant={'titleMedium'} style={styles.title}>{video.title}</Text>
-                        <View style={styles.infos}>
-                            {
-                                video.show_likes &&
-                                <View style={styles.info}>
-                                    <Text style={styles.counter}>{video.likes}</Text>
-                                    <Text variant={'bodySmall'} style={styles.label}>Likes</Text>
-                                </View>
-                            }
-                            <View style={styles.info}>
-                                <Text style={styles.counter}>{video.views}</Text>
-                                <Text variant={'bodySmall'} style={styles.label}>Views</Text>
-                            </View>
-                            <View style={styles.info}>
-                                <Text style={styles.counter}>{moment(video.published_at).format('YYYY')}</Text>
-                                <Text variant={'bodySmall'} style={styles.label}>{moment(video.published_at).format('DD MMM')}</Text>
-                            </View>
-                        </View>
-                        {
-                            (video.description && video.description_is_long) &&
-                            <Pressable
-                                style={({ pressed }) => [
-                                    styles.description,
-                                    pressed && styles.pressed,
-                                ]}
-                                onPress={() => setExpand(v => !v)}
-                            >
-                                <HtmlContent html={expand ? video.description : video.short_description}/>
-                                <Text style={{marginTop: 10, color: 'purple'}}>{ expand ? 'Show less' : 'Show more'}</Text>
-                            </Pressable>
-                        }
-                    </View>
-                    <Pressable
-                        style={({ pressed }) => [
-                            pressed && styles.pressed,
-                            styles.user
-                        ]}
-                        onPress={() => navigation.navigate('User', {id: video.user.id, username: video.user.username})}
-                    >
-                        <Avatar.Image
-                            size={30}
-                            source={{
-                                uri:video.user.avatar,
-                            }}
-                        />
-                        <View>
-                            <Text style={styles.username}>{video.user.username}</Text>
-                            {video.user.show_subscribers && <Text style={styles.subscribers}>{video.user.subscribers} subscribers</Text>}
-                        </View>
-                    </Pressable>
-                </BottomSheetScrollView>
+            <View style={styles.header}>
+                <Text variant={'titleMedium'}>Description</Text>
+                <IconButton
+                    icon="close"
+                    iconColor={'black'}
+                    size={20}
+                    onPress={() => bottomSheetRef.current?.close()}
+                />
             </View>
+            <View style={styles.separator}></View>
+            <BottomSheetScrollView contentContainerStyle={styles.content}>
+                <View style={styles.content}>
+                    <Text variant={'titleMedium'} style={styles.title}>{video.title}</Text>
+                    <View style={styles.infos}>
+                        {
+                            video.show_likes &&
+                            <View style={styles.info}>
+                                <Text style={styles.counter}>{video.likes}</Text>
+                                <Text variant={'bodySmall'} style={styles.label}>Likes</Text>
+                            </View>
+                        }
+                        <View style={styles.info}>
+                            <Text style={styles.counter}>{video.views}</Text>
+                            <Text variant={'bodySmall'} style={styles.label}>Views</Text>
+                        </View>
+                        <View style={styles.info}>
+                            <Text style={styles.counter}>{moment(video.published_at).format('YYYY')}</Text>
+                            <Text variant={'bodySmall'} style={styles.label}>{moment(video.published_at).format('DD MMM')}</Text>
+                        </View>
+                    </View>
+                    {
+                        (video.description && video.description_is_long) &&
+                        <Pressable
+                            style={({ pressed }) => [
+                                styles.description,
+                                pressed && styles.pressed,
+                            ]}
+                            onPress={() => setExpand(v => !v)}
+                        >
+                            <HtmlContent html={expand ? video.description : video.short_description}/>
+                            <Text style={{marginTop: 10, color: 'black', fontWeight: 'bold'}}>{ expand ? 'Show less' : 'Show more'}</Text>
+                        </Pressable>
+                    }
+                </View>
+                <Pressable
+                    style={({ pressed }) => [
+                        pressed && styles.pressed,
+                        styles.user
+                    ]}
+                    onPress={() => navigation.navigate('User', {id: video.user.id, username: video.user.username})}
+                >
+                    <Avatar.Image
+                        size={30}
+                        source={{
+                            uri:video.user.avatar,
+                        }}
+                    />
+                    <View>
+                        <Text style={styles.username}>{video.user.username}</Text>
+                        {video.user.show_subscribers && <Text style={styles.subscribers}>{video.user.subscribers} subscribers</Text>}
+                    </View>
+                </Pressable>
+            </BottomSheetScrollView>
         </BottomSheet>
     );
 }
 
 const styles = StyleSheet.create({
     container : {
-        flex: 1,
-        paddingBottom: 60
+        flex: 1
     },
     header: {
         justifyContent: 'space-between',
@@ -121,11 +118,8 @@ const styles = StyleSheet.create({
         borderColor: 'rgba(0,0,0,0.1)',
         marginTop: 3
     },
-    content_container: {
-        paddingVertical: 10,
-    },
     content : {
-        paddingHorizontal: 15,
+        padding: 10
     },
     title : {
         textAlign : 'left',

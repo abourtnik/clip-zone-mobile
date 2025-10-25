@@ -1,4 +1,4 @@
-import {StyleSheet, View, FlatList, SectionList, useWindowDimensions} from 'react-native';
+import {StyleSheet, View, FlatList, SectionList} from 'react-native';
 import {Text} from 'react-native-paper';
 import {UserType} from "@/types";
 import {FullVideo, ListVideo} from "../Videos";
@@ -14,8 +14,6 @@ export const HomeTab = memo(({user} : Props) => {
 
     const {numColumns, hasMultipleColumns} = useResponsive();
 
-    const {height} = useWindowDimensions();
-
     return (
         <View style={styles.tab}>
             <FlatList
@@ -23,9 +21,7 @@ export const HomeTab = memo(({user} : Props) => {
                     <>
                         {
                             user.pinned_video &&
-                            <View>
-                                <FullVideo video={user.pinned_video} height={height / 3}></FullVideo>
-                            </View>
+                            <FullVideo video={user.pinned_video}/>
                         }
                         {
                             user.videos_count > 0 &&

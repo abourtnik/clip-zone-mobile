@@ -1,9 +1,9 @@
-import {useEffect, useState, Fragment} from 'react'
-import {View, StyleSheet, ActivityIndicator, useWindowDimensions} from 'react-native';
+import {useEffect, useState, Fragment, useRef} from 'react'
+import {View, StyleSheet, ActivityIndicator} from 'react-native';
 import {VideoType} from "@/types";
-import {getVideoFile} from "@/api/clipzone";
+import {getVideoFile, viewVideo} from "@/api/clipzone";
 import {useSettingsStore} from "@/stores/useSettingsStore";
-import {useQuery} from "@tanstack/react-query";
+import {useMutation, useQuery} from "@tanstack/react-query";
 import {getSource} from "@/functions/image";
 import {useVideoPlayer,  VideoSource, VideoView} from 'expo-video';
 import {useEventListener} from "expo";
@@ -13,7 +13,11 @@ type Props = {
     play: boolean
 }
 
+const VIEW_COUNT_DURATION = 1;
+
 export const Player = ({video, play} : Props) => {
+
+    const hasViewed = useRef(false);
 
     const [loading, setLoading] = useState(true);
 
@@ -26,6 +30,12 @@ export const Player = ({video, play} : Props) => {
 
     const player = useVideoPlayer(source as VideoSource, player => {
         player.volume = 0.5;
+        player.timeUpdateEventInterval = 1;
+    });
+
+    const {mutate: view} = useMutation({
+        mutationKey: ['videos.view', video.uuid],
+        mutationFn: () => viewVideo(video.uuid),
     });
 
     useEventListener(player, 'statusChange', ({ status, error }) => {
@@ -43,15 +53,18 @@ export const Player = ({video, play} : Props) => {
 
     }, [play]);
 
-    const {height} = useWindowDimensions();
-
-    const videoHeight = {height : height / 3};
-
     useEffect(() => {
         if (!loading && autoPlay) {
             player.play()
         }
     }, [loading]);
+
+    useEventListener(player, 'timeUpdate', (payload) => {
+        if (payload.currentTime > VIEW_COUNT_DURATION && !hasViewed.current) {
+            hasViewed.current = true;
+            view()
+        }
+    });
 
     return (
         <Fragment>
@@ -61,13 +74,13 @@ export const Player = ({video, play} : Props) => {
                     enable: true
                 }}
                 allowsPictureInPicture
-                style={[styles.player, videoHeight]}
-                contentFit={'cover'}
+                style={[styles.player]}
+                contentFit={'contain'}
                 nativeControls={true}
             >
                 {
                     loading &&
-                    <View style={[styles.loader, videoHeight]}>
+                    <View style={[styles.loader]}>
                         <ActivityIndicator/>
                     </View>
                 }
@@ -80,10 +93,12 @@ export const Player = ({video, play} : Props) => {
 const styles = StyleSheet.create({
     player: {
         width: '100%',
+        aspectRatio: 16 / 9
     },
     loader: {
         width: '100%',
         zIndex: 10,
+        aspectRatio: 16 / 9,
         backgroundColor: '#E6E6E6',
         justifyContent: 'center',
         alignItems: 'center'

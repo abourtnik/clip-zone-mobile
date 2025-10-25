@@ -1,6 +1,6 @@
-import {Button, Portal, Text} from "react-native-paper";
+import {Button, Text} from "react-native-paper";
 import {useErrorStore} from "@/stores/useErrorStore";
-import BottomSheet, {BottomSheetBackdrop, BottomSheetView} from "@gorhom/bottom-sheet";
+import {BottomSheetBackdrop, BottomSheetModal, BottomSheetView} from "@gorhom/bottom-sheet";
 import { StyleSheet, View} from "react-native";
 import {useRef, useEffect} from "react";
 
@@ -8,42 +8,40 @@ export function MainError () {
 
     const {error, reset} = useErrorStore();
 
-    const bottomSheet = useRef<BottomSheet>(null);
+    const bottomSheet = useRef<BottomSheetModal>(null);
 
     useEffect(() => {
-        error ? bottomSheet.current?.expand() : bottomSheet.current?.close()
+        error ? bottomSheet.current?.present() : bottomSheet.current?.close()
     }, [error]);
 
     return (
-        <Portal>
-            <BottomSheet
-                ref={bottomSheet}
-                snapPoints={[160]}
-                index={-1}
-                onClose={reset}
-                enablePanDownToClose={true}
-                backdropComponent={(props) => (
-                    <BottomSheetBackdrop
-                        {...props}
-                        disappearsOnIndex={-1}
-                        appearsOnIndex={0}
-                        opacity={0.5}
-                    />
-                )}
-            >
-                <BottomSheetView style={styles.container} >
-                    <View style={styles.content}>
-                        <Text variant={'titleMedium'} style={styles.title}>Oups, an error occurred !</Text>
-                        <Text variant={'bodyMedium'} style={styles.error}>{error}</Text>
-                    </View>
-                    <View style={styles.button_container}>
-                        <Button labelStyle={styles.button} mode="outlined" onPress={reset}>
-                           Close
-                        </Button>
-                    </View>
-                </BottomSheetView>
-            </BottomSheet>
-        </Portal>
+        <BottomSheetModal
+            ref={bottomSheet}
+            snapPoints={[160]}
+            onDismiss={reset}
+            enablePanDownToClose={true}
+            enableDynamicSizing={false}
+            backdropComponent={(props) => (
+                <BottomSheetBackdrop
+                    {...props}
+                    disappearsOnIndex={-1}
+                    appearsOnIndex={0}
+                    opacity={0.5}
+                />
+            )}
+        >
+            <BottomSheetView style={styles.container} >
+                <View style={styles.content}>
+                    <Text variant={'titleMedium'} style={styles.title}>Oups, an error occurred !</Text>
+                    <Text variant={'bodyMedium'} style={styles.error}>{error}</Text>
+                </View>
+                <View style={styles.button_container}>
+                    <Button labelStyle={styles.button} mode="outlined" onPress={reset}>
+                        Close
+                    </Button>
+                </View>
+            </BottomSheetView>
+        </BottomSheetModal>
     )
 }
 const styles= StyleSheet.create({

@@ -116,3 +116,6 @@ export async function deleteVideo(uuid: string): Promise<void> {
 export async function deletePlaylist(uuid: string): Promise<void> {
     return jsonFetch(API_URL + `/playlists/${uuid}`, 'DELETE');
 }
+export async function viewVideo(uuid: string): Promise<VideoType> {
+    return jsonFetch(API_URL + `/videos/${uuid}/view`, 'POST');
+}

@@ -56,7 +56,7 @@ export default function Playlist({ route } : Props) {
                             <Text style={styles.info} variant={'labelMedium'}>Playlist • {playlist.videos_count} videos</Text>
                             {playlist.description && <Text numberOfLines={2} style={styles.description} variant={'labelMedium'}>{playlist.description?.slice(0, 100)}</Text>}
                             <View style={styles.buttons}>
-                                <Button style={styles.button} icon={'play'} mode={'contained'}>Tout lire</Button>
+                                <Button buttonColor={'black'} textColor={'white'} style={styles.button} icon={'play'} mode={'contained'}>Tout lire</Button>
                                 <IconButton
                                     icon="bookmark-outline"
                                     iconColor={'white'}

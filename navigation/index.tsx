@@ -9,11 +9,7 @@ import SearchStack from "./SearchStack";
 import AccountStack from "./AccountStack";
 import {useAccount} from "@/hooks/useAccount";
 import { Avatar } from 'react-native-paper';
-import {Platform,} from "react-native";
-import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {AuthError, ConnectionError, MainError} from "@/components/commons";
-import Constants from 'expo-constants';
-
 
 const Tab = createBottomTabNavigator();
 
@@ -25,19 +21,14 @@ export default function Navigation() {
 
     const { account } = useAccount();
 
-    const insets = useSafeAreaInsets();
-
     return (
         <NavigationContainer theme={theme} >
             <Tab.Navigator
-                safeAreaInsets={{
-                    bottom: Platform.OS === "android" ? 10 : insets.bottom
-                }}
                 initialRouteName="HomeTab"
                 screenOptions={{
                     headerShown : false,
                     tabBarHideOnKeyboard: true,
-                    tabBarActiveTintColor:Constants.expoConfig?.primaryColor
+                    tabBarActiveTintColor: 'black'
                 }}
 
             >
@@ -99,7 +90,6 @@ export default function Navigation() {
                         }}
                     />
                 }
-
             </Tab.Navigator>
             <AuthError/>
             <ConnectionError/>

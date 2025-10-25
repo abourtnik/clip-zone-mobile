@@ -46,7 +46,7 @@ export function Replies ({route}: Props) {
                 responses &&
                 <BottomSheetFlatList
                     ListHeaderComponent={
-                        <View style={{backgroundColor: 'lightgrey'}}>
+                        <View style={{backgroundColor: 'lightgrey', paddingVertical: 10}}>
                             <Comment comment={comment} />
                         </View>
                     }

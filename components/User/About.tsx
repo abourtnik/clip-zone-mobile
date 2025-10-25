@@ -5,10 +5,11 @@ import BottomSheet, {BottomSheetBackdrop, BottomSheetScrollView} from "@gorhom/b
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import moment from "moment";
 import {UserType} from "@/types";
+import {BottomSheetMethods} from "@gorhom/bottom-sheet/src/types";
 
 type Props = {
     user: UserType,
-    bottomSheetRef: RefObject<BottomSheet>
+    bottomSheetRef: RefObject<BottomSheetMethods | null>
 }
 
 export function About ({user, bottomSheetRef}: Props) {
@@ -28,59 +29,55 @@ export function About ({user, bottomSheetRef}: Props) {
                 />
             )}
         >
-            <View style={styles.container}>
-                <View style={styles.header}>
-                    <Text variant={'titleMedium'}>About</Text>
-                    <IconButton
-                        icon="close"
-                        iconColor={'black'}
-                        size={20}
-                        onPress={() => bottomSheetRef.current?.close()}
-                    />
-                </View>
-                <View style={styles.separator}></View>
-                <BottomSheetScrollView contentContainerStyle={styles.content_container}>
-                    <View style={styles.content}>
-                        {
-                            user.description &&
-                            <View style={styles.section}>
-                                <Text variant={'titleMedium'} style={styles.title}>Description</Text>
-                                <Text style={styles.description} variant={"bodyMedium"}>{user.description}</Text>
-                            </View>
-                        }
-                        {
-                            user.website &&
-                            <View style={styles.section}>
-                                <Text variant={'titleMedium'} style={styles.title}>Links</Text>
-                                <Text style={styles.link} onPress={() => Linking.openURL(user.website as string)} variant={"bodyMedium"}>{user.website}</Text>
-                            </View>
-
-                        }
-                        <View style={styles.section}>
-                            <Text variant={'titleMedium'} style={styles.title}>Infos</Text>
-                            <View style={styles.info}>
-                                <MaterialCommunityIcons name="web" size={18} color={'black'}/>
-                                <Text style={styles.link} onPress={() => Linking.openURL(`www.clip-zone.com/@${user.slug}`)} variant={"bodyMedium"}>www.clip-zone.com/@{user.slug}</Text>
-                            </View>
-                            {
-                                user.country &&
-                                <View style={styles.info}>
-                                    <MaterialCommunityIcons name="earth" size={18} color={'black'}/>
-                                    <Text variant={"bodyMedium"}>{user.country}</Text>
-                                </View>
-                            }
-                            <View style={styles.info}>
-                                <MaterialCommunityIcons name="information-outline" size={18} color={'black'}/>
-                                <Text  variant={"bodyMedium"}>Joined {moment(user.created_at).format('DD MMMM YYYY')}</Text>
-                            </View>
-                            <View style={styles.info}>
-                                <MaterialCommunityIcons name="chart-line-variant" size={18} color={'black'}/>
-                                <Text variant={"bodyMedium"}>{user.views} views</Text>
-                            </View>
-                        </View>
-                    </View>
-                </BottomSheetScrollView>
+            <View style={styles.header}>
+                <Text variant={'titleMedium'}>About</Text>
+                <IconButton
+                    icon="close"
+                    iconColor={'black'}
+                    size={20}
+                    onPress={() => bottomSheetRef.current?.close()}
+                />
             </View>
+            <View style={styles.separator}></View>
+            <BottomSheetScrollView contentContainerStyle={styles.content}>
+                {
+                    user.description &&
+                    <View style={styles.section}>
+                        <Text variant={'titleMedium'} style={styles.title}>Description</Text>
+                        <Text style={styles.description} variant={"bodyMedium"}>{user.description}</Text>
+                    </View>
+                }
+                {
+                    user.website &&
+                    <View style={styles.section}>
+                        <Text variant={'titleMedium'} style={styles.title}>Links</Text>
+                        <Text style={styles.link} onPress={() => Linking.openURL(user.website as string)} variant={"bodyMedium"}>{user.website}</Text>
+                    </View>
+
+                }
+                <View style={styles.section}>
+                    <Text variant={'titleMedium'} style={styles.title}>Infos</Text>
+                    <View style={styles.info}>
+                        <MaterialCommunityIcons name="web" size={18} color={'black'}/>
+                        <Text style={styles.link} onPress={() => Linking.openURL(`www.clip-zone.com/@${user.slug}`)} variant={"bodyMedium"}>www.clip-zone.com/@{user.slug}</Text>
+                    </View>
+                    {
+                        user.country &&
+                        <View style={styles.info}>
+                            <MaterialCommunityIcons name="earth" size={18} color={'black'}/>
+                            <Text variant={"bodyMedium"}>{user.country}</Text>
+                        </View>
+                    }
+                    <View style={styles.info}>
+                        <MaterialCommunityIcons name="information-outline" size={18} color={'black'}/>
+                        <Text  variant={"bodyMedium"}>Joined {moment(user.created_at).format('DD MMMM YYYY')}</Text>
+                    </View>
+                    <View style={styles.info}>
+                        <MaterialCommunityIcons name="chart-line-variant" size={18} color={'black'}/>
+                        <Text variant={"bodyMedium"}>{user.views} views</Text>
+                    </View>
+                </View>
+            </BottomSheetScrollView>
         </BottomSheet>
     );
 }
@@ -88,7 +85,6 @@ export function About ({user, bottomSheetRef}: Props) {
 const styles = StyleSheet.create({
     container : {
         flex: 1,
-        paddingBottom: 60
     },
     header: {
         justifyContent: 'space-between',
@@ -101,11 +97,8 @@ const styles = StyleSheet.create({
         borderColor: 'rgba(0,0,0,0.1)',
         marginTop: 3
     },
-    content_container: {
-        paddingVertical: 10,
-    },
-    content : {
-        paddingHorizontal: 15,
+    content: {
+        padding: 10
     },
     title : {
         textAlign : 'left',

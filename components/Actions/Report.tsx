@@ -65,13 +65,15 @@ export function Report ({video, ...props} : Props) {
                                 </RadioButton.Group>
                             </View>
                             <View style={styles.buttons_container}>
-                                <Button mode={'text'} onPress={() => setShowModal(false)}>Cancel</Button>
+                                <Button mode={'text'} textColor={'black'} onPress={() => setShowModal(false)}>Cancel</Button>
                                 <Button
                                     disabled={!value || isPending}
                                     loading={isPending}
                                     labelStyle={styles.button}
                                     mode={'contained'}
                                     onPress={handleReport}
+                                    buttonColor={'black'}
+                                    textColor={'white'}
                                 >
                                     Report
                                 </Button>

@@ -97,6 +97,8 @@ export default function Login() {
                         disabled={!isValid || isPending}
                         loading={isPending}
                         onPress={handleSubmit(onSubmit)}
+                        buttonColor={'black'}
+                        textColor={'white'}
                     >
                         Sign In
                     </Button>
@@ -180,7 +182,7 @@ const styles = StyleSheet.create({
     },
     forgot_text: {
         textAlign: 'right',
-        color : '#6B4EAB',
+        color : 'black',
         fontWeight: 'bold',
     },
     button: {
@@ -209,6 +211,6 @@ const styles = StyleSheet.create({
     create_text: {
         textAlign: 'center',
         fontWeight: 'bold',
-        color : '#6B4EAB'
+        color : 'black'
     },
 });

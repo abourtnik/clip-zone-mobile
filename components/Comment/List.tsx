@@ -74,6 +74,8 @@ export function List({route} : Props) {
                             labelStyle={styles.button}
                             compact={true}
                             onPress={() => selectSort('top')}
+                            buttonColor={sort === 'top' ? 'black' : 'white'}
+                            textColor={sort === 'top' ? 'white' : 'black'}
                         >
                             Top Comments
                         </Button>
@@ -83,6 +85,8 @@ export function List({route} : Props) {
                             labelStyle={styles.button}
                             compact={true}
                             onPress={() => selectSort('newest')}
+                            buttonColor={sort === 'newest' ? 'black' : 'white'}
+                            textColor={sort === 'newest' ? 'white' : 'black'}
                         >
                             Newest first
                         </Button>

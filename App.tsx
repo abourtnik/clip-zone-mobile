@@ -6,6 +6,9 @@ import NetInfo from '@react-native-community/netinfo'
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { onlineManager } from '@tanstack/react-query'
 import { ConfirmContextProvider } from './contexts/ConfirmContext'
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import {useEffect} from "react";
+import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -16,9 +19,6 @@ const queryClient = new QueryClient({
       },
     },
 });
-
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import {useEffect} from "react";
 
 export default function App() {
 
@@ -35,15 +35,16 @@ export default function App() {
   return (
       <QueryClientProvider client={queryClient}>
           <GestureHandlerRootView style={{ flex: 1 }}>
-              <PaperProvider theme={theme}>
-                  <ConfirmContextProvider>
-                      <ActionSheetProvider>
-                          <Navigation/>
-                      </ActionSheetProvider>
-                  </ConfirmContextProvider>
-              </PaperProvider>
+              <BottomSheetModalProvider>
+                  <PaperProvider theme={theme}>
+                      <ConfirmContextProvider>
+                          <ActionSheetProvider>
+                              <Navigation/>
+                          </ActionSheetProvider>
+                      </ConfirmContextProvider>
+                  </PaperProvider>
+              </BottomSheetModalProvider>
           </GestureHandlerRootView>
       </QueryClientProvider>
-
   );
 }
