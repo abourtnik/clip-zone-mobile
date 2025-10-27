@@ -12,9 +12,6 @@
         "buildType": "apk",
         "gradleCommand": ":app:assembleRelease"
       },
-      "env": {
-        "EXPO_PUBLIC_API_ENDPOINT": "https://www.clip-zone.com"
-      },
       "channel": "development"
     },
     "preview": {
@@ -24,10 +21,8 @@
     "production": {
       "bun": "1.2.0",
       "autoIncrement": true,
-      "env": {
-        "EXPO_PUBLIC_API_ENDPOINT": "https://www.clip-zone.com"
-      },
-      "channel": "production"
+      "channel": "production",
+      "environment": "production"
     }
   },
   "submit": {

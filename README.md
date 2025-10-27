@@ -24,6 +24,7 @@
 ## 📦 Installation
 
 - Clone project
+- Copy `.env.example` to `.env`
 - Run `bun install` command on the root folder
 
 ---
